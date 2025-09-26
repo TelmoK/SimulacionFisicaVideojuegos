@@ -1,0 +1,40 @@
+#pragma once
+#include <array>
+
+class Vector3D
+{
+public:
+
+	float x, y, z;
+
+	Vector3D(float x, float y, float z) : x(x), y(y), z(z){}
+	Vector3D() : Vector3D(0, 0, 0){}
+
+	Vector3D operator+(Vector3D other)
+	{
+		return Vector3D(x + other.x, y + other.y, z + other.z);
+	}
+
+	Vector3D operator-(Vector3D other)
+	{
+		return Vector3D(x - other.x, y - other.y, z - other.z);
+	}
+
+	Vector3D operator*(float scalar)
+	{
+		return Vector3D(x * scalar, y * scalar, z * scalar);
+	}
+
+	Vector3D operator=(const Vector3& other)
+	{
+		x = other.x;
+		y = other.y;
+		z = other.z;
+	}
+	
+	//float magnitude();
+
+	//float dot();
+
+	//Vector3D cross();
+};

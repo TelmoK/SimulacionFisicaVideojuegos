@@ -8,6 +8,9 @@ class RenderItem;
 void RegisterRenderItem(const RenderItem* _item);
 void DeregisterRenderItem(const RenderItem* _item);
 
+class CompoundRenderItem;
+void DeregisterCompoundRenderItem(CompoundRenderItem* _comp_item);
+
 class RenderItem
 {
 public:
@@ -63,5 +66,35 @@ double GetLastTime();
 Camera* GetCamera();
 
 physx::PxShape* CreateShape(const physx::PxGeometry& geo, const physx::PxMaterial* mat = nullptr);
+
+// ADDONS
+
+class CompoundRenderItem : public RenderItem
+{
+public:
+	CompoundRenderItem(){}
+
+	~CompoundRenderItem()
+	{
+		for (RenderItem* render_item : _sub_render_items)
+			delete render_item;
+		
+		_sub_render_items.clear();
+	}
+
+	const std::vector<RenderItem*>& get_render_items()
+	{
+		return _sub_render_items;
+	}
+
+	// To modify the root transform and affect the son items one
+	void setTransform()
+	{
+
+	}
+
+protected:
+	std::vector<RenderItem*> _sub_render_items;
+};
 
 #endif

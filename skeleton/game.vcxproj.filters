@@ -10,6 +10,9 @@
     <ClCompile Include="RenderUtils.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="callbacks.cpp" />
+    <ClCompile Include="RenderItems\Axis3D.cpp">
+      <Filter>RenderItems</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.hpp" />
@@ -21,10 +24,22 @@
     </ClInclude>
     <ClInclude Include="RenderUtils.hpp" />
     <ClInclude Include="callbacks.hpp" />
+    <ClInclude Include="RenderItems\Axis3D.h">
+      <Filter>RenderItems</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\Vector3D.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Render">
       <UniqueIdentifier>{d04b4f9f-5a69-465e-8070-25c6d0bcd3c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RenderItems">
+      <UniqueIdentifier>{1c8d50cc-387d-49ec-8cd0-13a16d3d2099}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils">
+      <UniqueIdentifier>{5185c5cb-1acd-4363-84b0-3285295c9278}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

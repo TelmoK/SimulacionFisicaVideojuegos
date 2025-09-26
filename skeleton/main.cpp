@@ -10,6 +10,8 @@
 
 #include <iostream>
 
+#include "RenderItems/Axis3D.h"
+
 std::string display_text = "This is a test";
 
 
@@ -30,6 +32,8 @@ PxDefaultCpuDispatcher*	gDispatcher = NULL;
 PxScene*				gScene      = NULL;
 ContactReportCallback gContactReportCallback;
 
+RenderItem* ball;
+Axis3D* axis;
 
 // Initialize physics engine
 void initPhysics(bool interactive)
@@ -54,7 +58,12 @@ void initPhysics(bool interactive)
 	sceneDesc.filterShader = contactReportFilterShader;
 	sceneDesc.simulationEventCallback = &gContactReportCallback;
 	gScene = gPhysics->createScene(sceneDesc);
-	}
+
+	//ball = new RenderItem(CreateShape(PxSphereGeometry(0.5)), new PxTransform(PxVec3(0, 0, 0)), Vector4(1, 0, 0, 1));
+	//RegisterRenderItem(ball);
+	axis = new Axis3D();
+	//RegisterCompoundRenderItem(axis);
+}
 
 
 // Function to configure what happens in each step of physics
@@ -75,6 +84,9 @@ void cleanupPhysics(bool interactive)
 	PX_UNUSED(interactive);
 
 	// Rigid Body ++++++++++++++++++++++++++++++++++++++++++
+	//DeregisterRenderItem(ball);
+	DeregisterCompoundRenderItem(axis);
+
 	gScene->release();
 	gDispatcher->release();
 	// -----------------------------------------------------
