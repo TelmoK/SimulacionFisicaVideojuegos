@@ -8,6 +8,7 @@ public:
 	float x, y, z;
 
 	Vector3D(float x, float y, float z) : x(x), y(y), z(z){}
+	Vector3D(Vector3 vec) : Vector3D(vec.x, vec.y, vec.z){}
 	Vector3D() : Vector3D(0, 0, 0){}
 
 	Vector3D operator+(Vector3D other)
@@ -30,6 +31,10 @@ public:
 		x = other.x;
 		y = other.y;
 		z = other.z;
+	}
+
+	Vector3 to_vec3() {
+		return Vector3(x, y, z);
 	}
 	
 	//float magnitude();

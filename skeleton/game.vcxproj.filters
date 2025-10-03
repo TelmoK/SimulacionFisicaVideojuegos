@@ -13,6 +13,9 @@
     <ClCompile Include="RenderItems\Axis3D.cpp">
       <Filter>RenderItems</Filter>
     </ClCompile>
+    <ClCompile Include="RenderItems\Particle.cpp">
+      <Filter>RenderItems</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.hpp" />
@@ -29,6 +32,9 @@
     </ClInclude>
     <ClInclude Include="Utils\Vector3D.h">
       <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderItems\Particle.h">
+      <Filter>RenderItems</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

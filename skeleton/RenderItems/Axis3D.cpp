@@ -36,3 +36,15 @@ Axis3D::Axis3D() : Axis3D(Vector3D(0, 0, 0))
 {
 
 }
+
+Axis3D::~Axis3D()
+{
+	//delete center_point_shape;
+	delete center_transform;
+
+	delete x_axis_transform;
+	delete y_axis_transform;
+	delete z_axis_transform;
+
+	DeregisterCompoundRenderItem(this);
+}

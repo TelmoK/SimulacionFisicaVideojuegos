@@ -11,6 +11,7 @@
 #include <iostream>
 
 #include "RenderItems/Axis3D.h"
+#include "RenderItems/Particle.h"
 
 std::string display_text = "This is a test";
 
@@ -34,6 +35,7 @@ ContactReportCallback gContactReportCallback;
 
 RenderItem* ball;
 Axis3D* axis;
+Particle* particle;
 
 // Initialize physics engine
 void initPhysics(bool interactive)
@@ -61,7 +63,8 @@ void initPhysics(bool interactive)
 
 	//ball = new RenderItem(CreateShape(PxSphereGeometry(0.5)), new PxTransform(PxVec3(0, 0, 0)), Vector4(1, 0, 0, 1));
 	//RegisterRenderItem(ball);
-	axis = new Axis3D();
+	//axis = new Axis3D();
+	particle = new Particle(Vector3D(0,0,0), Vector3D(5,0,0));
 	//RegisterCompoundRenderItem(axis);
 }
 
@@ -75,6 +78,8 @@ void stepPhysics(bool interactive, double t)
 
 	gScene->simulate(t);
 	gScene->fetchResults(true);
+
+	particle->integrate(t);
 }
 
 // Function to clean data
@@ -85,7 +90,8 @@ void cleanupPhysics(bool interactive)
 
 	// Rigid Body ++++++++++++++++++++++++++++++++++++++++++
 	//DeregisterRenderItem(ball);
-	DeregisterCompoundRenderItem(axis);
+	//delete axis;
+	delete particle;
 
 	gScene->release();
 	gDispatcher->release();
