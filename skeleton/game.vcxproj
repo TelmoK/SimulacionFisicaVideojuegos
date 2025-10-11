@@ -255,6 +255,8 @@
   <ItemGroup>
     <ClCompile Include="callbacks.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="ParticleSystem\ParticleGenerators\UniformParticleGenerator.cpp" />
+    <ClCompile Include="ParticleSystem\ParticleSystem.cpp" />
     <ClCompile Include="RenderItems\Axis3D.cpp" />
     <ClCompile Include="RenderItems\Particle.cpp" />
     <ClCompile Include="RenderUtils.cpp" />
@@ -264,6 +266,9 @@
   <ItemGroup>
     <ClInclude Include="callbacks.hpp" />
     <ClInclude Include="core.hpp" />
+    <ClInclude Include="ParticleSystem\ParticleGenerators\ParticleGenerator.h" />
+    <ClInclude Include="ParticleSystem\ParticleGenerators\UniformParticleGenerator.h" />
+    <ClInclude Include="ParticleSystem\ParticleSystem.h" />
     <ClInclude Include="RenderItems\Axis3D.h" />
     <ClInclude Include="RenderItems\Particle.h" />
     <ClInclude Include="RenderUtils.hpp" />

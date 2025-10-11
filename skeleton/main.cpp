@@ -35,7 +35,8 @@ ContactReportCallback gContactReportCallback;
 
 RenderItem* ball;
 Axis3D* axis;
-Particle* particle;
+std::vector<Particle*> projectiles;
+float projectileSpeed = 30;
 
 // Initialize physics engine
 void initPhysics(bool interactive)
@@ -63,8 +64,7 @@ void initPhysics(bool interactive)
 
 	//ball = new RenderItem(CreateShape(PxSphereGeometry(0.5)), new PxTransform(PxVec3(0, 0, 0)), Vector4(1, 0, 0, 1));
 	//RegisterRenderItem(ball);
-	//axis = new Axis3D();
-	particle = new Particle(Vector3D(0,0,0), Vector3D(5,0,0));
+	axis = new Axis3D();
 	//RegisterCompoundRenderItem(axis);
 }
 
@@ -79,7 +79,8 @@ void stepPhysics(bool interactive, double t)
 	gScene->simulate(t);
 	gScene->fetchResults(true);
 
-	particle->integrate(t);
+	for (Particle* projectile : projectiles)
+		projectile->integrate(t);
 }
 
 // Function to clean data
@@ -90,8 +91,9 @@ void cleanupPhysics(bool interactive)
 
 	// Rigid Body ++++++++++++++++++++++++++++++++++++++++++
 	//DeregisterRenderItem(ball);
-	//delete axis;
-	delete particle;
+	delete axis;
+	for (Particle* projectile : projectiles)
+		delete projectile;
 
 	gScene->release();
 	gDispatcher->release();
@@ -113,6 +115,9 @@ void keyPress(unsigned char key, const PxTransform& camera)
 	{
 	//case 'B': break;
 	//case ' ':	break;
+	case 'P':
+		projectiles.push_back(new Particle(GetCamera()->getEye(), GetCamera()->getDir() * projectileSpeed, -9.8));
+		break;
 	case ' ':
 	{
 		break;

@@ -1,5 +1,6 @@
 #pragma once
 #include <array>
+#include <cmath>
 
 class Vector3D
 {
@@ -37,7 +38,9 @@ public:
 		return Vector3(x, y, z);
 	}
 	
-	//float magnitude();
+	float magnitude() {
+		return sqrt(x * x + y * y + z * z);
+	}
 
 	//float dot();
 

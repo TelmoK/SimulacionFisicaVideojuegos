@@ -16,6 +16,12 @@
     <ClCompile Include="RenderItems\Particle.cpp">
       <Filter>RenderItems</Filter>
     </ClCompile>
+    <ClCompile Include="ParticleSystem\ParticleSystem.cpp">
+      <Filter>ParticleSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleSystem\ParticleGenerators\UniformParticleGenerator.cpp">
+      <Filter>ParticleSystem\ParticleGenerators</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.hpp" />
@@ -36,6 +42,15 @@
     <ClInclude Include="RenderItems\Particle.h">
       <Filter>RenderItems</Filter>
     </ClInclude>
+    <ClInclude Include="ParticleSystem\ParticleGenerators\ParticleGenerator.h">
+      <Filter>ParticleSystem\ParticleGenerators</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleSystem\ParticleSystem.h">
+      <Filter>ParticleSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleSystem\ParticleGenerators\UniformParticleGenerator.h">
+      <Filter>ParticleSystem\ParticleGenerators</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Render">
@@ -46,6 +61,12 @@
     </Filter>
     <Filter Include="Utils">
       <UniqueIdentifier>{5185c5cb-1acd-4363-84b0-3285295c9278}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ParticleSystem">
+      <UniqueIdentifier>{1e5f62fc-f1c1-4e6b-a7f6-f1c7d11c9564}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ParticleSystem\ParticleGenerators">
+      <UniqueIdentifier>{c0356ecb-7fda-4e7c-8d47-2d4f7aa78b6b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
