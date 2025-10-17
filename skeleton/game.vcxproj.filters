@@ -22,6 +22,12 @@
     <ClCompile Include="ParticleSystem\ParticleGenerators\UniformParticleGenerator.cpp">
       <Filter>ParticleSystem\ParticleGenerators</Filter>
     </ClCompile>
+    <ClCompile Include="RenderItems\IndustrialPiece.cpp">
+      <Filter>RenderItems</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleSystem\ParticleGenerators\ParticleGenerator.cpp">
+      <Filter>ParticleSystem\ParticleGenerators</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.hpp" />
@@ -50,6 +56,9 @@
     </ClInclude>
     <ClInclude Include="ParticleSystem\ParticleGenerators\UniformParticleGenerator.h">
       <Filter>ParticleSystem\ParticleGenerators</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderItems\IndustrialPiece.h">
+      <Filter>RenderItems</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

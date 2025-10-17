@@ -24,7 +24,7 @@ Particle* Particle::dynamic_copy()
 
 void Particle::integrate(double t)
 {
-	Vector3D new_position = Vector3D(transform->p) + _velocity * t;
+	Vector3D new_position = Vector3D(_transform.p) + _velocity * t;
 	_transform.p = new_position.to_vec3();
 
 	_velocity = _velocity + _acceleration * t;

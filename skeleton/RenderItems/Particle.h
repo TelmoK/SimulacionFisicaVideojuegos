@@ -12,6 +12,14 @@ public:
 
 	Particle* dynamic_copy();
 
+	Vector3D& velocity() {
+		return _velocity;
+	}
+
+	physx::PxTransform& transform() {
+		return _transform;
+	}
+
 protected:
 	void simulateMass();
 	void simulateGravity();

@@ -3,7 +3,7 @@
 class UniformParticleGenerator : public ParticleGenerator
 {
 public:
-	UniformParticleGenerator(Particle* model_particle) : ParticleGenerator(model_particle){}
+	UniformParticleGenerator(ParticleSystem* particle_system, Particle* model_particle);
 
-	void generateParticles(ParticleSystem* particle_system) override;
+	void generateParticles(unsigned int particle_num) override;
 };
