@@ -20,17 +20,17 @@ private:
 	*/
 	struct ParticleGeneration
 	{
-		Particle* particle;
-		std::list<ParticleGeneration>::iterator list_it;
-		float life_time;
+		Particle* particle = nullptr;
+		std::list<ParticleGeneration*>::iterator list_it;
+		float life_time = 10;
 		bool inmortal = false;
 	};
 
-	std::list<ParticleGeneration> _particle_registers;
+	std::list<ParticleGeneration*> _particle_registers;
 
-	using ParticleGeneration_It = std::list<ParticleGeneration>::iterator;
+	using ParticleGeneration_It = std::list<ParticleGeneration*>::iterator;
 
-	void deleteParticleGeneration(ParticleGeneration_It particle_generation);
+	ParticleGeneration_It deleteParticleGeneration(ParticleGeneration_It particle_generation);
 
 	void cleanUpDeadParticles();
 };

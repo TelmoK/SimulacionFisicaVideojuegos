@@ -73,7 +73,7 @@ void initPhysics(bool interactive)
 	axis = new Axis3D();
 
 	pSys = new ParticleSystem();
-	uGenerator = new UniformParticleGenerator(pSys, new Particle(Vector3D(0, 0, 0), Vector3D(1, 5, 1)), 5, 5);
+	uGenerator = new UniformParticleGenerator(pSys, new Particle(Vector3D(0, 0, 0), Vector3D(1, 5, 1)), 1, 5);
 	//RegisterCompoundRenderItem(axis);
 }
 
