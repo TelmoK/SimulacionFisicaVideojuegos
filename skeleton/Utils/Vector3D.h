@@ -27,6 +27,11 @@ public:
 		return Vector3D(x * scalar, y * scalar, z * scalar);
 	}
 
+	Vector3D operator/(float scalar)
+	{
+		return Vector3D(x / scalar, y / scalar, z / scalar);
+	}
+
 	Vector3D operator=(const Vector3& other)
 	{
 		x = other.x;

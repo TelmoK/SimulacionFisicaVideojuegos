@@ -13,6 +13,9 @@
 #include "RenderItems/Axis3D.h"
 #include "RenderItems/Particle.h"
 
+#include "ParticleSystem/ParticleSystem.h"
+#include "ParticleSystem/ParticleGenerators/UniformParticleGenerator.h"
+
 std::string display_text = "This is a test";
 
 
@@ -33,10 +36,13 @@ PxDefaultCpuDispatcher*	gDispatcher = NULL;
 PxScene*				gScene      = NULL;
 ContactReportCallback gContactReportCallback;
 
-RenderItem* ball;
 Axis3D* axis;
 std::vector<Particle*> projectiles;
 float projectileSpeed = 30;
+
+ParticleSystem* pSys;
+UniformParticleGenerator* uGenerator;
+
 
 // Initialize physics engine
 void initPhysics(bool interactive)
@@ -65,6 +71,9 @@ void initPhysics(bool interactive)
 	//ball = new RenderItem(CreateShape(PxSphereGeometry(0.5)), new PxTransform(PxVec3(0, 0, 0)), Vector4(1, 0, 0, 1));
 	//RegisterRenderItem(ball);
 	axis = new Axis3D();
+
+	pSys = new ParticleSystem();
+	uGenerator = new UniformParticleGenerator(pSys, new Particle(Vector3D(0, 0, 0), Vector3D(1, 5, 1)), 5, 5);
 	//RegisterCompoundRenderItem(axis);
 }
 
@@ -81,6 +90,9 @@ void stepPhysics(bool interactive, double t)
 
 	for (Particle* projectile : projectiles)
 		projectile->integrate(t);
+
+	uGenerator->handleGenerationPeriod(t);
+	pSys->update(t);
 }
 
 // Function to clean data
@@ -94,6 +106,9 @@ void cleanupPhysics(bool interactive)
 	delete axis;
 	for (Particle* projectile : projectiles)
 		delete projectile;
+
+	delete uGenerator;
+	delete pSys;
 
 	gScene->release();
 	gDispatcher->release();

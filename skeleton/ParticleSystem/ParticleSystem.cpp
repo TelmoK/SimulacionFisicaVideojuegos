@@ -7,8 +7,8 @@ void ParticleSystem::registerNewParticle(Particle* particle)
 
 void ParticleSystem::deleteParticleGeneration(ParticleGeneration_It particle_generation)
 {
-	delete particle_generation->particle; // Delete the particle
-	_particle_registers.erase(particle_generation);
+	//delete particle_generation->particle; // Delete the particle
+	//_particle_registers.erase(particle_generation);
 }
 
 void ParticleSystem::cleanUpDeadParticles()

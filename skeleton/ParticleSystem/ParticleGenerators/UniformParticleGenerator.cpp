@@ -3,18 +3,19 @@
 #include "../../RenderItems/Particle.h"
 #include "../ParticleSystem.h"
 #include <random>
+#include <iostream>
 
-UniformParticleGenerator::UniformParticleGenerator(ParticleSystem* particle_system, Particle* model_particle)
-	: ParticleGenerator(particle_system, model_particle) 
+UniformParticleGenerator::UniformParticleGenerator(ParticleSystem* particle_system, Particle* model_particle, float generation_period, int periodic_generated_particles)
+	: ParticleGenerator(particle_system, model_particle, generation_period, periodic_generated_particles)
 {
+	u_distribution = std::uniform_real_distribution<double>(0, 1);
 
+	if (generation_period >= 0)
+		generateParticles(_periodic_generated_particles);
 }
 
-void UniformParticleGenerator::generateParticles(unsigned int particle_num)
+void UniformParticleGenerator::generateParticles(int particle_num)
 {
-	std::mt19937 mt;
-	std::uniform_real_distribution<double> u_distribution(0, 1);
-
 	for (int i = 0; i < particle_num; ++i)
 	{
 		Particle* spawned_particle = _model_particle->dynamic_copy();
