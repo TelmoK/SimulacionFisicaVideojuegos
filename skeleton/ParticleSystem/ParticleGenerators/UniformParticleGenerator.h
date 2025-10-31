@@ -1,5 +1,8 @@
+#pragma once
+
 #include "ParticleGenerator.h"
 #include <random>
+
 class UniformParticleGenerator : public ParticleGenerator
 {
 public:

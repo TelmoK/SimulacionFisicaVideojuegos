@@ -28,6 +28,9 @@
     <ClCompile Include="ParticleSystem\ParticleGenerators\ParticleGenerator.cpp">
       <Filter>ParticleSystem\ParticleGenerators</Filter>
     </ClCompile>
+    <ClCompile Include="ParticleSystem\ParticleGenerators\NormalParticleGenerator.cpp">
+      <Filter>ParticleSystem\ParticleGenerators</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.hpp" />
@@ -60,6 +63,12 @@
     <ClInclude Include="RenderItems\IndustrialPiece.h">
       <Filter>RenderItems</Filter>
     </ClInclude>
+    <ClInclude Include="ParticleSystem\ParticleGenerators\NormalParticleGenerator.h">
+      <Filter>ParticleSystem\ParticleGenerators</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleSystem\ForceGenerators\ForceGenerator.h">
+      <Filter>ParticleSystem\ForceGenerator</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Render">
@@ -76,6 +85,9 @@
     </Filter>
     <Filter Include="ParticleSystem\ParticleGenerators">
       <UniqueIdentifier>{c0356ecb-7fda-4e7c-8d47-2d4f7aa78b6b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ParticleSystem\ForceGenerator">
+      <UniqueIdentifier>{2f35cbc2-7c0e-4dd6-8ed7-6381bfb156c4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

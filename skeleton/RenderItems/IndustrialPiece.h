@@ -40,7 +40,7 @@ public:
 	};
 
 
-	IndustrialPiece(physx::PxShape* _shape, float mass, const Vector4& _color = Vector4(1, 1, 1, 1));
+	IndustrialPiece(Vector3D position, float mass, const Vector4& _color = Vector4(1, 1, 1, 1));
 
 	/*
 		Propaga hacia delante(sus componentes conexos) un paquete de fuerzas (torque y fuerza lineal) y devuelve 

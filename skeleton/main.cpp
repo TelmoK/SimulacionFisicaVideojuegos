@@ -16,6 +16,8 @@
 #include "ParticleSystem/ParticleSystem.h"
 #include "ParticleSystem/ParticleGenerators/UniformParticleGenerator.h"
 
+#include "RenderItems/IndustrialPiece.h"
+
 std::string display_text = "This is a test";
 
 
@@ -42,7 +44,7 @@ float projectileSpeed = 30;
 
 ParticleSystem* pSys;
 UniformParticleGenerator* uGenerator;
-
+IndustrialPiece* piece1;
 
 // Initialize physics engine
 void initPhysics(bool interactive)
@@ -73,8 +75,9 @@ void initPhysics(bool interactive)
 	axis = new Axis3D();
 
 	pSys = new ParticleSystem();
-	uGenerator = new UniformParticleGenerator(pSys, new Particle(Vector3D(0, 0, 0), Vector3D(1, 5, 1)), 1, 5);
-	//RegisterCompoundRenderItem(axis);
+	pSys->referenceParticleGenerator(std::make_shared<UniformParticleGenerator>(pSys, new Particle(Vector3D(0, 0, 0), Vector3D(1, 5, 1)), 1, 2));
+	
+	piece1 = new IndustrialPiece(Vector3D(0, 0, 0), 10, Vector4(1, 0, 1, 1));
 }
 
 
@@ -91,7 +94,6 @@ void stepPhysics(bool interactive, double t)
 	for (Particle* projectile : projectiles)
 		projectile->integrate(t);
 
-	uGenerator->handleGenerationPeriod(t);
 	pSys->update(t);
 }
 

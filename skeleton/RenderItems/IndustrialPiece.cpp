@@ -1,9 +1,9 @@
 #include "IndustrialPiece.h"
 
-IndustrialPiece::IndustrialPiece(physx::PxShape* _shape, float mass, const Vector4& _color)
-	: RenderItem()
+IndustrialPiece::IndustrialPiece(Vector3D position, float mass, const Vector4& _color)
+	: RenderItem(CreateShape(physx::PxBoxGeometry(1, 0.5, 2)), &_transform, _color)
 {
-
+	_transform = physx::PxTransform(position.to_vec3());
 }
 
 IndustrialPiece::ForceTransmisionPack IndustrialPiece::propagateForces(ForceTransmisionPack force_pack, AttachmentPoint force_emitter_point)
@@ -18,10 +18,13 @@ IndustrialPiece::ForceTransmisionPack IndustrialPiece::propagateForces(ForceTran
 		}
 	}
 
+	// Aquí se podría aplicar alguna transformación a force_pack en función de la pieza actual
+	// sum_force_pack += aplyPieceReactionForces(force_pack);
+
 	return sum_force_pack;
 }
 
 void IndustrialPiece::propagateEffect(std::pair<physx::PxVec3, physx::PxQuat> translation_rotation_pair)
 {
-
+	_transform.p += translation_rotation_pair.first;
 }

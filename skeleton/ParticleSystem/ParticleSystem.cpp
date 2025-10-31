@@ -1,6 +1,5 @@
 #include "ParticleSystem.h"
-#include "../RenderItems/Particle.h"+		*particle_generation	0x000001b3455213e0 {particle=0x000001b33f64d6e0 {_transform={q={...} p={...} } _velocity={x=1.13547695 ...} ...} ...}	ParticleSystem::ParticleGeneration * &
-
+#include "../RenderItems/Particle.h"
 
 void ParticleSystem::registerNewParticle(Particle* particle)
 {
@@ -37,13 +36,29 @@ void ParticleSystem::cleanUpDeadParticles()
 	}
 }
 
+void ParticleSystem::referenceParticleGenerator(std::shared_ptr<ParticleGenerator> particle_generator)
+{
+	_particle_generators.push_back(std::move(particle_generator));
+}
+
+void ParticleSystem::referenceForceGenerator(std::shared_ptr<ForceGenerator> force_generator)
+{
+	_force_generators.push_back(std::move(force_generator));
+}
+
 void ParticleSystem::update(float t)
 {
 	cleanUpDeadParticles();
 
+	for(std::shared_ptr<ParticleGenerator> particle_generator : _particle_generators)
+		particle_generator->handleGenerationPeriod(t);
+
 	for (ParticleGeneration* p_generation : _particle_registers)
 	{
 		p_generation->particle->integrate(t);
+
+		for(std::shared_ptr<ForceGenerator> force_generator : _force_generators)
+			force_generator->applyForce(p_generation->particle, t);
 
 		if(!p_generation->inmortal)
 			p_generation->life_time -= t;
