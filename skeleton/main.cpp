@@ -84,11 +84,11 @@ void initPhysics(bool interactive)
 	// Pruebas con IndustriualPiece
 
 	piece1 = new IndustrialPiece(Vector3D(0, 0, 0), 10, Vector4(1, 0, 1, 1));
-	ap1 = new IndustrialPiece::AttachmentPoint{ piece1, nullptr, Vector3D(1, 0, 0) };
+	ap1 = new IndustrialPiece::AttachmentPoint{ piece1, nullptr, Vector3D(0, 0, 1) };
 	piece1->addAttachmentPoint(ap1);
 
-	piece2 = new IndustrialPiece(Vector3D(2, 0, 0), 10, Vector4(0, 1, 1, 1));
-	ap2 = new IndustrialPiece::AttachmentPoint{ piece2, nullptr, Vector3D(-1, 0, 0) };
+	piece2 = new IndustrialPiece(Vector3D(0, 0, 4), 10, Vector4(0, 1, 1, 1));
+	ap2 = new IndustrialPiece::AttachmentPoint{ piece2, nullptr, Vector3D(0, 0, -1) };
 	piece2->addAttachmentPoint(ap2);
 
 	ap1->linkTo(ap2);
@@ -114,8 +114,9 @@ void stepPhysics(bool interactive, double t)
 	IndustrialPiece::ForceTransmisionPack force_reaction = piece1->propagateForces(force_pack, ap1);
 
 	Vector3D force_result = force_pack.force + force_reaction.force;
+	PxQuat torque_result = PxQuat(2 * t, Vector3D(1, 0, 0).to_vec3());
 
-	piece1->propagateMotionEffect({ Vector3D(piece1->_transform.p), force_result * t, PxQuat(1, 0, 0, 0)});
+	piece1->propagateMotionEffect({ Vector3D(piece1->_transform.p), force_result * t, torque_result });
 }
 
 // Function to clean data
