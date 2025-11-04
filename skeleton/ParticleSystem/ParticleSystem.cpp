@@ -1,6 +1,12 @@
 #include "ParticleSystem.h"
 #include "../RenderItems/Particle.h"
 
+ParticleSystem::~ParticleSystem()
+{
+	for (auto p_register_it = _particle_registers.begin(); p_register_it != _particle_registers.end(); )
+		p_register_it = deleteParticleGeneration((*p_register_it)->list_it);
+}
+
 void ParticleSystem::registerNewParticle(Particle* particle)
 {
 	ParticleGeneration* generation = new ParticleGeneration();

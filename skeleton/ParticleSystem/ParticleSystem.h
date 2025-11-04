@@ -12,6 +12,8 @@ public:
 
 	ParticleSystem() {}
 
+	~ParticleSystem();
+
 	/*
 		Metodo usado por los ParticleGenerators para registrar en el sistema las partículas que generan
 		y gestionar su actualización y destrucción desde él.

@@ -16,7 +16,7 @@
 #include "ParticleSystem/ParticleSystem.h"
 #include "ParticleSystem/ParticleGenerators/UniformParticleGenerator.h"
 
-#include "RenderItems/IndustrialPiece.h"
+#include "RenderItems/Machinery/IndustrialPieces/IndustrialPiece.h"
 
 std::string display_text = "This is a test";
 

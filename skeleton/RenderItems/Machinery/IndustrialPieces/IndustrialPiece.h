@@ -1,6 +1,6 @@
 #pragma once
-#include "../RenderUtils.hpp"
-#include "../Utils/Vector3D.h"
+#include "../../../RenderUtils.hpp"
+#include "../../../Utils/Vector3D.h"
 
 class IndustrialPiece : public RenderItem
 {
@@ -10,7 +10,7 @@ public:
 	{
 		IndustrialPiece* industrial_piece;
 		AttachmentPoint* connected_point;
-		Vector3D relative_position; // Posición desde el centro de la pieza
+		Vector3D relative_position; // Posición desde el centro de la pieza (sin rotar)
 	};
 
 	struct ForceTransmisionPack
@@ -50,7 +50,11 @@ public:
 		está transmitiendo la fuerza, solo después de calcular la reacción se le devolverá fuerza a este
 		a través del return. 
 	*/
-	virtual ForceTransmisionPack propagateForces(ForceTransmisionPack force_pack, AttachmentPoint force_emitter_point);
+	ForceTransmisionPack propagateForces(const ForceTransmisionPack& force_pack, const AttachmentPoint& force_emitter_point);
+
+	virtual ForceTransmisionPack applyPieceReactionForces(const ForceTransmisionPack& force_pack) {
+		return { Vector3D(), Vector3D(), Vector3D(), Vector3D() };
+	}
 
 	void propagateEffect(std::pair<physx::PxVec3, physx::PxQuat> translation_rotation_pair);
 
@@ -58,5 +62,11 @@ protected:
 
 	physx::PxTransform _transform;
 	float _mass;
+
+	Vector3D _position_to_machine_center; // Desde el centro de la pieza hasta el centro de masas de la máquina
+	physx::PxQuat _orientation_to_machine; // Desde la orientación de la pieza hasta la orientación de la máquina
+
 	std::vector<AttachmentPoint> _attachment_points;
+
+	bool _reaction_effect_applied = false; // Usado en propagateEffect() para aplicar los cambios una sola vez
 };
