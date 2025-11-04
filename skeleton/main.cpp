@@ -44,7 +44,11 @@ float projectileSpeed = 30;
 
 ParticleSystem* pSys;
 UniformParticleGenerator* uGenerator;
+
 IndustrialPiece* piece1;
+IndustrialPiece* piece2;
+IndustrialPiece::AttachmentPoint* ap1;
+IndustrialPiece::AttachmentPoint* ap2;
 
 // Initialize physics engine
 void initPhysics(bool interactive)
@@ -77,7 +81,17 @@ void initPhysics(bool interactive)
 	pSys = new ParticleSystem();
 	pSys->referenceParticleGenerator(std::make_shared<UniformParticleGenerator>(pSys, new Particle(Vector3D(0, 0, 0), Vector3D(1, 5, 1)), 1, 2));
 	
+	// Pruebas con IndustriualPiece
+
 	piece1 = new IndustrialPiece(Vector3D(0, 0, 0), 10, Vector4(1, 0, 1, 1));
+	ap1 = new IndustrialPiece::AttachmentPoint{ piece1, nullptr, Vector3D(1, 0, 0) };
+	piece1->addAttachmentPoint(ap1);
+
+	piece2 = new IndustrialPiece(Vector3D(2, 0, 0), 10, Vector4(0, 1, 1, 1));
+	ap2 = new IndustrialPiece::AttachmentPoint{ piece2, nullptr, Vector3D(-1, 0, 0) };
+	piece2->addAttachmentPoint(ap2);
+
+	ap1->linkTo(ap2);
 }
 
 
@@ -95,6 +109,13 @@ void stepPhysics(bool interactive, double t)
 		projectile->integrate(t);
 
 	pSys->update(t);
+
+	IndustrialPiece::ForceTransmisionPack force_pack{ Vector3D(10, 0, 0), Vector3D(0, 0, 0), Vector3D(0,0,0), Vector3D(0,0,0) };
+	IndustrialPiece::ForceTransmisionPack force_reaction = piece1->propagateForces(force_pack, ap1);
+
+	Vector3D force_result = force_pack.force + force_reaction.force;
+
+	piece1->propagateMotionEffect({ Vector3D(piece1->_transform.p), force_result * t, PxQuat(1, 0, 0, 0)});
 }
 
 // Function to clean data

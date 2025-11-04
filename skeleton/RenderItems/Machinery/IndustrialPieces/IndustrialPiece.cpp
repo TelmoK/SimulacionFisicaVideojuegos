@@ -6,15 +6,15 @@ IndustrialPiece::IndustrialPiece(Vector3D position, float mass, const Vector4& _
 	_transform = physx::PxTransform(position.to_vec3());
 }
 
-IndustrialPiece::ForceTransmisionPack IndustrialPiece::propagateForces(const ForceTransmisionPack& force_pack, const AttachmentPoint& force_emitter_point)
+IndustrialPiece::ForceTransmisionPack IndustrialPiece::propagateForces(const ForceTransmisionPack& force_pack, AttachmentPoint* force_emitter_point)
 {
 	ForceTransmisionPack sum_force_pack{ Vector3D(), Vector3D(), Vector3D(), Vector3D() };
 
-	for (AttachmentPoint attachment_point : _attachment_points)
+	for (AttachmentPoint* attachment_point : _attachment_points)
 	{
-		if (attachment_point.industrial_piece != force_emitter_point.industrial_piece)
+		if (attachment_point->industrial_piece != force_emitter_point->industrial_piece)
 		{
-			sum_force_pack += attachment_point.connected_point->industrial_piece->propagateForces(force_pack, attachment_point);
+			sum_force_pack += attachment_point->connected_point->industrial_piece->propagateForces(force_pack, attachment_point);
 		}
 	}
 
@@ -40,9 +40,9 @@ void IndustrialPiece::propagateMotionEffect(MotionTransmitionPack motion)
 	_transform.p += motion.translation.to_vec3();
 
 	// Se transmite la orden de update a las piezas conectadas que no se hayan actualizado ya
-	for(AttachmentPoint attachment_point : _attachment_points)
-		if (!attachment_point.industrial_piece->_reaction_effect_applied)
-			attachment_point.industrial_piece->propagateMotionEffect(motion);
+	for(AttachmentPoint* attachment_point : _attachment_points)
+		if (!attachment_point->connected_point->industrial_piece->_reaction_effect_applied)
+			attachment_point->connected_point->industrial_piece->propagateMotionEffect(motion);
 
 	// Cuando la propagación ha acabado se vuleve a establecer la pieza como no actualizada
 	_reaction_effect_applied = false;

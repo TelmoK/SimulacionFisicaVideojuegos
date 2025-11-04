@@ -11,6 +11,11 @@ public:
 		IndustrialPiece* industrial_piece;
 		AttachmentPoint* connected_point;
 		Vector3D relative_position; // Posición desde el centro de la pieza (sin rotar)
+
+		void linkTo(AttachmentPoint* otherPoint) {
+			connected_point = otherPoint;
+			otherPoint->connected_point = this;
+		}
 	};
 
 	struct ForceTransmisionPack
@@ -56,23 +61,33 @@ public:
 		está transmitiendo la fuerza, solo después de calcular la reacción se le devolverá fuerza a este
 		a través del return. 
 	*/
-	ForceTransmisionPack propagateForces(const ForceTransmisionPack& force_pack, const AttachmentPoint& force_emitter_point);
+	ForceTransmisionPack propagateForces(const ForceTransmisionPack& force_pack, AttachmentPoint* force_emitter_point);
 
+	/*
+		Devuelve la fuerza reactiva que esta pieza aplica al paquete de fuerzas recibido.
+	*/
 	virtual ForceTransmisionPack applyPieceReactionForces(const ForceTransmisionPack& force_pack) {
 		return { Vector3D(), Vector3D(), Vector3D(), Vector3D() };
 	}
 
+	/*
+		Aplica un efecto de movimiento a la pieza y lo propaga a las piezas conectadas.
+	*/
 	void propagateMotionEffect(MotionTransmitionPack motion);
 
-protected:
+	void addAttachmentPoint(AttachmentPoint* attachment_point) {
+		_attachment_points.push_back(attachment_point);
+	}
 
 	physx::PxTransform _transform;
+protected:
+
 	float _mass;
 
 	Vector3D _position_to_machine_center; // Desde el centro de la pieza hasta el centro de masas de la máquina
 	physx::PxQuat _orientation_to_machine; // Desde la orientación de la pieza hasta la orientación de la máquina
 
-	std::vector<AttachmentPoint> _attachment_points;
+	std::vector<AttachmentPoint*> _attachment_points;
 
 	bool _reaction_effect_applied = false; // Usado en propagateEffect() para aplicar los cambios una sola vez
 };
