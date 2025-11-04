@@ -39,6 +39,12 @@ public:
 		}
 	};
 
+	struct MotionTransmitionPack
+	{
+		Vector3D motion_center;
+		Vector3D translation;
+		physx::PxQuat rotation;
+	};
 
 	IndustrialPiece(Vector3D position, float mass, const Vector4& _color = Vector4(1, 1, 1, 1));
 
@@ -56,7 +62,7 @@ public:
 		return { Vector3D(), Vector3D(), Vector3D(), Vector3D() };
 	}
 
-	void propagateEffect(std::pair<physx::PxVec3, physx::PxQuat> translation_rotation_pair);
+	void propagateMotionEffect(MotionTransmitionPack motion);
 
 protected:
 

@@ -24,18 +24,25 @@ IndustrialPiece::ForceTransmisionPack IndustrialPiece::propagateForces(const For
 	return sum_force_pack;
 }
 
-void IndustrialPiece::propagateEffect(std::pair<physx::PxVec3, physx::PxQuat> translation_rotation_pair)
+void IndustrialPiece::propagateMotionEffect(MotionTransmitionPack motion)
 {
 	_reaction_effect_applied = true;
 
-	// Se aplica la transformación
-	_transform.p += translation_rotation_pair.first;
-	_transform.q += translation_rotation_pair.second;
+	// Se aplica la transformación angular
+	Vector3D positionToCenter = motion.motion_center - _transform.p;
+	Vector3D rotatedPositionToCenter = motion.rotation.rotate(positionToCenter.to_vec3());
+
+	_transform.p = (motion.motion_center - rotatedPositionToCenter).to_vec3(); // Aplicar movimiento circular sobre el centro de movimiento
+
+	_transform.q = motion.rotation * _transform.q;
+
+	// Se aplica la transformación linear
+	_transform.p += motion.translation.to_vec3();
 
 	// Se transmite la orden de update a las piezas conectadas que no se hayan actualizado ya
 	for(AttachmentPoint attachment_point : _attachment_points)
 		if (!attachment_point.industrial_piece->_reaction_effect_applied)
-			attachment_point.industrial_piece->propagateEffect(translation_rotation_pair);
+			attachment_point.industrial_piece->propagateMotionEffect(motion);
 
 	// Cuando la propagación ha acabado se vuleve a establecer la pieza como no actualizada
 	_reaction_effect_applied = false;
