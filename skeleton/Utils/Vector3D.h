@@ -41,6 +41,20 @@ public:
 		z = other.z;
 	}
 
+	void operator+=(const Vector3D& other)
+	{
+		x += other.x;
+		y += other.y;
+		z += other.z;
+	}
+
+	void operator-=(const Vector3D& other)
+	{
+		x -= other.x;
+		y -= other.y;
+		z -= other.z;
+	}
+
 	Vector3 to_vec3() 
 	{
 		return Vector3(x, y, z);

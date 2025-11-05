@@ -84,6 +84,12 @@
     <ClInclude Include="ParticleSystem\ForceGenerators\GravityForceGenerator.h">
       <Filter>ParticleSystem\ForceGenerator</Filter>
     </ClInclude>
+    <ClInclude Include="ParticleSystem\ForceGenerators\ExplosiveForceGenerator.h">
+      <Filter>ParticleSystem\ForceGenerator</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleSystem\ForceGenerators\WindForceGenerator.h">
+      <Filter>ParticleSystem\ForceGenerator</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Render">

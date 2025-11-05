@@ -20,6 +20,10 @@ public:
 		return _acceleration;
 	}
 
+	float mass() {
+		return _real_mass;
+	}
+
 	physx::PxTransform& transform() {
 		return _transform;
 	}

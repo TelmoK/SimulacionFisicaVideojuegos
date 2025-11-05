@@ -271,8 +271,10 @@
   <ItemGroup>
     <ClInclude Include="callbacks.hpp" />
     <ClInclude Include="core.hpp" />
+    <ClInclude Include="ParticleSystem\ForceGenerators\ExplosiveForceGenerator.h" />
     <ClInclude Include="ParticleSystem\ForceGenerators\ForceGenerator.h" />
     <ClInclude Include="ParticleSystem\ForceGenerators\GravityForceGenerator.h" />
+    <ClInclude Include="ParticleSystem\ForceGenerators\WindForceGenerator.h" />
     <ClInclude Include="ParticleSystem\ParticleGenerators\NormalParticleGenerator.h" />
     <ClInclude Include="ParticleSystem\ParticleGenerators\ParticleGenerator.h" />
     <ClInclude Include="ParticleSystem\ParticleGenerators\UniformParticleGenerator.h" />
