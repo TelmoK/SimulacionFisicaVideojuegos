@@ -81,6 +81,9 @@
     <ClInclude Include="Utils\SpaceGeometry.h">
       <Filter>Utils</Filter>
     </ClInclude>
+    <ClInclude Include="ParticleSystem\ForceGenerators\GravityForceGenerator.h">
+      <Filter>ParticleSystem\ForceGenerator</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Render">

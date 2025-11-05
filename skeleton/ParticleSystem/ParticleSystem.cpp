@@ -61,11 +61,11 @@ void ParticleSystem::update(float t)
 
 	for (ParticleGeneration* p_generation : _particle_registers)
 	{
-		p_generation->particle->integrate(t);
-
 		for(std::shared_ptr<ForceGenerator> force_generator : _force_generators)
 			force_generator->applyForce(p_generation->particle, t);
 
+		p_generation->particle->integrate(t);
+		
 		if(!p_generation->inmortal)
 			p_generation->life_time -= t;
 	}

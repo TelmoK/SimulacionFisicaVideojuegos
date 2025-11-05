@@ -7,7 +7,7 @@ Particle::Particle(Vector3D position, Vector3D velocity, float gravity, Vector3D
 
 	_real_gravity = gravity;
 	_gravity = _real_gravity;
-	_acceleration = acceleration + Vector3D(0, _gravity, 0);
+	//_acceleration = acceleration + Vector3D(0, _gravity, 0);
 
 	_real_velocity_factor = 3;
 }
@@ -29,10 +29,12 @@ void Particle::integrate(double t)
 
 	_velocity = _velocity + _acceleration * t;
 
-	_acceleration.y = _gravity;
+	//_acceleration.y = _gravity;
 
 	simulateMass();
 	simulateGravity();
+
+	_acceleration = Vector3D(); // Reseteamos la aceleración
 }
 
 void Particle::simulateMass()

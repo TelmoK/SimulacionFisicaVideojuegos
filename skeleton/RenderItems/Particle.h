@@ -16,6 +16,10 @@ public:
 		return _velocity;
 	}
 
+	Vector3D& acceleration() {
+		return _acceleration;
+	}
+
 	physx::PxTransform& transform() {
 		return _transform;
 	}
