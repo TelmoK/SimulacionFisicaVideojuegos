@@ -261,10 +261,12 @@
     <ClCompile Include="ParticleSystem\ParticleSystem.cpp" />
     <ClCompile Include="RenderItems\Axis3D.cpp" />
     <ClCompile Include="RenderItems\Machinery\IndustrialPieces\IndustrialPiece.cpp" />
+    <ClCompile Include="RenderItems\Machinery\IndustrialPieces\PropellerBladePiece.cpp" />
     <ClCompile Include="RenderItems\Particle.cpp" />
     <ClCompile Include="RenderUtils.cpp" />
     <ClCompile Include="Render\Camera.cpp" />
     <ClCompile Include="Render\Render.cpp" />
+    <ClCompile Include="Utils\SpaceGeometry.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="callbacks.hpp" />
@@ -276,10 +278,12 @@
     <ClInclude Include="ParticleSystem\ParticleSystem.h" />
     <ClInclude Include="RenderItems\Axis3D.h" />
     <ClInclude Include="RenderItems\Machinery\IndustrialPieces\IndustrialPiece.h" />
+    <ClInclude Include="RenderItems\Machinery\IndustrialPieces\PropellerBladePiece.h" />
     <ClInclude Include="RenderItems\Particle.h" />
     <ClInclude Include="RenderUtils.hpp" />
     <ClInclude Include="Render\Camera.h" />
     <ClInclude Include="Render\Render.h" />
+    <ClInclude Include="Utils\SpaceGeometry.h" />
     <ClInclude Include="Utils\Vector3D.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

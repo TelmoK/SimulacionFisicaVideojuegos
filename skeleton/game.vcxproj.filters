@@ -31,6 +31,12 @@
     <ClCompile Include="RenderItems\Machinery\IndustrialPieces\IndustrialPiece.cpp">
       <Filter>RenderItems\Machinery\IndustrialPieces</Filter>
     </ClCompile>
+    <ClCompile Include="RenderItems\Machinery\IndustrialPieces\PropellerBladePiece.cpp">
+      <Filter>RenderItems\Machinery\IndustrialPieces</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\SpaceGeometry.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.hpp" />
@@ -68,6 +74,12 @@
     </ClInclude>
     <ClInclude Include="RenderItems\Machinery\IndustrialPieces\IndustrialPiece.h">
       <Filter>RenderItems\Machinery\IndustrialPieces</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderItems\Machinery\IndustrialPieces\PropellerBladePiece.h">
+      <Filter>RenderItems\Machinery\IndustrialPieces</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\SpaceGeometry.h">
+      <Filter>Utils</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -51,7 +51,9 @@ public:
 		physx::PxQuat rotation;
 	};
 
-	IndustrialPiece(Vector3D position, float mass, const Vector4& _color = Vector4(1, 1, 1, 1));
+	IndustrialPiece(Vector3D position, float mass = 1, const Vector4& _color = Vector4(1, 1, 1, 1));
+
+	IndustrialPiece(physx::PxShape* shape, Vector3D position, float mass = 1, const Vector4& _color = Vector4(1, 1, 1, 1));
 
 	/*
 		Propaga hacia delante(sus componentes conexos) un paquete de fuerzas (torque y fuerza lineal) y devuelve 
@@ -66,7 +68,7 @@ public:
 	/*
 		Devuelve la fuerza reactiva que esta pieza aplica al paquete de fuerzas recibido.
 	*/
-	virtual ForceTransmisionPack applyPieceReactionForces(const ForceTransmisionPack& force_pack) {
+	virtual ForceTransmisionPack applyPieceReactionForces(const ForceTransmisionPack& force_pack, AttachmentPoint* force_emitter_point) {
 		return { Vector3D(), Vector3D(), Vector3D(), Vector3D() };
 	}
 
@@ -84,8 +86,13 @@ protected:
 
 	float _mass;
 
-	Vector3D _position_to_machine_center; // Desde el centro de la pieza hasta el centro de masas de la máquina
-	physx::PxQuat _orientation_to_machine; // Desde la orientación de la pieza hasta la orientación de la máquina
+	Vector3D _linear_velocity;
+	Vector3D _angular_velocity;
+	Vector3D _torque_point;
+
+	//Vector3D _position_to_machine_center; // Desde el centro de la pieza hasta el centro de masas de la máquina
+	//physx::PxQuat _orientation_to_machine; // Desde la orientación de la pieza hasta la orientación de la máquina
+	Vector3D _surface_normal;
 
 	std::vector<AttachmentPoint*> _attachment_points;
 

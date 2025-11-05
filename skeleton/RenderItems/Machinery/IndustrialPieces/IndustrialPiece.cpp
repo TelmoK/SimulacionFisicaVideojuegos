@@ -1,9 +1,15 @@
 #include "IndustrialPiece.h"
 
-IndustrialPiece::IndustrialPiece(Vector3D position, float mass, const Vector4& _color)
-	: RenderItem(CreateShape(physx::PxBoxGeometry(1, 0.5, 2)), &_transform, _color)
+IndustrialPiece::IndustrialPiece(physx::PxShape* shape, Vector3D position, float mass, const Vector4& _color)
+	: RenderItem(shape, &_transform, _color), _surface_normal(Vector3D(0, 1, 0))
 {
 	_transform = physx::PxTransform(position.to_vec3());
+}
+
+IndustrialPiece::IndustrialPiece(Vector3D position, float mass, const Vector4& _color)
+	: IndustrialPiece(CreateShape(physx::PxBoxGeometry(1, 1, 1)), position, mass, _color)
+{
+	
 }
 
 IndustrialPiece::ForceTransmisionPack IndustrialPiece::propagateForces(const ForceTransmisionPack& force_pack, AttachmentPoint* force_emitter_point)
@@ -19,7 +25,7 @@ IndustrialPiece::ForceTransmisionPack IndustrialPiece::propagateForces(const For
 	}
 
 	// Aquí se aplica alguna transformación a force_pack en función de la pieza actual
-	sum_force_pack += applyPieceReactionForces(force_pack);
+	sum_force_pack += applyPieceReactionForces(force_pack, force_emitter_point);
 
 	return sum_force_pack;
 }
