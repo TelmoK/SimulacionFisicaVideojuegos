@@ -4,12 +4,13 @@
 #include <list>
 
 class Particle;
+class ParticleSystem;
 
 class Submarine
 {
 public:
 
-	Submarine();
+	Submarine(ParticleSystem* world_particle_sys);
 
 	~Submarine();
 
@@ -25,11 +26,9 @@ public:
 
 	void keyPress(unsigned char key);
 
-	Particle* motor_bubble() {
-		return _motor_bubble_particle_model;
-	}
-
 private:
+
+	ParticleSystem* _world_particle_sys;
 
 	/*temp*/ float _motor_force;
 
@@ -37,13 +36,6 @@ private:
 
 	// Objeto renderizado
 	RenderItem* cabin;
-	
-	// Atributos que referencian a la partícula de centro de masas
-	/*physx::PxTransform* _transform;
-	Vector3D _acceleration;
-	Vector3D _velocity;
-	float _mass;
-	float _volume;*/
 
 	// Componentes de input motor
 	Vector3D _motor_torque;

@@ -14,7 +14,7 @@ public:
 	*/
 	void applyForce(Particle* particle, double t) override
 	{
-		particle->acceleration().y -= gravityForce;
+		particle->acceleration().y += gravityForce;
 	}
 
 protected:

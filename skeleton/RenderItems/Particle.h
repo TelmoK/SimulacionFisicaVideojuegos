@@ -33,7 +33,7 @@ public:
 	}
 
 	float& mass() {
-		return _mass;
+		return _real_mass;
 	}
 
 	float& volume() {

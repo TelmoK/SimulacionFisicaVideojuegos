@@ -7,7 +7,7 @@ ParticleSystem::~ParticleSystem()
 		p_register_it = deleteParticleGeneration((*p_register_it)->list_it);
 }
 
-void ParticleSystem::registerNewParticle(Particle* particle)
+void ParticleSystem::registerNewParticle(Particle* particle, float life_time, bool inmortal)
 {
 	ParticleGeneration* generation = new ParticleGeneration();
 	
@@ -15,6 +15,8 @@ void ParticleSystem::registerNewParticle(Particle* particle)
 	
 	generation->particle = particle;
 	generation->list_it = std::prev(_particle_registers.end());
+	generation->life_time = life_time;
+	generation->inmortal = inmortal;
 }
 
 ParticleSystem::ParticleGeneration_It ParticleSystem::deleteParticleGeneration(ParticleGeneration_It particle_generation)

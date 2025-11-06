@@ -20,6 +20,7 @@
 #include "ParticleSystem/ForceGenerators/GravityForceGenerator.h"
 #include "ParticleSystem/ForceGenerators/WindForceGenerator.h"
 #include "ParticleSystem/ForceGenerators/TornadoForceGenerator.h"
+#include "ParticleSystem/ForceGenerators/ThrustForceGenerator.h"
 
 #include "RenderItems/Machinery/IndustrialPieces/IndustrialPiece.h"
 #include "RenderItems/Machinery/Submarine.h"
@@ -44,20 +45,25 @@ PxDefaultCpuDispatcher*	gDispatcher = NULL;
 PxScene*				gScene      = NULL;
 ContactReportCallback gContactReportCallback;
 
-Axis3D* axis;
-std::vector<Particle*> projectiles;
-float projectileSpeed = 5;// 30;
+// -----------------------------------------------------------------------
+// DECLARACIONES PROPIAS
+// -----------------------------------------------------------------------
 
-ParticleSystem* pSys;
-RoundAreaRangeGenerator* rain_generator;
+Axis3D* axis;
+
+std::unique_ptr<ParticleSystem> snow_particle_sys;
+std::unique_ptr<ParticleSystem> general_particle_sys;
 
 IndustrialPiece* piece1;
 IndustrialPiece* piece2;
 IndustrialPiece::AttachmentPoint* ap1;
 IndustrialPiece::AttachmentPoint* ap2;
 
-RenderItem* Water;
+RenderItem* sea_water_block;
 Submarine* submarine;
+
+constexpr float WATER_DENSITY = 997;
+
 
 // Initialize physics engine
 void initPhysics(bool interactive)
@@ -83,29 +89,40 @@ void initPhysics(bool interactive)
 	sceneDesc.simulationEventCallback = &gContactReportCallback;
 	gScene = gPhysics->createScene(sceneDesc);
 
-	//ball = new RenderItem(CreateShape(PxSphereGeometry(0.5)), new PxTransform(PxVec3(0, 0, 0)), Vector4(1, 0, 0, 1));
-	//RegisterRenderItem(ball);
+	// -------------------------------------------------------------------------------------
+	// MONTAJE DE LA ESCENA
+	// -------------------------------------------------------------------------------------
+
 	axis = new Axis3D();
 
-	pSys = new ParticleSystem();
-	pSys->referenceParticleGenerator(
+	general_particle_sys = std::make_unique<ParticleSystem>();
+	snow_particle_sys = std::make_unique<ParticleSystem>();
+
+	snow_particle_sys->referenceParticleGenerator(
 		std::make_shared<RoundAreaRangeGenerator>(
-			pSys, new Particle(Vector3D(0, 20, 0), Vector3D(0, 0, 0)), 0.1, 10, 
+			snow_particle_sys.get(), new Particle(Vector3D(0, 20, 0), Vector3D(0, 0, 0)), 0.1, 10,
 			RoundAreaRangeGenerator::CIRCLE, 50
 		)
 	);
-	pSys->referenceForceGenerator(std::make_shared<GravityForceGenerator>(pSys, 25));
-	pSys->referenceForceGenerator(std::make_shared<WindForceGenerator>(pSys, Vector3D(20, 0, 0), 0.2));
+
+	snow_particle_sys->referenceForceGenerator(std::make_shared<GravityForceGenerator>(snow_particle_sys.get(), -25));
+	snow_particle_sys->referenceForceGenerator(std::make_shared<WindForceGenerator>(snow_particle_sys.get(), Vector3D(20, 0, 0), 0.2));
 	//pSys->referenceParticleGenerator(std::make_shared<UniformParticleGenerator>(pSys, new Particle(Vector3D(0, 0, 0), Vector3D(1, 5, 1)), 1, 2));
 	//pSys->referenceForceGenerator(std::make_shared<GravityForceGenerator>(pSys, -25));
 	//pSys->referenceForceGenerator(std::make_shared<WindForceGenerator>(pSys, Vector3D(5, 0, 0), 0.2));
 	//pSys->referenceForceGenerator(std::make_shared<TornadoForceGenerator>(pSys, Vector3D(), Vector3D(), 0.2, 0, 2));
 	
-	physx::PxTransform transform = physx::PxTransform(Vector3D().to_vec3());
-	Water = new RenderItem(CreateShape(physx::PxBoxGeometry(100, 100, 100)), new PxTransform(PxVec3(0, 0, 0)), Vector4(0, 0, 1, 0.1));
+	sea_water_block = new RenderItem(CreateShape(physx::PxBoxGeometry(200, 200, 200)), new PxTransform(PxVec3(0, -100, 0)), Vector4(0, 0, 1, 0.1));
 	
-	submarine = new Submarine();
-	pSys->referenceParticleGenerator(std::make_shared<UniformParticleGenerator>(pSys, submarine->motor_bubble(), 0.2, 3));
+	submarine = new Submarine(general_particle_sys.get());
+
+	general_particle_sys->referenceForceGenerator(
+		std::make_shared<ThrustForceGenerator>(general_particle_sys.get(), WATER_DENSITY, -9.8)
+	);
+
+	snow_particle_sys->referenceForceGenerator(
+		std::make_shared<GravityForceGenerator>(snow_particle_sys.get(), -9.8)
+	);
 
 	// Pruebas con IndustriualPiece
 	
@@ -132,10 +149,8 @@ void stepPhysics(bool interactive, double t)
 	gScene->simulate(t);
 	gScene->fetchResults(true);
 
-	for (Particle* projectile : projectiles)
-		projectile->integrate(t);
-
-	pSys->update(t);
+	snow_particle_sys->update(t);
+	general_particle_sys->update(t);
 	
 	submarine->update(t);
 	/*
@@ -158,10 +173,6 @@ void cleanupPhysics(bool interactive)
 	// Rigid Body ++++++++++++++++++++++++++++++++++++++++++
 	//DeregisterRenderItem(ball);
 	delete axis;
-	for (Particle* projectile : projectiles)
-		delete projectile;
-
-	delete pSys;
 
 	gScene->release();
 	gDispatcher->release();
@@ -185,9 +196,6 @@ void keyPress(unsigned char key, const PxTransform& camera)
 	{
 	//case 'B': break;
 	//case ' ':	break;
-	/*case 'P':
-		//projectiles.push_back(new Particle(GetCamera()->getEye(), GetCamera()->getDir() * projectileSpeed, -9.8));
-		break;*/
 	case ' ':
 	{
 		break;

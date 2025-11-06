@@ -105,6 +105,9 @@
     <ClInclude Include="ParticleSystem\ParticleGenerators\RoundAreaRangeGenerator.h">
       <Filter>ParticleSystem\ParticleGenerators</Filter>
     </ClInclude>
+    <ClInclude Include="ParticleSystem\ForceGenerators\ThrustForceGenerator.h">
+      <Filter>ParticleSystem\ForceGenerator</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Render">

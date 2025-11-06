@@ -18,7 +18,7 @@ public:
 		Metodo usado por los ParticleGenerators para registrar en el sistema las partículas que generan
 		y gestionar su actualización y destrucción desde él.
 	*/
-	void registerNewParticle(Particle* particle);
+	void registerNewParticle(Particle* particle, float life_time = 10, bool inmortal = false);
 
 	/*
 		Mete en un vector un puntero a un generador de fuezas que usará en cada update() para aplicárselo

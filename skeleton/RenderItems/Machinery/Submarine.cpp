@@ -1,9 +1,12 @@
 #include "Submarine.h"
 
 #include "../Particle.h"
+#include "../../ParticleSystem/ParticleSystem.h"
+#include "../../ParticleSystem/ParticleGenerators/UniformParticleGenerator.h"
 #include "../../RenderUtils.hpp"
 
-Submarine::Submarine()
+Submarine::Submarine(ParticleSystem* world_particle_sys)
+	: _world_particle_sys(world_particle_sys), _motor_force(0)
 {
 	Vector3D position = Vector3D();
 
@@ -11,8 +14,8 @@ Submarine::Submarine()
 
 	_center_mass = new Particle(position, Vector3D());
 	DeregisterRenderItem(_center_mass); // Usamos la partícula como modelo, no se renderiza
+	_world_particle_sys->registerNewParticle(_center_mass, 0, true);
 
-	//cabin = new RenderItem(CreateShape(physx::PxBoxGeometry(lenght, height, width)), &_transform, Vector4(1, 0, 1, 1));
 	cabin = new RenderItem(CreateShape(physx::PxBoxGeometry(lenght, height, width)), &_center_mass->transform(), Vector4(1, 0, 1, 1));
 	
 	_motor_relative_pos = Vector3D(-lenght, 0, 0);
@@ -23,39 +26,38 @@ Submarine::Submarine()
 	_center_mass->mass() = 100000;
 	_center_mass->volume() = 100;
 
-	_motor_force = 0;
+	_world_particle_sys->referenceParticleGenerator(std::make_shared<UniformParticleGenerator>(_world_particle_sys, _motor_bubble_particle_model, 0.2, 3));
 }
 
 Submarine::~Submarine()
 {
 	DeregisterRenderItem(cabin);
 	delete cabin;
-	delete _center_mass;
+	//delete _center_mass;
 }
 
 void Submarine::update(float t)
 {
 	handleProyectilesLife(t);
-
+	
 	// Control de cámara
 	handleCameraFollow();
 
 	// Fuerzas
-	applyMotorForce();
+	//applyMotorForce();
 
-	applyThrustForce();
+	//applyThrustForce();
 
-	applyGravity();
+	//applyGravity();
 
 	// Movimiento
-	Vector3D new_position = Vector3D(_center_mass->transform().p) + _center_mass->velocity() * t;
+	/*Vector3D new_position = Vector3D(_center_mass->transform().p) + _center_mass->velocity() * t;
 	_center_mass->transform().p = new_position.to_vec3();
 
 	_center_mass->velocity() = _center_mass->velocity() + _center_mass->acceleration() * t;
-
+	*/
 	_motor_bubble_particle_model->transform().p = _center_mass->transform().p + _motor_relative_pos.to_vec3();
 
-	_center_mass->acceleration() = Vector3D();
 }
 
 void Submarine::keyPress(unsigned char key)
