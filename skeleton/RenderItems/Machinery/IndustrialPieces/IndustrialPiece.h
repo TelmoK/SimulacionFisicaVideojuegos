@@ -47,8 +47,10 @@ public:
 	struct MotionTransmitionPack
 	{
 		Vector3D motion_center;
-		Vector3D translation;
-		physx::PxQuat rotation;
+		Vector3D linear_velocity;
+		Vector3D angular_velocity;
+		//Vector3D translation;
+		//physx::PxQuat rotation;
 	};
 
 	IndustrialPiece(Vector3D position, float mass = 1, const Vector4& _color = Vector4(1, 1, 1, 1));
@@ -88,7 +90,7 @@ protected:
 
 	Vector3D _linear_velocity;
 	Vector3D _angular_velocity;
-	Vector3D _torque_point;
+	Vector3D _rotation_point;
 
 	//Vector3D _position_to_machine_center; // Desde el centro de la pieza hasta el centro de masas de la máquina
 	//physx::PxQuat _orientation_to_machine; // Desde la orientación de la pieza hasta la orientación de la máquina

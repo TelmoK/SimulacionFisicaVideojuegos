@@ -17,6 +17,7 @@
 #include "ParticleSystem/ParticleGenerators/UniformParticleGenerator.h"
 #include "ParticleSystem/ForceGenerators/GravityForceGenerator.h"
 #include "ParticleSystem/ForceGenerators/WindForceGenerator.h"
+#include "ParticleSystem/ForceGenerators/TornadoForceGenerator.h"
 
 #include "RenderItems/Machinery/IndustrialPieces/IndustrialPiece.h"
 
@@ -85,12 +86,13 @@ void initPhysics(bool interactive)
 	pSys = new ParticleSystem();
 	pSys->referenceParticleGenerator(std::make_shared<UniformParticleGenerator>(pSys, new Particle(Vector3D(0, 0, 0), Vector3D(1, 5, 1)), 1, 2));
 	//pSys->referenceForceGenerator(std::make_shared<GravityForceGenerator>(pSys, 20));
-	pSys->referenceForceGenerator(std::make_shared<WindForceGenerator>(pSys, Vector3D(5, 0, 0), 0.2));
+	//pSys->referenceForceGenerator(std::make_shared<WindForceGenerator>(pSys, Vector3D(5, 0, 0), 0.2));
+	pSys->referenceForceGenerator(std::make_shared<TornadoForceGenerator>(pSys, Vector3D(), Vector3D(), 0.2, 0, 2));
 	
 	physx::PxTransform transform = physx::PxTransform(Vector3D().to_vec3());
 	Water = new RenderItem(CreateShape(physx::PxBoxGeometry(100, 100, 100)), new PxTransform(PxVec3(0, 0, 0)), Vector4(0, 0, 1, 0.1));
 	// Pruebas con IndustriualPiece
-	/*
+	
 	piece1 = new IndustrialPiece(Vector3D(4, 0, 4), 10, Vector4(1, 0, 1, 1));
 	ap1 = new IndustrialPiece::AttachmentPoint{ piece1, nullptr, Vector3D(0, 0, 1) };
 	piece1->addAttachmentPoint(ap1);
@@ -99,7 +101,7 @@ void initPhysics(bool interactive)
 	ap2 = new IndustrialPiece::AttachmentPoint{ piece2, nullptr, Vector3D(0, 0, -1) };
 	piece2->addAttachmentPoint(ap2);
 
-	ap1->linkTo(ap2);*/
+	ap1->linkTo(ap2);
 }
 
 
@@ -120,14 +122,18 @@ void stepPhysics(bool interactive, double t)
 	
 
 	/*
-		INDUSTRIAL PIECE
+		INDUSTRIAL PIECE*/
 	IndustrialPiece::ForceTransmisionPack force_pack{Vector3D(10, 0, 0), Vector3D(0, 0, 0), Vector3D(0,0,0), Vector3D(0,0,0)};
 	IndustrialPiece::ForceTransmisionPack force_reaction = piece1->propagateForces(force_pack, ap1);
 
-	Vector3D force_result = force_pack.force + force_reaction.force;
+	/*Vector3D force_result = force_pack.force + force_reaction.force;
 	PxQuat torque_result = PxQuat(2 * t * 0, Vector3D(1, 0, 0).to_vec3());
 
 	piece1->propagateMotionEffect({ Vector3D(piece1->_transform.p) * 0, force_result * t * 0, torque_result });*/
+	Vector3D force_result = force_pack.force + force_reaction.force;
+	Vector3D angular_vel = (Vector3D(1, 0, 0) * 2 * t).to_vec3();
+
+	piece1->propagateMotionEffect({ Vector3D(piece1->_transform.p) * 0, force_result * t * 0, angular_vel });
 }
 
 // Function to clean data

@@ -90,6 +90,9 @@
     <ClInclude Include="ParticleSystem\ForceGenerators\WindForceGenerator.h">
       <Filter>ParticleSystem\ForceGenerator</Filter>
     </ClInclude>
+    <ClInclude Include="ParticleSystem\ForceGenerators\TornadoForceGenerator.h">
+      <Filter>ParticleSystem\ForceGenerator</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Render">

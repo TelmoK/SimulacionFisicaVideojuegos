@@ -34,16 +34,22 @@ void IndustrialPiece::propagateMotionEffect(MotionTransmitionPack motion)
 {
 	_reaction_effect_applied = true;
 
+	_linear_velocity = motion.linear_velocity;
+	_angular_velocity = motion.angular_velocity;
+
+	Vector3D translation = _linear_velocity;
+	physx::PxQuat rotation = physx::PxQuat(motion.angular_velocity.magnitude(), motion.angular_velocity.normalized().to_vec3());
+
 	// Se aplica la transformación angular
 	Vector3D positionToCenter = motion.motion_center - _transform.p;
-	Vector3D rotatedPositionToCenter = motion.rotation.rotate(positionToCenter.to_vec3());
+	Vector3D rotatedPositionToCenter = rotation.rotate(positionToCenter.to_vec3());
 
 	_transform.p = (motion.motion_center - rotatedPositionToCenter).to_vec3(); // Aplicar movimiento circular sobre el centro de movimiento
 
-	_transform.q = motion.rotation * _transform.q;
+	_transform.q = rotation * _transform.q;
 
 	// Se aplica la transformación linear
-	_transform.p += motion.translation.to_vec3();
+	_transform.p += translation.to_vec3();
 
 	// Se transmite la orden de update a las piezas conectadas que no se hayan actualizado ya
 	for(AttachmentPoint* attachment_point : _attachment_points)
