@@ -15,11 +15,14 @@
 
 #include "ParticleSystem/ParticleSystem.h"
 #include "ParticleSystem/ParticleGenerators/UniformParticleGenerator.h"
+#include "ParticleSystem/ParticleGenerators/RoundAreaRangeGenerator.h"
+
 #include "ParticleSystem/ForceGenerators/GravityForceGenerator.h"
 #include "ParticleSystem/ForceGenerators/WindForceGenerator.h"
 #include "ParticleSystem/ForceGenerators/TornadoForceGenerator.h"
 
 #include "RenderItems/Machinery/IndustrialPieces/IndustrialPiece.h"
+#include "RenderItems/Machinery/Submarine.h"
 
 std::string display_text = "This is a test";
 
@@ -43,10 +46,10 @@ ContactReportCallback gContactReportCallback;
 
 Axis3D* axis;
 std::vector<Particle*> projectiles;
-float projectileSpeed = 30;
+float projectileSpeed = 5;// 30;
 
 ParticleSystem* pSys;
-UniformParticleGenerator* uGenerator;
+RoundAreaRangeGenerator* rain_generator;
 
 IndustrialPiece* piece1;
 IndustrialPiece* piece2;
@@ -54,6 +57,7 @@ IndustrialPiece::AttachmentPoint* ap1;
 IndustrialPiece::AttachmentPoint* ap2;
 
 RenderItem* Water;
+Submarine* submarine;
 
 // Initialize physics engine
 void initPhysics(bool interactive)
@@ -84,15 +88,28 @@ void initPhysics(bool interactive)
 	axis = new Axis3D();
 
 	pSys = new ParticleSystem();
-	pSys->referenceParticleGenerator(std::make_shared<UniformParticleGenerator>(pSys, new Particle(Vector3D(0, 0, 0), Vector3D(1, 5, 1)), 1, 2));
-	//pSys->referenceForceGenerator(std::make_shared<GravityForceGenerator>(pSys, 20));
+	pSys->referenceParticleGenerator(
+		std::make_shared<RoundAreaRangeGenerator>(
+			pSys, new Particle(Vector3D(0, 20, 0), Vector3D(0, 0, 0)), 0.1, 10, 
+			RoundAreaRangeGenerator::CIRCLE, 50
+		)
+	);
+	pSys->referenceForceGenerator(std::make_shared<GravityForceGenerator>(pSys, 25));
+	pSys->referenceForceGenerator(std::make_shared<WindForceGenerator>(pSys, Vector3D(20, 0, 0), 0.2));
+	//pSys->referenceParticleGenerator(std::make_shared<UniformParticleGenerator>(pSys, new Particle(Vector3D(0, 0, 0), Vector3D(1, 5, 1)), 1, 2));
+	//pSys->referenceForceGenerator(std::make_shared<GravityForceGenerator>(pSys, -25));
 	//pSys->referenceForceGenerator(std::make_shared<WindForceGenerator>(pSys, Vector3D(5, 0, 0), 0.2));
-	pSys->referenceForceGenerator(std::make_shared<TornadoForceGenerator>(pSys, Vector3D(), Vector3D(), 0.2, 0, 2));
+	//pSys->referenceForceGenerator(std::make_shared<TornadoForceGenerator>(pSys, Vector3D(), Vector3D(), 0.2, 0, 2));
 	
 	physx::PxTransform transform = physx::PxTransform(Vector3D().to_vec3());
 	Water = new RenderItem(CreateShape(physx::PxBoxGeometry(100, 100, 100)), new PxTransform(PxVec3(0, 0, 0)), Vector4(0, 0, 1, 0.1));
+	
+	submarine = new Submarine();
+	pSys->referenceParticleGenerator(std::make_shared<UniformParticleGenerator>(pSys, submarine->motor_bubble(), 0.2, 3));
+
 	// Pruebas con IndustriualPiece
 	
+	/*
 	piece1 = new IndustrialPiece(Vector3D(4, 0, 4), 10, Vector4(1, 0, 1, 1));
 	ap1 = new IndustrialPiece::AttachmentPoint{ piece1, nullptr, Vector3D(0, 0, 1) };
 	piece1->addAttachmentPoint(ap1);
@@ -101,7 +118,7 @@ void initPhysics(bool interactive)
 	ap2 = new IndustrialPiece::AttachmentPoint{ piece2, nullptr, Vector3D(0, 0, -1) };
 	piece2->addAttachmentPoint(ap2);
 
-	ap1->linkTo(ap2);
+	ap1->linkTo(ap2);*/
 }
 
 
@@ -120,20 +137,16 @@ void stepPhysics(bool interactive, double t)
 
 	pSys->update(t);
 	
-
+	submarine->update(t);
 	/*
-		INDUSTRIAL PIECE*/
+		INDUSTRIAL PIECE
 	IndustrialPiece::ForceTransmisionPack force_pack{Vector3D(10, 0, 0), Vector3D(0, 0, 0), Vector3D(0,0,0), Vector3D(0,0,0)};
 	IndustrialPiece::ForceTransmisionPack force_reaction = piece1->propagateForces(force_pack, ap1);
 
-	/*Vector3D force_result = force_pack.force + force_reaction.force;
-	PxQuat torque_result = PxQuat(2 * t * 0, Vector3D(1, 0, 0).to_vec3());
-
-	piece1->propagateMotionEffect({ Vector3D(piece1->_transform.p) * 0, force_result * t * 0, torque_result });*/
 	Vector3D force_result = force_pack.force + force_reaction.force;
 	Vector3D angular_vel = (Vector3D(1, 0, 0) * 2 * t).to_vec3();
 
-	piece1->propagateMotionEffect({ Vector3D(piece1->_transform.p) * 0, force_result * t * 0, angular_vel });
+	piece1->propagateMotionEffect({ Vector3D(piece1->_transform.p) * 0, force_result * t * 0, angular_vel });*/
 }
 
 // Function to clean data
@@ -148,7 +161,6 @@ void cleanupPhysics(bool interactive)
 	for (Particle* projectile : projectiles)
 		delete projectile;
 
-	delete uGenerator;
 	delete pSys;
 
 	gScene->release();
@@ -167,13 +179,15 @@ void keyPress(unsigned char key, const PxTransform& camera)
 {
 	PX_UNUSED(camera);
 
+	submarine->keyPress(key);
+
 	switch(toupper(key))
 	{
 	//case 'B': break;
 	//case ' ':	break;
-	case 'P':
-		projectiles.push_back(new Particle(GetCamera()->getEye(), GetCamera()->getDir() * projectileSpeed, -9.8));
-		break;
+	/*case 'P':
+		//projectiles.push_back(new Particle(GetCamera()->getEye(), GetCamera()->getDir() * projectileSpeed, -9.8));
+		break;*/
 	case ' ':
 	{
 		break;

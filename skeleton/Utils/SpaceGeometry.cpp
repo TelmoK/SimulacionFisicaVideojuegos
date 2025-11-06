@@ -8,6 +8,11 @@ Vector3D SpaceGeometry::distanceLineToPoint(const Vector3D& line_point, const Ve
     return linepoint_to_point_vec - proyection_in_line_vec;
 }
 
+Vector3D SpaceGeometry::projectionVector(const Vector3D& vec_a, const Vector3D& vec_b)
+{
+    return vec_b * (vec_a.dot(vec_b) / pow(vec_b.magnitude(), 2));
+}
+
 float SpaceGeometry::cosineBetween(const Vector3D& vector_a, const Vector3D& vector_b)
 {
     return (vector_a.dot(vector_b)) / (vector_a.magnitude() * vector_b.magnitude());

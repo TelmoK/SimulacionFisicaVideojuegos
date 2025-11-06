@@ -26,6 +26,7 @@ void UniformParticleGenerator::generateParticles(int particle_num)
 
 		spawned_particle->transform().p.x += u_distribution(mt);
 		spawned_particle->transform().p.y += u_distribution(mt);
+		spawned_particle->transform().p.z += u_distribution(mt);
 
 		_particle_system->registerNewParticle(spawned_particle); // Se registra la partícula en el Sistema de Partículas
 	}

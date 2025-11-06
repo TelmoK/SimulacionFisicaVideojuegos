@@ -20,12 +20,24 @@ public:
 		return _acceleration;
 	}
 
-	float mass() {
-		return _real_mass;
-	}
-
 	physx::PxTransform& transform() {
 		return _transform;
+	}
+
+	physx::PxVec3& position() {
+		return _transform.p;
+	}
+
+	physx::PxQuat& quat() {
+		return _transform.q;
+	}
+
+	float& mass() {
+		return _mass;
+	}
+
+	float& volume() {
+		return _volume;
 	}
 
 protected:
@@ -44,4 +56,5 @@ private:
 
 	float _mass = 1; // In kg
 	float _real_mass = 1;
+	float _volume = 1;
 };

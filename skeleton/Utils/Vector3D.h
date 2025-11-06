@@ -55,6 +55,11 @@ public:
 		z -= other.z;
 	}
 
+	Vector3D operator-() const
+	{
+		return Vector3D(-x, -y, -z);
+	}
+
 	Vector3 to_vec3() 
 	{
 		return Vector3(x, y, z);

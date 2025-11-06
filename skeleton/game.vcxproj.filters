@@ -37,6 +37,12 @@
     <ClCompile Include="Utils\SpaceGeometry.cpp">
       <Filter>Utils</Filter>
     </ClCompile>
+    <ClCompile Include="RenderItems\Machinery\Submarine.cpp">
+      <Filter>RenderItems\Machinery</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleSystem\ParticleGenerators\RoundAreaRangeGenerator.cpp">
+      <Filter>ParticleSystem\ParticleGenerators</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.hpp" />
@@ -92,6 +98,12 @@
     </ClInclude>
     <ClInclude Include="ParticleSystem\ForceGenerators\TornadoForceGenerator.h">
       <Filter>ParticleSystem\ForceGenerator</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderItems\Machinery\Submarine.h">
+      <Filter>RenderItems\Machinery</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleSystem\ParticleGenerators\RoundAreaRangeGenerator.h">
+      <Filter>ParticleSystem\ParticleGenerators</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

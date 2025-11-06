@@ -4,6 +4,7 @@ IndustrialPiece::IndustrialPiece(physx::PxShape* shape, Vector3D position, float
 	: RenderItem(shape, &_transform, _color), _surface_normal(Vector3D(0, 1, 0))
 {
 	_transform = physx::PxTransform(position.to_vec3());
+	setInertiaMoment();
 }
 
 IndustrialPiece::IndustrialPiece(Vector3D position, float mass, const Vector4& _color)

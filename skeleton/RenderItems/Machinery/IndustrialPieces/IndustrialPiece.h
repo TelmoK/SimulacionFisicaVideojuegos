@@ -57,6 +57,10 @@ public:
 
 	IndustrialPiece(physx::PxShape* shape, Vector3D position, float mass = 1, const Vector4& _color = Vector4(1, 1, 1, 1));
 
+	virtual void setInertiaMoment() {
+		_inertia_moment = _mass;
+	}
+
 	/*
 		Propaga hacia delante(sus componentes conexos) un paquete de fuerzas (torque y fuerza lineal) y devuelve 
 		la fuerza reactiva resultante de la aplicación de la fuerza en los componentes conexos derivados.
@@ -87,13 +91,12 @@ public:
 protected:
 
 	float _mass;
+	float _inertia_moment;
 
 	Vector3D _linear_velocity;
 	Vector3D _angular_velocity;
 	Vector3D _rotation_point;
 
-	//Vector3D _position_to_machine_center; // Desde el centro de la pieza hasta el centro de masas de la máquina
-	//physx::PxQuat _orientation_to_machine; // Desde la orientación de la pieza hasta la orientación de la máquina
 	Vector3D _surface_normal;
 
 	std::vector<AttachmentPoint*> _attachment_points;

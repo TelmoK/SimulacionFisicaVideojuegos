@@ -257,11 +257,13 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ParticleSystem\ParticleGenerators\NormalParticleGenerator.cpp" />
     <ClCompile Include="ParticleSystem\ParticleGenerators\ParticleGenerator.cpp" />
+    <ClCompile Include="ParticleSystem\ParticleGenerators\RoundAreaRangeGenerator.cpp" />
     <ClCompile Include="ParticleSystem\ParticleGenerators\UniformParticleGenerator.cpp" />
     <ClCompile Include="ParticleSystem\ParticleSystem.cpp" />
     <ClCompile Include="RenderItems\Axis3D.cpp" />
     <ClCompile Include="RenderItems\Machinery\IndustrialPieces\IndustrialPiece.cpp" />
     <ClCompile Include="RenderItems\Machinery\IndustrialPieces\PropellerBladePiece.cpp" />
+    <ClCompile Include="RenderItems\Machinery\Submarine.cpp" />
     <ClCompile Include="RenderItems\Particle.cpp" />
     <ClCompile Include="RenderUtils.cpp" />
     <ClCompile Include="Render\Camera.cpp" />
@@ -278,11 +280,13 @@
     <ClInclude Include="ParticleSystem\ForceGenerators\WindForceGenerator.h" />
     <ClInclude Include="ParticleSystem\ParticleGenerators\NormalParticleGenerator.h" />
     <ClInclude Include="ParticleSystem\ParticleGenerators\ParticleGenerator.h" />
+    <ClInclude Include="ParticleSystem\ParticleGenerators\RoundAreaRangeGenerator.h" />
     <ClInclude Include="ParticleSystem\ParticleGenerators\UniformParticleGenerator.h" />
     <ClInclude Include="ParticleSystem\ParticleSystem.h" />
     <ClInclude Include="RenderItems\Axis3D.h" />
     <ClInclude Include="RenderItems\Machinery\IndustrialPieces\IndustrialPiece.h" />
     <ClInclude Include="RenderItems\Machinery\IndustrialPieces\PropellerBladePiece.h" />
+    <ClInclude Include="RenderItems\Machinery\Submarine.h" />
     <ClInclude Include="RenderItems\Particle.h" />
     <ClInclude Include="RenderUtils.hpp" />
     <ClInclude Include="Render\Camera.h" />
