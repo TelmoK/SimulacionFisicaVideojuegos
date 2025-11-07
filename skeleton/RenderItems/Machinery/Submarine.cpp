@@ -1,8 +1,10 @@
 #include "Submarine.h"
 
 #include "../Particle.h"
+#include "../Projectile.h"
 #include "../../ParticleSystem/ParticleSystem.h"
 #include "../../ParticleSystem/ParticleGenerators/UniformParticleGenerator.h"
+#include "../../ParticleSystem/ForceGenerators/GravityForceGenerator.h"
 #include "../../RenderUtils.hpp"
 
 Submarine::Submarine(Vector3D position, ParticleSystem* world_particle_sys)
@@ -28,6 +30,12 @@ Submarine::Submarine(Vector3D position, ParticleSystem* world_particle_sys)
 		_world_particle_sys, _motor_bubble_particle_model, 0.15, 3
 	);
 	_world_particle_sys->referenceParticleGenerator(_motor_particle_generator);
+
+	// Las partícuias tienen su propio sistema de partículas para gestionarse
+	_proyectile_particle_sys = std::make_unique<ParticleSystem>();
+	_proyectile_particle_sys->referenceForceGenerator(
+		std::make_shared<GravityForceGenerator>(_proyectile_particle_sys.get(), -9.8)
+	);
 }
 
 Submarine::~Submarine()
@@ -38,9 +46,9 @@ Submarine::~Submarine()
 }
 
 void Submarine::update(float t)
-{
-	handleProyectilesLife(t);
-	
+{	
+	_proyectile_particle_sys->update(t);
+
 	// Control de cámara
 	handleCameraFollow();
 
@@ -59,8 +67,19 @@ void Submarine::keyPress(unsigned char key)
 	{
 	case 'P':
 		if(_camera_mode == CameraMode::FIRST_PERSON)
-			_projectiles.push_back(new Particle(GetCamera()->getEye(), GetCamera()->getDir() * _projectileSpeed, -9.8));
+			_projectiles.push_back(new Projectile(
+				_proyectile_particle_sys.get(), GetCamera()->getEye(),
+				GetCamera()->getDir() * _projectileSpeed, Vector3D(), 2
+			));
 		break;
+
+	case 'T':
+			_projectiles.push_back(new Projectile(
+				_proyectile_particle_sys.get(), _center_mass->position(),
+				Vector3D(0, 1, 0) * _projectileSpeed * 2, Vector3D(), 10
+			));
+		break;
+
 	case 'X':
 		_motor_force += 800;
 		break;
@@ -126,23 +145,6 @@ void Submarine::handleCameraFollow()
 		Vector3D camPos = _center_mass->transform().p + Vector3D(-15, 25, 0).to_vec3();
 		GetCamera()->setEye(camPos.to_vec3());
 		return;
-	}
-}
-
-void Submarine::handleProyectilesLife(float t)
-{
-	for (Particle* projectile : _projectiles)
-		projectile->integrate(t);
-
-	for (auto proyectile_it = _projectiles.begin(); proyectile_it != _projectiles.end(); )
-	{
-		if (((*proyectile_it)->transform().p - GetCamera()->getEye()).magnitudeSquared() > 800) {
-			delete* proyectile_it;
-			proyectile_it = _projectiles.erase(proyectile_it);
-		}
-		else {
-			++proyectile_it;
-		}
 	}
 }
 

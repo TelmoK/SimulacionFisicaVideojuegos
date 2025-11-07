@@ -5,6 +5,7 @@
 #include <memory>
 
 class Particle;
+class Projectile;
 class ParticleSystem;
 class UniformParticleGenerator;
 
@@ -20,8 +21,6 @@ public:
 	void applyMotorForce();
 
 	void handleCameraFollow();
-
-	void handleProyectilesLife(float t);
 
 	void update(float t);
 
@@ -49,6 +48,7 @@ private:
 	CameraMode _camera_mode;
 	Vector3D _subarine_eye;
 
-	std::list<Particle*> _projectiles;
+	std::list<Projectile*> _projectiles;
 	float _projectileSpeed = 30;
+	std::unique_ptr<ParticleSystem> _proyectile_particle_sys;
 };

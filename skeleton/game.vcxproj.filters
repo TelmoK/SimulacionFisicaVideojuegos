@@ -46,6 +46,9 @@
     <ClCompile Include="ParticleSystem\ForceGenerators\ThrustForceGenerator.cpp">
       <Filter>ParticleSystem\ForceGenerator</Filter>
     </ClCompile>
+    <ClCompile Include="RenderItems\Projectile.cpp">
+      <Filter>RenderItems</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.hpp" />
@@ -110,6 +113,9 @@
     </ClInclude>
     <ClInclude Include="ParticleSystem\ForceGenerators\ThrustForceGenerator.h">
       <Filter>ParticleSystem\ForceGenerator</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderItems\Projectile.h">
+      <Filter>RenderItems</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
