@@ -17,6 +17,8 @@ public:
 	*/
 	void applyForce(Particle* particle, double t) override
 	{
+		if (!_active) return;
+
 		wind_velocity = Vector3D(
 			particle->transform().p.x - tornado_eye.x,
 			50 - (particle->transform().p.y - tornado_eye.y),
@@ -28,7 +30,7 @@ public:
 
 		Vector3D force = velocity_diff * k1 + velocity_diff * velocity_diff.magnitude() * k2;
 
-		particle->acceleration() += force;
+		particle->acceleration() += force / particle->mass();
 	}
 
 protected:

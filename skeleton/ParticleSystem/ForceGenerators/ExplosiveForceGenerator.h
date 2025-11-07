@@ -2,12 +2,17 @@
 #include "ForceGenerator.h"
 
 #include "../../RenderItems/Particle.h"
+#include <cmath>
 
 class ExplosiveForceGenerator : public ForceGenerator
 {
 public:
-	ExplosiveForceGenerator(ParticleSystem* particle_system, float explosion_intensity, float explosion_radius)
-		: ForceGenerator(particle_system), explosion_intensity(explosion_intensity), explosion_radius(explosion_radius)
+	ExplosiveForceGenerator(
+		ParticleSystem* particle_system, Vector3D center, float explosion_intensity, 
+		float explosion_radius, float explosion_duration
+	)
+		: ForceGenerator(particle_system), _explosion_center(center), _explosion_intensity(explosion_intensity),
+		_explosion_radius(explosion_radius), _explosion_duration(explosion_duration)
 	{
 	}
 
@@ -17,12 +22,32 @@ public:
 	*/
 	void applyForce(Particle* particle, double t) override
 	{
-		/*particle->acceleration().y -= gravityForce;
-		Vector3D force = (explosion_intensity / 2) */
+		if (!_active) return;
+
+		Vector3D particle_dist = (particle->position() - _explosion_center.to_vec3());
+
+		Vector3D force = particle_dist * (_explosion_intensity / particle_dist.magnitude())
+			* pow(std::exp(1.0), -t/ _time_const);
+
+		if(particle_dist.magnitude() < _explosion_radius)
+			particle->acceleration() += force / particle->mass();
+	}
+
+	void explode() {
+		_time_const = _explosion_duration;
+	}
+
+	void update(float t) override
+	{
+		if(_time_const <= 0)
+			_time_const -= t;
 	}
 
 protected:
 
-	float explosion_intensity;
-	float explosion_radius;
+	Vector3D _explosion_center;
+	float _explosion_intensity;
+	float _explosion_radius;
+	float _explosion_duration;
+	float _time_const;
 };

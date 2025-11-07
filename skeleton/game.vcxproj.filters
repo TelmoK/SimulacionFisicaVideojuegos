@@ -43,6 +43,9 @@
     <ClCompile Include="ParticleSystem\ParticleGenerators\RoundAreaRangeGenerator.cpp">
       <Filter>ParticleSystem\ParticleGenerators</Filter>
     </ClCompile>
+    <ClCompile Include="ParticleSystem\ForceGenerators\ThrustForceGenerator.cpp">
+      <Filter>ParticleSystem\ForceGenerator</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.hpp" />

@@ -255,6 +255,7 @@
   <ItemGroup>
     <ClCompile Include="callbacks.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="ParticleSystem\ForceGenerators\ThrustForceGenerator.cpp" />
     <ClCompile Include="ParticleSystem\ParticleGenerators\NormalParticleGenerator.cpp" />
     <ClCompile Include="ParticleSystem\ParticleGenerators\ParticleGenerator.cpp" />
     <ClCompile Include="ParticleSystem\ParticleGenerators\RoundAreaRangeGenerator.cpp" />

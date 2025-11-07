@@ -24,6 +24,18 @@ public:
 	*/
 	void handleGenerationPeriod(float t);
 
+	void setGenerationPeriod(float value) {
+		_generation_period = value;
+	}
+
+	void setGenerationCooldown(float value) {
+		_generation_cooldown = value;
+	}
+
+	void setPeriodicGeneratedParticles(int value) {
+		_periodic_generated_particles = value;
+	}
+
 protected:
 
 	ParticleSystem* _particle_system = nullptr;

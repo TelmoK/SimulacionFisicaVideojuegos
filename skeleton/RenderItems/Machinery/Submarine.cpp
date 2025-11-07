@@ -5,11 +5,9 @@
 #include "../../ParticleSystem/ParticleGenerators/UniformParticleGenerator.h"
 #include "../../RenderUtils.hpp"
 
-Submarine::Submarine(ParticleSystem* world_particle_sys)
-	: _world_particle_sys(world_particle_sys), _motor_force(0)
+Submarine::Submarine(Vector3D position, ParticleSystem* world_particle_sys)
+	: _world_particle_sys(world_particle_sys), _motor_force(0), _camera_mode(CameraMode::SHELFIE)
 {
-	Vector3D position = Vector3D();
-
 	int width = 5, lenght = 8, height = 5;
 
 	_center_mass = new Particle(position, Vector3D());
@@ -21,12 +19,15 @@ Submarine::Submarine(ParticleSystem* world_particle_sys)
 	_motor_relative_pos = Vector3D(-lenght, 0, 0);
 	_subarine_eye = Vector3D(lenght + 1, 0, 0);
 
-	_motor_bubble_particle_model = new Particle(_motor_relative_pos, Vector3D(0, 0, 0));
+	_motor_bubble_particle_model = new Particle(_motor_relative_pos, Vector3D(-2, 0, 0));
 	
-	_center_mass->mass() = 100000;
-	_center_mass->volume() = 100;
+	_center_mass->mass() = 190000;//7880000;
+	_center_mass->volume() = width * height * lenght;
 
-	_world_particle_sys->referenceParticleGenerator(std::make_shared<UniformParticleGenerator>(_world_particle_sys, _motor_bubble_particle_model, 0.2, 3));
+	_motor_particle_generator = std::make_shared<UniformParticleGenerator>(
+		_world_particle_sys, _motor_bubble_particle_model, 0.15, 3
+	);
+	_world_particle_sys->referenceParticleGenerator(_motor_particle_generator);
 }
 
 Submarine::~Submarine()
@@ -44,20 +45,12 @@ void Submarine::update(float t)
 	handleCameraFollow();
 
 	// Fuerzas
-	//applyMotorForce();
-
-	//applyThrustForce();
-
-	//applyGravity();
+	applyMotorForce();
 
 	// Movimiento
-	/*Vector3D new_position = Vector3D(_center_mass->transform().p) + _center_mass->velocity() * t;
-	_center_mass->transform().p = new_position.to_vec3();
+	// Se gestiona desde la partícula de centro de masas
 
-	_center_mass->velocity() = _center_mass->velocity() + _center_mass->acceleration() * t;
-	*/
 	_motor_bubble_particle_model->transform().p = _center_mass->transform().p + _motor_relative_pos.to_vec3();
-
 }
 
 void Submarine::keyPress(unsigned char key)
@@ -65,41 +58,46 @@ void Submarine::keyPress(unsigned char key)
 	switch (toupper(key))
 	{
 	case 'P':
-		if(_camera_follow && _first_person_mode)
+		if(_camera_mode == CameraMode::FIRST_PERSON)
 			_projectiles.push_back(new Particle(GetCamera()->getEye(), GetCamera()->getDir() * _projectileSpeed, -9.8));
 		break;
 	case 'X':
-		_motor_force += 600;
+		_motor_force += 800;
 		break;
 
 	case 'Z':
-		_motor_force -= 600;
+		_motor_force -= 1200;
 		if (_motor_force < 0) _motor_force = 0;
 		break;
 
 	case 'L':
+		_center_mass->volume() += 50;
+		if (_center_mass->volume() > 450) _center_mass->volume() = 450;
+		break;
+
+	case 'K':
 		_center_mass->volume() -= 50;
 		if (_center_mass->volume() < 50) _center_mass->volume() = 50;
 		break;
 
-	case 'K':
-		_center_mass->volume() += 50;
-		if (_center_mass->volume() > 200) _center_mass->volume() = 200;
+	case '1':
+		_camera_mode = CameraMode::FIRST_PERSON;
+		GetCamera()->setDir(Vector3D(1, 0, 0).to_vec3());
 		break;
 
-	case 'C':
-		_camera_follow = !_camera_follow;
-		if (_camera_follow) {
-			_first_person_mode = false;
-			GetCamera()->setDir((_center_mass->transform().p - GetCamera()->getEye()).getNormalized());
-		}
+	case '2':
+		_camera_mode = CameraMode::SHELFIE;
+		GetCamera()->setDir(-Vector3D(1, 1, 1).normalized().to_vec3());
 		break;
 
-	case 'O':
-		_first_person_mode = !_first_person_mode;
+	case '3':
+		_camera_mode = CameraMode::THIRD_PERSON;
+		GetCamera()->setDir(-Vector3D(-15, 20, 0).normalized().to_vec3());
+		break;
 
-		if(_first_person_mode)
-			GetCamera()->setDir(_center_mass->transform().q.rotate(Vector3D(1, 0, 0).to_vec3()).getNormalized());
+	case '4':
+		_camera_mode = CameraMode::DETACHED;
+
 		break;
 
 	default:
@@ -109,16 +107,25 @@ void Submarine::keyPress(unsigned char key)
 
 void Submarine::handleCameraFollow()
 {
-	if (!_camera_follow) return;
 
-	if (_first_person_mode)
+	if (_camera_mode == FIRST_PERSON)
 	{
 		GetCamera()->setEye(_center_mass->transform().p + _subarine_eye.to_vec3());
+		return;
 	}
-	else
+
+	if (_camera_mode == SHELFIE)
 	{
 		Vector3D camPos = _center_mass->transform().p + Vector3D(15, 15, 15).to_vec3();
 		GetCamera()->setEye(camPos.to_vec3());
+		return;
+	}
+
+	if (_camera_mode == THIRD_PERSON)
+	{
+		Vector3D camPos = _center_mass->transform().p + Vector3D(-15, 25, 0).to_vec3();
+		GetCamera()->setEye(camPos.to_vec3());
+		return;
 	}
 }
 
@@ -139,24 +146,14 @@ void Submarine::handleProyectilesLife(float t)
 	}
 }
 
-void Submarine::applyGravity()
-{
-	_center_mass->acceleration() += Vector3D(0, -9.8, 0);
-}
-
 void Submarine::applyMotorForce()
 {
 	Vector3D force = _center_mass->transform().q.rotate((-_motor_relative_pos.normalized()).to_vec3() * _motor_force);
 
 	_center_mass->acceleration() += force / _center_mass->mass();
-}
 
-void Submarine::applyThrustForce()
-{
-	const float WATER_DENSITY = 997;
-	Vector3D gravity = Vector3D(0, -9.8, 0);
-
-	Vector3D force = -gravity * WATER_DENSITY * _center_mass->volume();
-
-	_center_mass->acceleration() += force / _center_mass->mass();
+	if (_motor_force < 100)
+		_motor_particle_generator->setGenerationPeriod(-1);
+	else
+		_motor_particle_generator->setGenerationPeriod(0.15);
 }

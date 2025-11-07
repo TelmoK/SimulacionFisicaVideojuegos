@@ -17,12 +17,14 @@ public:
 	*/
 	void applyForce(Particle* particle, double t) override
 	{
+		if (!_active) return;
+
 		/*particle->acceleration().y -= gravityForce;*/
 		Vector3D velocity_diff = (wind_velocity - particle->velocity());
 
 		Vector3D force = velocity_diff * k1 + velocity_diff * velocity_diff.magnitude() * k2;
 
-		particle->acceleration() += force;
+		particle->acceleration() += force / particle->mass();
 	}
 
 protected:

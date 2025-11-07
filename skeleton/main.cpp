@@ -54,15 +54,24 @@ Axis3D* axis;
 std::unique_ptr<ParticleSystem> snow_particle_sys;
 std::unique_ptr<ParticleSystem> general_particle_sys;
 
-IndustrialPiece* piece1;
-IndustrialPiece* piece2;
-IndustrialPiece::AttachmentPoint* ap1;
-IndustrialPiece::AttachmentPoint* ap2;
+std::unique_ptr<physx::PxBoxGeometry> sea_geometry;
+std::unique_ptr<physx::PxTransform> sea_transform;
+std::unique_ptr<RenderItem> sea_water_block;
 
-RenderItem* sea_water_block;
+// Generadores declarados globalmente para uso de teclas
+std::shared_ptr<GravityForceGenerator> snow_gravity_generator;
+std::shared_ptr<WindForceGenerator> snow_wind_generator;
+std::shared_ptr<GravityForceGenerator> general_gravity_generator;
+std::shared_ptr<ThrustForceGenerator> general_thrust_generator;
+
 Submarine* submarine;
 
 constexpr float WATER_DENSITY = 997;
+
+/*IndustrialPiece* piece1;
+IndustrialPiece* piece2;
+IndustrialPiece::AttachmentPoint* ap1;
+IndustrialPiece::AttachmentPoint* ap2;*/
 
 
 // Initialize physics engine
@@ -98,31 +107,33 @@ void initPhysics(bool interactive)
 	general_particle_sys = std::make_unique<ParticleSystem>();
 	snow_particle_sys = std::make_unique<ParticleSystem>();
 
+	// La nieve
 	snow_particle_sys->referenceParticleGenerator(
 		std::make_shared<RoundAreaRangeGenerator>(
-			snow_particle_sys.get(), new Particle(Vector3D(0, 20, 0), Vector3D(0, 0, 0)), 0.1, 10,
-			RoundAreaRangeGenerator::CIRCLE, 50
+			snow_particle_sys.get(), new Particle(Vector3D(-200, 160, -200), Vector3D(0, 0, 0)), 0.1, 100,
+			RoundAreaRangeGenerator::CIRCLE, 400
 		)
 	);
 
-	snow_particle_sys->referenceForceGenerator(std::make_shared<GravityForceGenerator>(snow_particle_sys.get(), -25));
-	snow_particle_sys->referenceForceGenerator(std::make_shared<WindForceGenerator>(snow_particle_sys.get(), Vector3D(20, 0, 0), 0.2));
-	//pSys->referenceParticleGenerator(std::make_shared<UniformParticleGenerator>(pSys, new Particle(Vector3D(0, 0, 0), Vector3D(1, 5, 1)), 1, 2));
-	//pSys->referenceForceGenerator(std::make_shared<GravityForceGenerator>(pSys, -25));
-	//pSys->referenceForceGenerator(std::make_shared<WindForceGenerator>(pSys, Vector3D(5, 0, 0), 0.2));
-	//pSys->referenceForceGenerator(std::make_shared<TornadoForceGenerator>(pSys, Vector3D(), Vector3D(), 0.2, 0, 2));
-	
-	sea_water_block = new RenderItem(CreateShape(physx::PxBoxGeometry(200, 200, 200)), new PxTransform(PxVec3(0, -100, 0)), Vector4(0, 0, 1, 0.1));
-	
-	submarine = new Submarine(general_particle_sys.get());
+	snow_gravity_generator = std::make_shared<GravityForceGenerator>(snow_particle_sys.get(), -25);
+	snow_wind_generator = std::make_shared<WindForceGenerator>(snow_particle_sys.get(), Vector3D(30, 0, 0), 0.2);
 
-	general_particle_sys->referenceForceGenerator(
-		std::make_shared<ThrustForceGenerator>(general_particle_sys.get(), WATER_DENSITY, -9.8)
-	);
+	snow_particle_sys->referenceForceGenerator(snow_gravity_generator);
+	snow_particle_sys->referenceForceGenerator(snow_wind_generator);
+	
+	// El "mar"
+	sea_geometry = std::make_unique<physx::PxBoxGeometry>(200, 200, 200);
+	sea_transform = std::make_unique<physx::PxTransform>(PxVec3(0, -100, 0));
+	sea_water_block = std::make_unique<RenderItem>(CreateShape(*sea_geometry), sea_transform.get(), Vector4(0, 0, 1, 0.1));
+	
+	// El submarino y demás
+	submarine = new Submarine(Vector3D(0, 100, 0), general_particle_sys.get());
 
-	snow_particle_sys->referenceForceGenerator(
-		std::make_shared<GravityForceGenerator>(snow_particle_sys.get(), -9.8)
-	);
+	general_gravity_generator = std::make_shared<GravityForceGenerator>(snow_particle_sys.get(), -9.8);
+	general_thrust_generator = std::make_shared<ThrustForceGenerator>(general_particle_sys.get(), WATER_DENSITY, -9.8, sea_geometry.get(), sea_transform.get());
+
+	general_particle_sys->referenceForceGenerator(general_thrust_generator);
+	general_particle_sys->referenceForceGenerator(general_gravity_generator);
 
 	// Pruebas con IndustriualPiece
 	
@@ -153,8 +164,8 @@ void stepPhysics(bool interactive, double t)
 	general_particle_sys->update(t);
 	
 	submarine->update(t);
-	/*
-		INDUSTRIAL PIECE
+	
+	/*	INDUSTRIAL PIECE
 	IndustrialPiece::ForceTransmisionPack force_pack{Vector3D(10, 0, 0), Vector3D(0, 0, 0), Vector3D(0,0,0), Vector3D(0,0,0)};
 	IndustrialPiece::ForceTransmisionPack force_reaction = piece1->propagateForces(force_pack, ap1);
 
@@ -196,6 +207,26 @@ void keyPress(unsigned char key, const PxTransform& camera)
 	{
 	//case 'B': break;
 	//case ' ':	break;
+	case '0':
+	{
+		snow_gravity_generator->setActive(!snow_gravity_generator->active());
+		break;
+	}
+	case '9':
+	{
+		snow_wind_generator->setActive(!snow_wind_generator->active());
+		break;
+	}
+	case '8':
+	{
+		general_gravity_generator->setActive(!general_gravity_generator->active());
+		break;
+	}
+	case '7':
+	{
+		general_thrust_generator->setActive(!general_thrust_generator->active());
+		break;
+	}
 	case ' ':
 	{
 		break;

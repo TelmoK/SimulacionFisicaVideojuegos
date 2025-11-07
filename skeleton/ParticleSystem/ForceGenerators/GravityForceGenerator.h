@@ -14,6 +14,8 @@ public:
 	*/
 	void applyForce(Particle* particle, double t) override
 	{
+		if (!_active) return;
+
 		particle->acceleration().y += gravityForce;
 	}
 

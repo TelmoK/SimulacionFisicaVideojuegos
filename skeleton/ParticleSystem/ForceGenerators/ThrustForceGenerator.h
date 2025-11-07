@@ -5,8 +5,12 @@
 class ThrustForceGenerator : public ForceGenerator
 {
 public:
-	ThrustForceGenerator(ParticleSystem* particle_system, float fluid_density, float gravity)
-		: ForceGenerator(particle_system), _fluid_density(fluid_density), _gravity(gravity)
+	ThrustForceGenerator(
+		ParticleSystem* particle_system, float fluid_density, float gravity,
+		physx::PxBoxGeometry* fluid_area = nullptr, physx::PxTransform* fluid_area_transform = nullptr
+	)
+	:	ForceGenerator(particle_system), _fluid_density(fluid_density), _gravity(gravity), 
+		_fluid_area(fluid_area), _fluid_area_transform(fluid_area_transform)
 	{
 	}
 
@@ -16,15 +20,27 @@ public:
 	*/
 	void applyForce(Particle* particle, double t) override
 	{
-		Vector3D g = Vector3D(0, _gravity, 0);
+		if (!_active) return;
 
-		Vector3D force = -g * _fluid_density * particle->volume();
+		if (_fluid_area == nullptr || _fluid_area_transform == nullptr) {
+			applyForceInWorld(particle, t);
+			return;
+		}
 
-		particle->acceleration() += force / particle->mass();
+		applyForceInArea(particle, t);
 	}
 
 protected:
 
+	void applyForceInWorld(Particle* particle, double t);
+
+	void applyForceInArea(Particle* particle, double t);
+
+
 	float _fluid_density;
 	float _gravity;
+
+	// Por si el efecto se limita a una región del espacio como un mar
+	physx::PxBoxGeometry* _fluid_area = nullptr;
+	physx::PxTransform* _fluid_area_transform;
 };

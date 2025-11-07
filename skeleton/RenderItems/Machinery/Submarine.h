@@ -2,21 +2,22 @@
 #include "../../RenderUtils.hpp"
 #include "../../Utils/Vector3D.h"
 #include <list>
+#include <memory>
 
 class Particle;
 class ParticleSystem;
+class UniformParticleGenerator;
 
 class Submarine
 {
 public:
+	enum CameraMode { THIRD_PERSON, SHELFIE, FIRST_PERSON, DETACHED };
 
-	Submarine(ParticleSystem* world_particle_sys);
+	Submarine(Vector3D position, ParticleSystem* world_particle_sys);
 
 	~Submarine();
 
 	void applyMotorForce();
-	void applyThrustForce();
-	void applyGravity();
 
 	void handleCameraFollow();
 
@@ -43,9 +44,9 @@ private:
 
 	Particle* _motor_bubble_particle_model; // La partícula modelo donde se van a generar las bubujas por el motor
 	Particle* _tank_bubble_particle_model; // La partícula modelo donde de la que se generan burbujas al hundirse
+	std::shared_ptr<UniformParticleGenerator> _motor_particle_generator;
 
-	bool _camera_follow = false;
-	bool _first_person_mode = false;
+	CameraMode _camera_mode;
 	Vector3D _subarine_eye;
 
 	std::list<Particle*> _projectiles;

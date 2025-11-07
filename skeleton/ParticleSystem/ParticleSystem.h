@@ -18,7 +18,7 @@ public:
 		Metodo usado por los ParticleGenerators para registrar en el sistema las partículas que generan
 		y gestionar su actualización y destrucción desde él.
 	*/
-	void registerNewParticle(Particle* particle, float life_time = 10, bool inmortal = false);
+	void registerNewParticle(Particle* particle, float life_time = 2, bool inmortal = false);
 
 	/*
 		Mete en un vector un puntero a un generador de fuezas que usará en cada update() para aplicárselo
@@ -43,7 +43,7 @@ private:
 	{
 		Particle* particle = nullptr;
 		std::list<ParticleGeneration*>::iterator list_it;
-		float life_time = 10;
+		float life_time = 5;
 		bool inmortal = false;
 	};
 

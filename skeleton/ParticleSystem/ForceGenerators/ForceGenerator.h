@@ -14,6 +14,18 @@ public:
 	*/
 	virtual void applyForce(Particle* particle, double t) = 0;
 
+	virtual void update(float t) {}
+
+	void setActive(bool value) {
+		_active = value;
+	}
+
+	bool active() {
+		return _active;
+	}
+
 protected:
 	ParticleSystem* _particle_system = nullptr;
+
+	bool _active = true;
 };
