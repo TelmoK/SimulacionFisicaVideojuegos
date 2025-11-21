@@ -34,3 +34,8 @@ SubmarinePropeller::~SubmarinePropeller()
 		delete blade;
 }
 
+void SubmarinePropeller::update(double t)
+{
+	_shaft->propagateMotionEffect({ Vector3D(_shaft->_transform.p), Vector3D(0, 1, 0) * t, Vector3D(1, 0, 0) * t });
+}
+

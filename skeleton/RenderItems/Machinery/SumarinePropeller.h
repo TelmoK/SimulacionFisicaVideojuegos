@@ -10,6 +10,8 @@ public:
 	SubmarinePropeller(int blade_num);
 	~SubmarinePropeller();
 
+	void update(double t);
+
 protected:
 
 	int _blade_num;

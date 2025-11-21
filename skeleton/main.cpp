@@ -176,7 +176,7 @@ void stepPhysics(bool interactive, double t)
 	Vector3D angular_vel = (Vector3D(1, 0, 0) * 2 * t).to_vec3();
 
 	piece1->propagateMotionEffect({ Vector3D(piece1->_transform.p) * 0, force_result * t * 0, angular_vel });*/
-
+	propeller->update(t);
 }
 
 // Function to clean data
