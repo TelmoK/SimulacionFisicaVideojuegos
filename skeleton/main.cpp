@@ -24,6 +24,7 @@
 
 #include "RenderItems/Machinery/IndustrialPieces/IndustrialPiece.h"
 #include "RenderItems/Machinery/Submarine.h"
+#include "RenderItems/Machinery/SumarinePropeller.h"
 
 std::string display_text = "This is a test";
 
@@ -72,6 +73,7 @@ constexpr float WATER_DENSITY = 997;
 IndustrialPiece* piece2;
 IndustrialPiece::AttachmentPoint* ap1;
 IndustrialPiece::AttachmentPoint* ap2;*/
+SubmarinePropeller* propeller;
 
 
 // Initialize physics engine
@@ -137,6 +139,7 @@ void initPhysics(bool interactive)
 
 	// Pruebas con IndustriualPiece
 	
+	propeller = new SubmarinePropeller(4);
 	/*
 	piece1 = new IndustrialPiece(Vector3D(4, 0, 4), 10, Vector4(1, 0, 1, 1));
 	ap1 = new IndustrialPiece::AttachmentPoint{ piece1, nullptr, Vector3D(0, 0, 1) };
@@ -173,6 +176,7 @@ void stepPhysics(bool interactive, double t)
 	Vector3D angular_vel = (Vector3D(1, 0, 0) * 2 * t).to_vec3();
 
 	piece1->propagateMotionEffect({ Vector3D(piece1->_transform.p) * 0, force_result * t * 0, angular_vel });*/
+
 }
 
 // Function to clean data
@@ -184,6 +188,7 @@ void cleanupPhysics(bool interactive)
 	// Rigid Body ++++++++++++++++++++++++++++++++++++++++++
 	//DeregisterRenderItem(ball);
 	delete axis;
+	delete propeller;
 
 	gScene->release();
 	gDispatcher->release();

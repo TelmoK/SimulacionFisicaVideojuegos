@@ -265,6 +265,7 @@
     <ClCompile Include="RenderItems\Machinery\IndustrialPieces\IndustrialPiece.cpp" />
     <ClCompile Include="RenderItems\Machinery\IndustrialPieces\PropellerBladePiece.cpp" />
     <ClCompile Include="RenderItems\Machinery\Submarine.cpp" />
+    <ClCompile Include="RenderItems\Machinery\SumarinePropeller.cpp" />
     <ClCompile Include="RenderItems\Particle.cpp" />
     <ClCompile Include="RenderItems\Projectile.cpp" />
     <ClCompile Include="RenderUtils.cpp" />
@@ -290,6 +291,7 @@
     <ClInclude Include="RenderItems\Machinery\IndustrialPieces\IndustrialPiece.h" />
     <ClInclude Include="RenderItems\Machinery\IndustrialPieces\PropellerBladePiece.h" />
     <ClInclude Include="RenderItems\Machinery\Submarine.h" />
+    <ClInclude Include="RenderItems\Machinery\SumarinePropeller.h" />
     <ClInclude Include="RenderItems\Particle.h" />
     <ClInclude Include="RenderItems\Projectile.h" />
     <ClInclude Include="RenderUtils.hpp" />

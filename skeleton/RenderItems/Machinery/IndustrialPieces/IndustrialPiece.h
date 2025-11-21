@@ -57,10 +57,6 @@ public:
 
 	IndustrialPiece(physx::PxShape* shape, Vector3D position, float mass = 1, const Vector4& _color = Vector4(1, 1, 1, 1));
 
-	virtual void setInertiaMoment() {
-		_inertia_moment = _mass;
-	}
-
 	/*
 		Propaga hacia delante(sus componentes conexos) un paquete de fuerzas (torque y fuerza lineal) y devuelve 
 		la fuerza reactiva resultante de la aplicación de la fuerza en los componentes conexos derivados.
@@ -91,7 +87,6 @@ public:
 protected:
 
 	float _mass;
-	float _inertia_moment;
 
 	Vector3D _linear_velocity;
 	Vector3D _angular_velocity;

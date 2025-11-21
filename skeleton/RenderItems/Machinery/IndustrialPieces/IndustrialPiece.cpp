@@ -4,7 +4,6 @@ IndustrialPiece::IndustrialPiece(physx::PxShape* shape, Vector3D position, float
 	: RenderItem(shape, &_transform, _color), _surface_normal(Vector3D(0, 1, 0))
 {
 	_transform = physx::PxTransform(position.to_vec3());
-	setInertiaMoment();
 }
 
 IndustrialPiece::IndustrialPiece(Vector3D position, float mass, const Vector4& _color)
@@ -19,7 +18,7 @@ IndustrialPiece::ForceTransmisionPack IndustrialPiece::propagateForces(const For
 
 	for (AttachmentPoint* attachment_point : _attachment_points)
 	{
-		if (attachment_point->industrial_piece != force_emitter_point->industrial_piece)
+		if (attachment_point->connected_point->industrial_piece != force_emitter_point->industrial_piece)
 		{
 			sum_force_pack += attachment_point->connected_point->industrial_piece->propagateForces(force_pack, attachment_point);
 		}
@@ -45,7 +44,7 @@ void IndustrialPiece::propagateMotionEffect(MotionTransmitionPack motion)
 	Vector3D positionToCenter = motion.motion_center - _transform.p;
 	Vector3D rotatedPositionToCenter = rotation.rotate(positionToCenter.to_vec3());
 
-	_transform.p = (motion.motion_center - rotatedPositionToCenter).to_vec3(); // Aplicar movimiento circular sobre el centro de movimiento
+	_transform.p += (motion.motion_center - rotatedPositionToCenter).to_vec3(); // Aplicar movimiento circular sobre el centro de movimiento
 
 	_transform.q = rotation * _transform.q;
 

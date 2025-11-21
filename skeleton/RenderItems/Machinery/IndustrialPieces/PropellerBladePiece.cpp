@@ -13,9 +13,9 @@ IndustrialPiece::ForceTransmisionPack PropellerBladePiece::applyPieceReactionFor
 {	
 	Vector3D radial_position = SpaceGeometry::distanceLineToPoint(force_pack.torque_axis_point, force_pack.torque, _transform.p);
 
-	Vector3D flow_velocity = _linear_velocity + _angular_velocity.cross(radial_position);
-
 	Vector3D blade_velocity = _angular_velocity.cross(radial_position);
+
+	Vector3D flow_velocity = _linear_velocity + blade_velocity;
 
 	// El angulo del ala respecto al movimiento
 	float blade_angle = SpaceGeometry::angleBetween(_transform.q.rotate(Vector3D(0, 1, 0).to_vec3()), blade_velocity);

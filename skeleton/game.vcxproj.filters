@@ -49,6 +49,9 @@
     <ClCompile Include="RenderItems\Projectile.cpp">
       <Filter>RenderItems</Filter>
     </ClCompile>
+    <ClCompile Include="RenderItems\Machinery\SumarinePropeller.cpp">
+      <Filter>RenderItems\Machinery</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.hpp" />
@@ -116,6 +119,9 @@
     </ClInclude>
     <ClInclude Include="RenderItems\Projectile.h">
       <Filter>RenderItems</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderItems\Machinery\SumarinePropeller.h">
+      <Filter>RenderItems\Machinery</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
