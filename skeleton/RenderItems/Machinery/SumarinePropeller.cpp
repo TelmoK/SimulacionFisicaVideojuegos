@@ -42,6 +42,7 @@ SubmarinePropeller::SubmarinePropeller(int blade_num) : _blade_num(blade_num)
 		blade->transform().q = rotation_in_shaft * rotation_in_boss * rotation_parallel_to_boss;
 
 		blade->transform().p = blade->transform().q.rotate(Vector3(1, 0, 0) * (BOSS_SIZE.y*2));
+		blade->transform().p += Vector3D(SHAFT_SIZE.x * 2 + BOSS_SIZE.x, 0, 0).to_vec3();
 
 		auto blade_ap = new IndustrialPiece::AttachmentPoint{ blade, nullptr, Vector3D(0, 0, 1) };
 		blade->addAttachmentPoint(blade_ap);

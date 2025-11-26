@@ -139,7 +139,7 @@ void initPhysics(bool interactive)
 
 	// Pruebas con IndustriualPiece
 	
-	propeller = new SubmarinePropeller(3);
+	propeller = new SubmarinePropeller(8);
 	/*
 	piece1 = new IndustrialPiece(Vector3D(4, 0, 4), 10, Vector4(1, 0, 1, 1));
 	ap1 = new IndustrialPiece::AttachmentPoint{ piece1, nullptr, Vector3D(0, 0, 1) };
