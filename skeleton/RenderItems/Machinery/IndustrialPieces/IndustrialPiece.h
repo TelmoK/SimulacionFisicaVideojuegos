@@ -83,8 +83,12 @@ public:
 		_attachment_points.push_back(attachment_point);
 	}
 
-	physx::PxTransform _transform;
+	physx::PxTransform& transform() {
+		return _transform;
+	}
+
 protected:
+	physx::PxTransform _transform;
 
 	float _mass;
 

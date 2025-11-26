@@ -22,4 +22,8 @@ protected:
 	IndustrialPiece* _shaft; // Eje
 	IndustrialPiece* _boss; // Núcleo
 	std::vector<PropellerBladePiece*> _blades; // Palas
+
+	std::vector<IndustrialPiece::AttachmentPoint*> _attachment_points;
+
+	float _blade_angle;
 };
