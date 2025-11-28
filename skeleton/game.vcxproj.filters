@@ -123,6 +123,9 @@
     <ClInclude Include="RenderItems\Machinery\SumarinePropeller.h">
       <Filter>RenderItems\Machinery</Filter>
     </ClInclude>
+    <ClInclude Include="ParticleSystem\ForceGenerators\SpringForceGenerator.h">
+      <Filter>ParticleSystem\ForceGenerator</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Render">

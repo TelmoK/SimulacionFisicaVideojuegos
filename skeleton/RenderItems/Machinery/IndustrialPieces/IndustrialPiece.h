@@ -88,6 +88,7 @@ public:
 	}
 
 protected:
+
 	physx::PxTransform _transform;
 
 	float _mass;
