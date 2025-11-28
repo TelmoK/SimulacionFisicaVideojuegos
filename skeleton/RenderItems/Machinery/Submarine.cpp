@@ -23,7 +23,7 @@ Submarine::Submarine(Vector3D position, ParticleSystem* world_particle_sys)
 
 	_motor_bubble_particle_model = new Particle(_motor_relative_pos, Vector3D(-2, 0, 0));
 	
-	_center_mass->mass() = 190000;//7880000;
+	_center_mass->mass() = 300000;//7880000;
 	_center_mass->volume() = width * height * lenght;
 
 	_motor_particle_generator = std::make_shared<UniformParticleGenerator>(
@@ -50,7 +50,7 @@ void Submarine::update(float t)
 	_proyectile_particle_sys->update(t);
 
 	// Control de cámara
-	//handleCameraFollow();
+	handleCameraFollow();
 
 	// Fuerzas
 	applyMotorForce();
