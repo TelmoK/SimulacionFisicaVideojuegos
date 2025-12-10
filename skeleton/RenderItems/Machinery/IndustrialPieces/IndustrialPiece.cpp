@@ -41,9 +41,11 @@ void IndustrialPiece::propagateMotionEffect(MotionTransmitionPack motion)
 
 	physx::PxQuat rotation = physx::PxQuat(0, Vector3(1, 0, 0));
 
+	Vector3 ang_vel = motion.angular_velocity.normalized().to_vec3();
+	float ang_vel_mag = motion.angular_velocity.magnitude();
 	// Evitamos la creación de un quaternion inválido
-	if(motion.angular_velocity.magnitude() > 0)
-		rotation = physx::PxQuat(motion.angular_velocity.magnitude(), motion.angular_velocity.normalized().to_vec3());
+	if (ang_vel_mag > 0)
+		rotation = physx::PxQuat(motion.angular_velocity.magnitude(), ang_vel);
 
 	// Se aplica la transformación angular
 	Vector3D positionToCenter =  motion.motion_center - _transform.p;

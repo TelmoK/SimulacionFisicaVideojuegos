@@ -10,7 +10,7 @@ PropellerBladePiece::PropellerBladePiece(Vector3D position, float lenght, float 
 }
 
 IndustrialPiece::ForceTransmisionPack PropellerBladePiece::applyPieceReactionForces(const ForceTransmisionPack& force_pack, AttachmentPoint* force_emitter_point)
-{	
+{
 	Vector3D radial_position = SpaceGeometry::distanceLineToPoint(force_pack.torque_axis_point, force_pack.torque, _transform.p);
 
 	Vector3D blade_velocity = _angular_velocity.cross(radial_position);
@@ -33,17 +33,26 @@ IndustrialPiece::ForceTransmisionPack PropellerBladePiece::applyPieceReactionFor
 	float LIFT_COEF = 6 * attack_angle;
 
 	// Fuerzas hidrodinámicas
-	Vector3D drag_force = -blade_velocity.normalized() * 0.5 * WATER_DENSITY * pow(flow_velocity.magnitude(), 2)
+	//Vector3D drag_force = -flow_velocity.normalized() * 0.5 * WATER_DENSITY * pow(flow_velocity.magnitude(), 2)
+		//* _surface_area * DRAG_COEF;
+	float v2 = pow(flow_velocity.magnitude(), 2);
+	Vector3D v = flow_velocity.normalized();
+	Vector3D drag_force = -v * 0.5 * WATER_DENSITY * v2
 		* _surface_area * DRAG_COEF;
+
+	drag_force = -blade_velocity.normalized() * 0.2; // Temp
 
 	Vector3D lift_vec_dir = flow_velocity.cross(radial_position).normalized();
 
 	Vector3D lift_force = lift_vec_dir * 0.5 * WATER_DENSITY * pow(flow_velocity.magnitude(), 2)
 		* _surface_area * LIFT_COEF;
 
+	lift_force = lift_vec_dir * 0.2; // Temp
+
 	// Fuerzas de reacción
 	Vector3D counter_torque = drag_force.cross(radial_position);
-	Vector3D thrust_force = SpaceGeometry::projectionVector(lift_force, _linear_velocity);
+	//Vector3D thrust_force = SpaceGeometry::projectionVector(lift_force, _linear_velocity);
+	Vector3D thrust_force = lift_force;
 
 	return { thrust_force, counter_torque, Vector3D(_transform.p), force_pack.torque_axis_point };
 }

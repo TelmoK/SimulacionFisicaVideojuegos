@@ -1,6 +1,7 @@
 #pragma once
 #include <array>
 #include <cmath>
+#include <iostream>
 
 #include "../core.hpp"
 
@@ -60,6 +61,17 @@ public:
 		return Vector3D(-x, -y, -z);
 	}
 
+	std::string to_str()
+	{
+		return "(" + std::to_string(x) + ", " + std::to_string(y) + ", " + std::to_string(z) + ")";
+	}
+
+	std::ostream& operator<<(std::ostream& out)
+	{
+		out << to_str();
+		return out;
+	}
+
 	Vector3 to_vec3() 
 	{
 		return Vector3(x, y, z);
@@ -67,6 +79,9 @@ public:
 	
 	float magnitude() const
 	{
+		if(x == 0 && y == 0 && z == 0)
+			return 0;
+
 		return sqrt(x * x + y * y + z * z);
 	}
 
@@ -86,6 +101,9 @@ public:
 
 	Vector3D normalized() const
 	{
+		if(this->magnitude() == 0)
+			return Vector3D(0, 0, 0);
+
 		return Vector3D(x, y, z) / this->magnitude();
 	}
 };

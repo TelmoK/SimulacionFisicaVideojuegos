@@ -50,7 +50,7 @@ void Submarine::update(float t)
 	_proyectile_particle_sys->update(t);
 
 	// Control de cámara
-	handleCameraFollow();
+	//handleCameraFollow();
 
 	// Fuerzas
 	applyMotorForce();

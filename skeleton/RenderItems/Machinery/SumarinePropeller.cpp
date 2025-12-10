@@ -46,7 +46,7 @@ SubmarinePropeller::SubmarinePropeller(int blade_num, physx::PxPhysics* gPhysics
 		);
 
 		physx::PxQuat rotation_parallel_to_boss = physx::PxQuat(physx::PxPi / 2, Vector3D(0, 0, 1).to_vec3());
-		physx::PxQuat rotation_in_boss = physx::PxQuat(_blade_angle*0, Vector3D(0, 1, 0).to_vec3());
+		physx::PxQuat rotation_in_boss = physx::PxQuat(_blade_angle, Vector3D(0, 1, 0).to_vec3());
 		physx::PxQuat rotation_in_shaft = physx::PxQuat((physx::PxPi * 2 * (i+1)) / blade_num, Vector3D(1, 0, 0).to_vec3());
 		blade->transform().q = rotation_in_shaft * rotation_in_boss * rotation_parallel_to_boss;
 		blade->transform().q.normalize();
@@ -68,6 +68,10 @@ SubmarinePropeller::SubmarinePropeller(int blade_num, physx::PxPhysics* gPhysics
 
 		boss_blade_ap->linkTo(blade_ap);
 	}
+
+	Vector3D p = Vector3D(_shaft->transform().p);
+	_shaft->propagateMotionEffect({ Vector3D(), Vector3D(), Vector3D(0,1,0) * -physx::PxPi / 4});
+	_shaft->propagateMotionEffect({ Vector3D(), Vector3D(), Vector3D() });
 }
 
 SubmarinePropeller::~SubmarinePropeller()
@@ -107,7 +111,7 @@ Vector3D SubmarinePropeller::getInvInerceTensorDiagonal()
 		temp_propeller_body->attachShape(*bladeShape);
 	}
 
-
+	// Obtenemos el tensor de inercia de la pieza compuesta
 	physx::PxRigidBodyExt::updateMassAndInertia(*temp_propeller_body, DENSITY);
 
 	return temp_propeller_body->getMassSpaceInvInertiaTensor();
@@ -115,13 +119,18 @@ Vector3D SubmarinePropeller::getInvInerceTensorDiagonal()
 
 void SubmarinePropeller::update(double t)
 {
-	IndustrialPiece::ForceTransmisionPack motor_forces{ Vector3D(), Vector3D(1, 0, 0) * t, Vector3D(), _shaft->transform().p };
+	IndustrialPiece::ForceTransmisionPack motor_forces{ Vector3D(), Vector3D(0.00000005,0,0.00000005), Vector3D(), _shaft->transform().p };
 	auto reaction_forces = _shaft->propagateForces(motor_forces, _shaft_ap);
 
-	Vector3D angular_acceleration = (motor_forces.torque - reaction_forces.torque);
-	Vector3D linear_acceleration = (motor_forces.force - reaction_forces.force);
+	Vector3D angular_acceleration = (motor_forces.torque + reaction_forces.torque);
+	Vector3D linear_acceleration = (motor_forces.force + reaction_forces.force);
+	Vector3D p = Vector3D(_shaft->transform().p);
+	//_shaft->propagateMotionEffect({ p, linear_acceleration * t, angular_acceleration * 2});
+	Vector3D vel_ang = angular_acceleration.normalized();
+	_shaft->propagateMotionEffect({ Vector3D(), linear_acceleration.normalized()*t, vel_ang * t});
 
-	_shaft->propagateMotionEffect({ Vector3D(_shaft->transform().p), linear_acceleration.normalized()*0 * t, angular_acceleration.normalized()*0 * t });
+	//std::cout << "Acceleration L " << (linear_acceleration).to_str() << "\n";
+	std::cout << "Acceleration Ang " << (vel_ang).to_str() << "\n\n";
 	//_shaft->propagateMotionEffect({ Vector3D(_shaft->transform().p), Vector3D(1, 0, 0) * t, Vector3D(1, 0, 0) * t });
 }
 
