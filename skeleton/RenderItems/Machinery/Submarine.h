@@ -14,7 +14,7 @@ class Submarine
 public:
 	enum CameraMode { THIRD_PERSON, SHELFIE, FIRST_PERSON, DETACHED };
 
-	Submarine(Vector3D position, ParticleSystem* world_particle_sys);
+	Submarine(physx::PxPhysics* gPhysics, physx::PxScene* gScene, Vector3D position, ParticleSystem* world_particle_sys);
 
 	~Submarine();
 
@@ -27,6 +27,9 @@ public:
 	void keyPress(unsigned char key);
 
 private:
+
+	physx::PxPhysics* _gPhysics;
+	physx::PxScene* _gScene;
 
 	ParticleSystem* _world_particle_sys;
 

@@ -1,13 +1,18 @@
 #pragma once
-#include "Particle.h"
+#include "../RenderUtils.hpp"
+#include "../Utils/Vector3D.h"
 
-class Projectile : public Particle
+class Projectile : public RenderItem
 {
 public:
+	
+	// El proyectil recibe la posición de aparición y la fuerza del disparo
 	Projectile(
-		ParticleSystem* p_sys, Vector3D position, Vector3D velocity = Vector3D(), 
-		Vector3D acceleration = Vector3D(), float mass = 1, float volume = 1);
+		physx::PxPhysics* gPhysics, physx::PxScene* gScene, Vector3D position, 
+		Vector3D velocity, float mass, float radius, const Vector4& _color = {1, 1, 1, 1});
 
-	Projectile(Vector3D position, Vector3D velocity = Vector3D(), Vector3D acceleration = Vector3D(), 
-		float mass = 1, float volume = 1);
+protected:
+	physx::PxPhysics* _gPhysics;
+	physx::PxScene* _gScene;
+	physx::PxRigidDynamic* _body; // Actor físico
 };

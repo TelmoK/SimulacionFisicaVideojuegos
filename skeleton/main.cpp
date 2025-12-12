@@ -127,7 +127,7 @@ void initPhysics(bool interactive)
 	sea_water_block = std::make_unique<RenderItem>(CreateShape(*sea_geometry), sea_transform.get(), Vector4(0, 0, 1, 0.1));
 	
 	// El submarino y demás
-	submarine = new Submarine(Vector3D(0, 100, 0), general_particle_sys.get());
+	submarine = new Submarine(gPhysics, gScene, Vector3D(0, 100, 0), general_particle_sys.get());
 
 	general_gravity_generator = std::make_shared<GravityForceGenerator>(snow_particle_sys.get(), -9.8);
 	general_thrust_generator = std::make_shared<ThrustForceGenerator>(general_particle_sys.get(), WATER_DENSITY, -9.8, 5, sea_geometry.get(), sea_transform.get());

@@ -7,8 +7,9 @@
 #include "../../ParticleSystem/ForceGenerators/GravityForceGenerator.h"
 #include "../../RenderUtils.hpp"
 
-Submarine::Submarine(Vector3D position, ParticleSystem* world_particle_sys)
-	: _world_particle_sys(world_particle_sys), _motor_force(0), _camera_mode(CameraMode::SHELFIE)
+Submarine::Submarine(physx::PxPhysics* gPhysics, physx::PxScene* gScene, Vector3D position, ParticleSystem* world_particle_sys)
+	: _gPhysics(gPhysics), _gScene(gScene), _world_particle_sys(world_particle_sys), 
+	_motor_force(0), _camera_mode(CameraMode::SHELFIE)
 {
 	int width = 5, lenght = 8, height = 5;
 
@@ -68,15 +69,18 @@ void Submarine::keyPress(unsigned char key)
 	case 'P':
 		if(_camera_mode == CameraMode::FIRST_PERSON)
 			_projectiles.push_back(new Projectile(
-				_proyectile_particle_sys.get(), GetCamera()->getEye(),
-				GetCamera()->getDir() * _projectileSpeed, Vector3D(), 2
+				_gPhysics, _gScene, GetCamera()->getEye(),
+				GetCamera()->getDir() * _projectileSpeed*3,
+				10, 0.5
 			));
 		break;
 
 	case 'T':
 			_projectiles.push_back(new Projectile(
-				_proyectile_particle_sys.get(), _center_mass->position(),
-				Vector3D(0, 1, 0) * _projectileSpeed * 2, Vector3D(), 10
+				_gPhysics, _gScene,
+				_center_mass->position(),
+				Vector3D(0, 1, 0) * _projectileSpeed * 2,
+				10, 0.7
 			));
 		break;
 
