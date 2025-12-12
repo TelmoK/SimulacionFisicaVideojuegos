@@ -1,8 +1,11 @@
 #include "SumarinePropeller.h"
 #include <iostream>
 
-SubmarinePropeller::SubmarinePropeller(int blade_num, physx::PxPhysics* gPhysics) : _blade_num(blade_num), _gPhysics(gPhysics)
+SubmarinePropeller::SubmarinePropeller(int blade_num, physx::PxPhysics* gPhysics) 
+	: _blade_num(blade_num), _gPhysics(gPhysics)
 {
+	float volume = 0;
+
 	// Creando el Eje de la hélice
 	_shaft_local_transform.p = Vector3D(SHAFT_SIZE.x, 0, 0).to_vec3();
 	_shaft_local_transform.q.normalize();
@@ -14,12 +17,16 @@ SubmarinePropeller::SubmarinePropeller(int blade_num, physx::PxPhysics* gPhysics
 			Vector4(1, 0, 1, 1)
 		);
 
+	// Punto de anclaje del eje
 	_shaft_ap = new IndustrialPiece::AttachmentPoint{ _shaft, nullptr, Vector3D(0, 0, 1) };
 	_shaft->addAttachmentPoint(_shaft_ap);
+
 
 	// Creando el Núcleo de la hélice
 	_boss_local_transform.p = Vector3D(SHAFT_SIZE.x * 2 + BOSS_SIZE.x, 0, 0).to_vec3();
 	_boss_local_transform.q.normalize();
+
+	volume += SHAFT_SIZE.x * SHAFT_SIZE.y * SHAFT_SIZE.z; // Sumamos al volumen total de las hélices
 
 	_boss = new IndustrialPiece(
 			CreateShape(physx::PxBoxGeometry(BOSS_SIZE.x, BOSS_SIZE.y, BOSS_SIZE.z)),
@@ -28,8 +35,11 @@ SubmarinePropeller::SubmarinePropeller(int blade_num, physx::PxPhysics* gPhysics
 			Vector4(1, 0, 0, 1)
 		);
 
+	// Punto de anclaje del núcleo
 	auto boss_shaft_ap = new IndustrialPiece::AttachmentPoint{ _boss, nullptr, Vector3D(0, 0, -1) };
 	_boss->addAttachmentPoint(boss_shaft_ap);
+
+	volume += BOSS_SIZE.x * BOSS_SIZE.y * BOSS_SIZE.z; // Sumamos al volumen total de las hélices
 
 	_shaft_ap->linkTo(boss_shaft_ap); // Juntando el eje con el núcleo
 
@@ -45,6 +55,7 @@ SubmarinePropeller::SubmarinePropeller(int blade_num, physx::PxPhysics* gPhysics
 			Vector4(1, 0, 1, 1)
 		);
 
+		// Posicionamiento y Orientación de la pala
 		physx::PxQuat rotation_parallel_to_boss = physx::PxQuat(physx::PxPi / 2, Vector3D(0, 0, 1).to_vec3());
 		physx::PxQuat rotation_in_boss = physx::PxQuat(_blade_angle, Vector3D(0, 1, 0).to_vec3());
 		physx::PxQuat rotation_in_shaft = physx::PxQuat((physx::PxPi * 2 * (i+1)) / blade_num, Vector3D(1, 0, 0).to_vec3());
@@ -55,6 +66,8 @@ SubmarinePropeller::SubmarinePropeller(int blade_num, physx::PxPhysics* gPhysics
 		blade->transform().p += Vector3D(SHAFT_SIZE.x * 2 + BOSS_SIZE.x, 0, 0).to_vec3();
 
 		_blades_local_transform.push_back(blade->transform()); // Añadimos la posición local para manejar el tensor de inercia
+
+		volume += BLADE_SIZE.x * BLADE_SIZE.y * BLADE_SIZE.z; // Sumamos al volumen total de las hélices
 
 		// Juntando la pala con el núcleo
 		auto blade_ap = new IndustrialPiece::AttachmentPoint{ blade, nullptr, Vector3D(0, 0, 1) };
@@ -69,9 +82,13 @@ SubmarinePropeller::SubmarinePropeller(int blade_num, physx::PxPhysics* gPhysics
 		boss_blade_ap->linkTo(blade_ap);
 	}
 
-	Vector3D p = Vector3D(_shaft->transform().p);
-	_shaft->propagateMotionEffect({ Vector3D(), Vector3D(), Vector3D(0,1,0) * -physx::PxPi / 4});
-	_shaft->propagateMotionEffect({ Vector3D(), Vector3D(), Vector3D() });
+	// Setteando la masa y la densidad del conjunto
+
+	_mass = SHAFT_MASS + BOSS_MASS + BLADE_MASS * blade_num;
+	_density = _mass / volume;
+
+	_shaft->setQuaternion(physx::PxQuat(physx::PxPi, Vector3(0, 1, 0)));
+	_shaft->setPosition(Vector3D(-10, 20, 0));
 }
 
 SubmarinePropeller::~SubmarinePropeller()
@@ -112,25 +129,47 @@ Vector3D SubmarinePropeller::getInvInerceTensorDiagonal()
 	}
 
 	// Obtenemos el tensor de inercia de la pieza compuesta
-	physx::PxRigidBodyExt::updateMassAndInertia(*temp_propeller_body, DENSITY);
+	physx::PxRigidBodyExt::updateMassAndInertia(*temp_propeller_body, _density);
 
 	return temp_propeller_body->getMassSpaceInvInertiaTensor();
 }
 
 void SubmarinePropeller::update(double t)
 {
-	IndustrialPiece::ForceTransmisionPack motor_forces{ Vector3D(), Vector3D(0.00000005,0,0.00000005), Vector3D(), _shaft->transform().p };
+	// Aplicación de las fuerzas y obtención de reacciones
+	IndustrialPiece::ForceTransmisionPack motor_forces{ Vector3D(), Vector3D(-1000,0, 0), Vector3D(), _shaft->transform().p };
 	auto reaction_forces = _shaft->propagateForces(motor_forces, _shaft_ap);
 
-	Vector3D angular_acceleration = (motor_forces.torque + reaction_forces.torque);
-	Vector3D linear_acceleration = (motor_forces.force + reaction_forces.force);
-	Vector3D p = Vector3D(_shaft->transform().p);
-	//_shaft->propagateMotionEffect({ p, linear_acceleration * t, angular_acceleration * 2});
-	Vector3D vel_ang = angular_acceleration.normalized();
-	_shaft->propagateMotionEffect({ Vector3D(), linear_acceleration.normalized()*t, vel_ang * t});
+	// Cálculo de las fuerzas totales
+	Vector3D total_torque = (motor_forces.torque + reaction_forces.torque);
+	Vector3D total_linaer_force = (motor_forces.force + reaction_forces.force);
 
-	//std::cout << "Acceleration L " << (linear_acceleration).to_str() << "\n";
-	std::cout << "Acceleration Ang " << (vel_ang).to_str() << "\n\n";
+	// Cálulo de las aceleraciones
+
+	// Las rotaciones se aplica en los ejes principales de las hélices, por lo que nos basta con la diagonal
+	// del tensor de inercia inverso
+	Vector3D inv_inertia_diagonal = getInvInerceTensorDiagonal();
+
+	// Aceleración angular
+	Vector3D angular_acceleration = Vector3D(
+		inv_inertia_diagonal.x * total_torque.x,
+		inv_inertia_diagonal.y * total_torque.y,
+		inv_inertia_diagonal.z * total_torque.z
+	);
+
+	// Aceleración lineal
+	Vector3D linear_acceleration = total_linaer_force / _mass;
+	
+	// Aplicando aceleración
+	Vector3D new_linear_velocity = _shaft->linear_velocity() + linear_acceleration;
+	Vector3D new_angular_velocity = _shaft->angular_velocity() + angular_acceleration;
+
+	// Moviendo la pieza
+	Vector3D p = Vector3D(_shaft->transform().p);
+	_shaft->propagateMotionEffect({ p, new_linear_velocity * t, new_angular_velocity * t});
+
+	std::cout << "Vel L " << (new_linear_velocity * t).to_str() << "\n";
+	std::cout << "Vel Ang " << (new_angular_velocity * t).to_str() << "\n\n";
 	//_shaft->propagateMotionEffect({ Vector3D(_shaft->transform().p), Vector3D(1, 0, 0) * t, Vector3D(1, 0, 0) * t });
 }
 

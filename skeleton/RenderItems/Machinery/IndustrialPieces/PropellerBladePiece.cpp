@@ -37,17 +37,12 @@ IndustrialPiece::ForceTransmisionPack PropellerBladePiece::applyPieceReactionFor
 		//* _surface_area * DRAG_COEF;
 	float v2 = pow(flow_velocity.magnitude(), 2);
 	Vector3D v = flow_velocity.normalized();
-	Vector3D drag_force = -v * 0.5 * WATER_DENSITY * v2
-		* _surface_area * DRAG_COEF;
-
-	drag_force = -blade_velocity.normalized() * 0.2; // Temp
+	Vector3D drag_force = -v * 0.5 * WATER_DENSITY * v2 * _surface_area * DRAG_COEF;
 
 	Vector3D lift_vec_dir = flow_velocity.cross(radial_position).normalized();
 
 	Vector3D lift_force = lift_vec_dir * 0.5 * WATER_DENSITY * pow(flow_velocity.magnitude(), 2)
 		* _surface_area * LIFT_COEF;
-
-	lift_force = lift_vec_dir * 0.2; // Temp
 
 	// Fuerzas de reacción
 	Vector3D counter_torque = drag_force.cross(radial_position);

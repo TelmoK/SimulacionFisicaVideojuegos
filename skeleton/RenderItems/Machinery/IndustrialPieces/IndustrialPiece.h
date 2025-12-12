@@ -83,8 +83,23 @@ public:
 		_attachment_points.push_back(attachment_point);
 	}
 
+	void setQuaternion(physx::PxQuat q);
+	void setPosition(Vector3D p);
+
 	physx::PxTransform& transform() {
 		return _transform;
+	}
+
+	float getMass() {
+		return _mass;
+	}
+
+	Vector3D linear_velocity() {
+		return _linear_velocity;
+	}
+
+	Vector3D angular_velocity() {
+		return _angular_velocity;
 	}
 
 protected:

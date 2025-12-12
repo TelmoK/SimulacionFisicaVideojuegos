@@ -15,9 +15,22 @@ public:
 	void update(double t);
 
 protected:
+	// Puntero a Physics de la escena para calcular el tensor de inercia
 	physx::PxPhysics* _gPhysics = nullptr;
+	
+	// Hacia donde apuntan la hélices antes de aplicar cualquier rotación.
+	// Importante para aplicar la fuerza del motor en la dirección correcta.
+	Vector3D base_orientation = Vector3D(1, 0, 0); 
 
-	float DENSITY = 997;
+	// Masas
+	const float SHAFT_MASS = 10;
+	const float BOSS_MASS = 10;
+	const float BLADE_MASS = 10;
+
+	float _density;// = 997;
+	float _mass;
+
+	// Referencia, Posicionamiento y Tamaños de las componentes
 
 	int _blade_num;
 	float _blade_angle;

@@ -66,3 +66,45 @@ void IndustrialPiece::propagateMotionEffect(MotionTransmitionPack motion)
 	// Cuando la propagación ha acabado se vuleve a establecer la pieza como no actualizada
 	_reaction_effect_applied = false;
 }
+
+void IndustrialPiece::setQuaternion(physx::PxQuat q)
+{
+	Vector3D current_rotation_vec = Vector3D(_transform.q.x, _transform.q.y, _transform.q.z).normalized() * physx::PxAcos(_transform.q.w) * 2;
+	Vector3D rotation_vec = Vector3D(q.x, q.y, q.z).normalized() * physx::PxAcos(q.w) * 2;
+
+	// Guardar las velocidades actuales de la pieza (linear y angular)
+	Vector3D current_linear_vel = _linear_velocity;
+	Vector3D current_angular_vel = _angular_velocity;
+
+	// Deshacer la rotación global que tiene la pieza
+	propagateMotionEffect({ _transform.p, Vector3D(), -current_rotation_vec });
+
+	// Aplicar la rotación deseada
+	propagateMotionEffect({ _transform.p, Vector3D(), rotation_vec});
+
+	// Aplicar desplazamiento nulo para setear las velocidades a cero
+	propagateMotionEffect({ _transform.p, Vector3D(), Vector3D() });
+
+	// Volver a settear las velocidades que tenía la pieza
+	_linear_velocity = current_linear_vel;
+	_angular_velocity = current_angular_vel;
+}
+
+void IndustrialPiece::setPosition(Vector3D p)
+{
+	Vector3D translation = p - _transform.p;
+
+	// Guardar las velocidades actuales de la pieza (linear y angular)
+	Vector3D current_linear_vel = _linear_velocity;
+	Vector3D current_angular_vel = _angular_velocity;
+
+	// Aplicar la traslación deseada
+	propagateMotionEffect({ _transform.p, translation, Vector3D() });
+
+	// Aplicar desplazamiento nulo para setear las velocidades a cero
+	propagateMotionEffect({ _transform.p, Vector3D(), Vector3D() });
+
+	// Volver a settear las velocidades que tenía la pieza
+	_linear_velocity = current_linear_vel;
+	_angular_velocity = current_angular_vel;
+}
