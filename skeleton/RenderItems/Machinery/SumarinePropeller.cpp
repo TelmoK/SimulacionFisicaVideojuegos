@@ -168,8 +168,7 @@ void SubmarinePropeller::update(double t)
 	Vector3D p = Vector3D(_shaft->transform().p);
 	_shaft->propagateMotionEffect({ p, new_linear_velocity * t, new_angular_velocity * t});
 
-	std::cout << "Vel L " << (new_linear_velocity * t).to_str() << "\n";
-	std::cout << "Vel Ang " << (new_angular_velocity * t).to_str() << "\n\n";
-	//_shaft->propagateMotionEffect({ Vector3D(_shaft->transform().p), Vector3D(1, 0, 0) * t, Vector3D(1, 0, 0) * t });
+	//std::cout << "Vel L " << (new_linear_velocity * t).to_str() << "\n";
+	//std::cout << "Vel Ang " << (new_angular_velocity * t).to_str() << "\n\n";
 }
 

@@ -52,6 +52,9 @@
     <ClCompile Include="RenderItems\Machinery\SumarinePropeller.cpp">
       <Filter>RenderItems\Machinery</Filter>
     </ClCompile>
+    <ClCompile Include="RenderItems\JellyfishMob.cpp">
+      <Filter>RenderItems</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.hpp" />
@@ -125,6 +128,9 @@
     </ClInclude>
     <ClInclude Include="ParticleSystem\ForceGenerators\SpringForceGenerator.h">
       <Filter>ParticleSystem\ForceGenerator</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderItems\JellyfishMob.h">
+      <Filter>RenderItems</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

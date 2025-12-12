@@ -262,6 +262,7 @@
     <ClCompile Include="ParticleSystem\ParticleGenerators\UniformParticleGenerator.cpp" />
     <ClCompile Include="ParticleSystem\ParticleSystem.cpp" />
     <ClCompile Include="RenderItems\Axis3D.cpp" />
+    <ClCompile Include="RenderItems\JellyfishMob.cpp" />
     <ClCompile Include="RenderItems\Machinery\IndustrialPieces\IndustrialPiece.cpp" />
     <ClCompile Include="RenderItems\Machinery\IndustrialPieces\PropellerBladePiece.cpp" />
     <ClCompile Include="RenderItems\Machinery\Submarine.cpp" />
@@ -289,6 +290,7 @@
     <ClInclude Include="ParticleSystem\ParticleGenerators\UniformParticleGenerator.h" />
     <ClInclude Include="ParticleSystem\ParticleSystem.h" />
     <ClInclude Include="RenderItems\Axis3D.h" />
+    <ClInclude Include="RenderItems\JellyfishMob.h" />
     <ClInclude Include="RenderItems\Machinery\IndustrialPieces\IndustrialPiece.h" />
     <ClInclude Include="RenderItems\Machinery\IndustrialPieces\PropellerBladePiece.h" />
     <ClInclude Include="RenderItems\Machinery\Submarine.h" />

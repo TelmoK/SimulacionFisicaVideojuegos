@@ -28,7 +28,7 @@ public:
 		RegisterRenderItem(this);
 	}
 
-	RenderItem(physx::PxShape* _shape, const physx::PxRigidActor* _actor, const Vector4& _color) :
+	RenderItem(physx::PxShape* _shape, /*const*/ physx::PxRigidActor * _actor, const Vector4& _color) :
 		shape(_shape), transform(NULL), actor(_actor), color(_color), references(1)
 	{
 		shape->acquireReference();
@@ -56,7 +56,7 @@ public:
 public:
 	physx::PxShape* shape;
 	const physx::PxTransform* transform;
-	const physx::PxRigidActor* actor;
+	/*const*/ physx::PxRigidActor * actor;
 	Vector4 color;
 
 	unsigned references;

@@ -12,6 +12,7 @@
 
 #include "RenderItems/Axis3D.h"
 #include "RenderItems/Particle.h"
+#include "RenderItems/JellyfishMob.h"
 
 #include "ParticleSystem/ParticleSystem.h"
 #include "ParticleSystem/ParticleGenerators/UniformParticleGenerator.h"
@@ -69,12 +70,9 @@ Submarine* submarine;
 
 constexpr float WATER_DENSITY = 997;
 
-/*IndustrialPiece* piece1;
-IndustrialPiece* piece2;
-IndustrialPiece::AttachmentPoint* ap1;
-IndustrialPiece::AttachmentPoint* ap2;*/
 SubmarinePropeller* propeller;
 
+JellyfishMob* jellyfish;
 
 // Initialize physics engine
 void initPhysics(bool interactive)
@@ -140,16 +138,9 @@ void initPhysics(bool interactive)
 	// Pruebas con IndustriualPiece
 	
 	propeller = new SubmarinePropeller(8, gPhysics);
-	/*
-	piece1 = new IndustrialPiece(Vector3D(4, 0, 4), 10, Vector4(1, 0, 1, 1));
-	ap1 = new IndustrialPiece::AttachmentPoint{ piece1, nullptr, Vector3D(0, 0, 1) };
-	piece1->addAttachmentPoint(ap1);
-
-	piece2 = new IndustrialPiece(Vector3D(4, 0, 8), 10, Vector4(0, 1, 1, 1));
-	ap2 = new IndustrialPiece::AttachmentPoint{ piece2, nullptr, Vector3D(0, 0, -1) };
-	piece2->addAttachmentPoint(ap2);
-
-	ap1->linkTo(ap2);*/
+	
+	
+	jellyfish = new JellyfishMob(gPhysics, gScene, {0.4, 0, 0.4, 1});
 }
 
 
@@ -168,15 +159,12 @@ void stepPhysics(bool interactive, double t)
 	
 	submarine->update(t);
 	
-	/*	INDUSTRIAL PIECE
-	IndustrialPiece::ForceTransmisionPack force_pack{Vector3D(10, 0, 0), Vector3D(0, 0, 0), Vector3D(0,0,0), Vector3D(0,0,0)};
-	IndustrialPiece::ForceTransmisionPack force_reaction = piece1->propagateForces(force_pack, ap1);
-
-	Vector3D force_result = force_pack.force + force_reaction.force;
-	Vector3D angular_vel = (Vector3D(1, 0, 0) * 2 * t).to_vec3();
-
-	piece1->propagateMotionEffect({ Vector3D(piece1->_transform.p) * 0, force_result * t * 0, angular_vel });*/
+	
 	propeller->update(t);
+
+	jellyfish->update(t);
+//	if (jh > 1) jh -= t;
+//	render_jellyfish->shape = CreateShape(PxBoxGeometry(5,jh,5));
 }
 
 // Function to clean data
