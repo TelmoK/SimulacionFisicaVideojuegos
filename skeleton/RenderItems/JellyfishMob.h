@@ -21,6 +21,9 @@ protected:
 	physx::PxRigidDynamic* _body; // Actor físico
 
 	// Gestión del movimiento
+	
+	// Máxima velocidad angular que la medusa que la medusa intentará tener, si se pasa frenará la rotación
+	float MAX_ANGULAR_SPEED = 2; 
 
 	std::mt19937 mt; // Para mover en direcciones aleatorias y distintas intensidades
 	std::uniform_real_distribution<double> u_distribution;

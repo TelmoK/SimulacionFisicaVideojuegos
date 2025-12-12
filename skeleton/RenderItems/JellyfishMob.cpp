@@ -11,7 +11,7 @@ JellyfishMob::JellyfishMob(physx::PxPhysics* gPhysics, physx::PxScene* gScene, c
 	_body->setLinearVelocity({0, 0, 0});
 	_body->setAngularVelocity({ 0, 0, 0 });
 
-	physx::PxRigidBodyExt::updateMassAndInertia(*_body, 0.15);
+	physx::PxRigidBodyExt::updateMassAndInertia(*_body, 1025);
 
 	shape = CreateShape(physx::PxBoxGeometry(DEFAULT_SIZE.to_vec3())); // Definiendo la forma
 	actor->attachShape(*shape);
@@ -76,13 +76,22 @@ void JellyfishMob::update(float t)
 		}
 	}
 
-	physx::PxTransform tr = _body->getGlobalPose();
-	
-	std::cout << Vector3D(tr.p).to_str() << "\n";
+	std::cout << _body->getAngularVelocity().magnitude() << "\n";
 }
 
 void JellyfishMob::addFriction()
 {
 	if (_body->getLinearVelocity().magnitude() > 0)
 		_body->addForce(_body->getLinearVelocity() * _body->getMass() * -0.3); // Rozamiento
+
+	// Si la medusa recibe un impacto que la haga rotar demasiado se frenará un poco
+
+	Vector3 ang_moment = Vector3( // Momento angular
+		_body->getAngularVelocity().x * _body->getMassSpaceInertiaTensor().x,
+		_body->getAngularVelocity().y * _body->getMassSpaceInertiaTensor().y,
+		_body->getAngularVelocity().z * _body->getMassSpaceInertiaTensor().z
+	);
+
+	if (_body->getAngularVelocity().magnitude() > MAX_ANGULAR_SPEED)
+		_body->addTorque(ang_moment * -0.8); // Rozamiento en el giro
 }

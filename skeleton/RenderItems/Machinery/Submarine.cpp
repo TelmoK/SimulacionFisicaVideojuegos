@@ -67,12 +67,13 @@ void Submarine::keyPress(unsigned char key)
 	switch (toupper(key))
 	{
 	case 'P':
-		if(_camera_mode == CameraMode::FIRST_PERSON)
+		//if(_camera_mode == CameraMode::FIRST_PERSON)
 			_projectiles.push_back(new Projectile(
 				_gPhysics, _gScene, GetCamera()->getEye(),
 				GetCamera()->getDir() * _projectileSpeed*3,
-				10, 0.5
+				0.5, 0.5
 			));
+
 		break;
 
 	case 'T':

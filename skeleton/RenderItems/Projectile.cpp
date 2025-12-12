@@ -10,10 +10,14 @@ Projectile::Projectile(
 	_body = static_cast<physx::PxRigidDynamic*>(actor); // Obteniendo el cuerpo del actor pasado al render item
 
 	_body->setLinearVelocity(velocity.to_vec3());
+	_body->setAngularVelocity({ 0, 0, 0 });
 
 	float volume = (4 / 3) * physx::PxPi * pow(radius, 3);
 
 	physx::PxRigidBodyExt::updateMassAndInertia(*_body, mass / volume);
+
+	shape = CreateShape(physx::PxSphereGeometry(radius)); // Definiendo la forma
+	actor->attachShape(*shape);
 
 	_gScene->addActor(*_body); // Añadiendo el cuerpo a la escena para que actúe físicamente
 }
