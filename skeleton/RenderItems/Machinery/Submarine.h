@@ -4,6 +4,8 @@
 #include <list>
 #include <memory>
 
+#include "SubmarinePropeller.h"
+
 class Particle;
 class Projectile;
 class ParticleSystem;
@@ -18,7 +20,7 @@ public:
 
 	~Submarine();
 
-	void applyMotorForce();
+	void applyMotorForce(float t);
 
 	void handleCameraFollow();
 
@@ -41,6 +43,8 @@ private:
 	RenderItem* cabin;
 
 	// Componentes de input motor
+	SubmarinePropeller* _propellers; // Hélices
+
 	Vector3D _motor_torque;
 	Vector3D _motor_relative_pos;
 
@@ -51,7 +55,7 @@ private:
 	CameraMode _camera_mode;
 	Vector3D _subarine_eye;
 
+	// Proyectiles 
 	std::list<Projectile*> _projectiles;
 	float _projectileSpeed = 30;
-	std::unique_ptr<ParticleSystem> _proyectile_particle_sys;
 };

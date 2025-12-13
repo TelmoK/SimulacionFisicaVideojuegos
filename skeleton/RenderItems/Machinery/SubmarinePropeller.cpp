@@ -1,4 +1,4 @@
-#include "SumarinePropeller.h"
+#include "SubmarinePropeller.h"
 #include <iostream>
 
 SubmarinePropeller::SubmarinePropeller(int blade_num, physx::PxPhysics* gPhysics) 
@@ -134,9 +134,14 @@ Vector3D SubmarinePropeller::getInvInerceTensorDiagonal()
 	return temp_propeller_body->getMassSpaceInvInertiaTensor();
 }
 
+IndustrialPiece::ForceTransmisionPack SubmarinePropeller::propagateForces(const IndustrialPiece::ForceTransmisionPack& force_pack)
+{
+	return _shaft->propagateForces(force_pack, _shaft_ap);
+}
+
 void SubmarinePropeller::update(double t)
 {
-	// Aplicación de las fuerzas y obtención de reacciones
+/*	// Aplicación de las fuerzas y obtención de reacciones
 	IndustrialPiece::ForceTransmisionPack motor_forces{ Vector3D(), Vector3D(-1000,0, 0), Vector3D(), _shaft->transform().p };
 	auto reaction_forces = _shaft->propagateForces(motor_forces, _shaft_ap);
 
@@ -167,7 +172,7 @@ void SubmarinePropeller::update(double t)
 	// Moviendo la pieza
 	Vector3D p = Vector3D(_shaft->transform().p);
 	_shaft->propagateMotionEffect({ p, new_linear_velocity * t, new_angular_velocity * t});
-
+	*/
 	//std::cout << "Vel L " << (new_linear_velocity * t).to_str() << "\n";
 	//std::cout << "Vel Ang " << (new_angular_velocity * t).to_str() << "\n\n";
 }

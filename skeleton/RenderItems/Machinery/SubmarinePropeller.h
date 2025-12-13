@@ -14,13 +14,29 @@ public:
 
 	void update(double t);
 
+	// Hace la propagación de fuerzas desde el eje (shaft)
+	IndustrialPiece::ForceTransmisionPack propagateForces(const IndustrialPiece::ForceTransmisionPack& force_pack);
+
+	/*
+		Devuelve la pieza principal de las hélices, desde la que se propaga el movimiento, en este
+		caso el eje (shaft)
+	*/
+	IndustrialPiece* core_piece() {
+		return _shaft;
+	}
+
+	float mass() {
+		return _mass;
+	}
+
+	// Hacia donde apuntan la hélices antes de aplicar cualquier rotación.
+	// Importante para aplicar la fuerza del motor en la dirección correcta.
+	const Vector3D base_orientation = Vector3D(1, 0, 0); 
+
 protected:
 	// Puntero a Physics de la escena para calcular el tensor de inercia
 	physx::PxPhysics* _gPhysics = nullptr;
 	
-	// Hacia donde apuntan la hélices antes de aplicar cualquier rotación.
-	// Importante para aplicar la fuerza del motor en la dirección correcta.
-	Vector3D base_orientation = Vector3D(1, 0, 0); 
 
 	// Masas
 	const float SHAFT_MASS = 10;

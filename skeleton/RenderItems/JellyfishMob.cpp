@@ -75,8 +75,6 @@ void JellyfishMob::update(float t)
 			_rotation_count_down = _rotation_duration;
 		}
 	}
-
-	std::cout << _body->getAngularVelocity().magnitude() << "\n";
 }
 
 void JellyfishMob::addFriction()

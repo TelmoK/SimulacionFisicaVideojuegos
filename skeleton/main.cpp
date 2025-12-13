@@ -25,7 +25,7 @@
 
 #include "RenderItems/Machinery/IndustrialPieces/IndustrialPiece.h"
 #include "RenderItems/Machinery/Submarine.h"
-#include "RenderItems/Machinery/SumarinePropeller.h"
+#include "RenderItems/Machinery/SubmarinePropeller.h"
 
 std::string display_text = "This is a test";
 
@@ -137,7 +137,7 @@ void initPhysics(bool interactive)
 
 	// Pruebas con IndustriualPiece
 	
-	propeller = new SubmarinePropeller(8, gPhysics);
+	//propeller = new SubmarinePropeller(8, gPhysics);
 	
 	
 	jellyfish = new JellyfishMob(gPhysics, gScene, {0.4, 0, 0.4, 1});
@@ -160,7 +160,7 @@ void stepPhysics(bool interactive, double t)
 	submarine->update(t);
 	
 	
-	propeller->update(t);
+	//propeller->update(t);
 
 	jellyfish->update(t);
 //	if (jh > 1) jh -= t;

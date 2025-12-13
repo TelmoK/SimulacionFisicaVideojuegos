@@ -49,7 +49,7 @@
     <ClCompile Include="RenderItems\Projectile.cpp">
       <Filter>RenderItems</Filter>
     </ClCompile>
-    <ClCompile Include="RenderItems\Machinery\SumarinePropeller.cpp">
+    <ClCompile Include="RenderItems\Machinery\SubmarinePropeller.cpp">
       <Filter>RenderItems\Machinery</Filter>
     </ClCompile>
     <ClCompile Include="RenderItems\JellyfishMob.cpp">
@@ -123,7 +123,7 @@
     <ClInclude Include="RenderItems\Projectile.h">
       <Filter>RenderItems</Filter>
     </ClInclude>
-    <ClInclude Include="RenderItems\Machinery\SumarinePropeller.h">
+    <ClInclude Include="RenderItems\Machinery\SubmarinePropeller.h">
       <Filter>RenderItems\Machinery</Filter>
     </ClInclude>
     <ClInclude Include="ParticleSystem\ForceGenerators\SpringForceGenerator.h">

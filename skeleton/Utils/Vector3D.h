@@ -72,7 +72,7 @@ public:
 		return out;
 	}
 
-	Vector3 to_vec3() 
+	Vector3 to_vec3() const
 	{
 		return Vector3(x, y, z);
 	}
