@@ -36,6 +36,10 @@ Submarine::Submarine(physx::PxPhysics* gPhysics, physx::PxScene* gScene, Vector3
 	_propellers->core_piece()->setQuaternion(physx::PxQuat(physx::PxPi, Vector3(0, 1, 0))); // Giramos 180º
 	_propellers->core_piece()->setPosition(position + _motor_relative_pos); // Las helices van en la cola del submarino
 
+	// Timón
+	_rudder = new PropellerBladePiece(position, 9, 4, 1, 5, {0, 1, 1, 1});
+	_rudder->setQuaternion(physx::PxQuat(physx::PxPi * -0.5, Vector3(1, 0, 0)) * physx::PxQuat(physx::PxPi*0.5, Vector3(0, 1, 0)));
+
 	// Posición de la cámara en primera persona
 	_subarine_eye = Vector3D(lenght + 1, 0, 0);
 
@@ -162,8 +166,7 @@ void Submarine::handleCameraFollow()
 
 void Submarine::applyMotorForce(float t)
 {
-	// Vector3D force = _center_mass->transform().q.rotate((-_motor_relative_pos.normalized()).to_vec3() * _motor_force);
-	Vector3D motor_torque = (_center_mass->transform().q * _propellers->core_piece()->transform().q).rotate(_propellers->base_orientation.to_vec3()) * 10000;//Vector3D(-10000, 0, 0);
+	Vector3D motor_torque = _propellers->core_piece()->transform().q.rotate(_propellers->base_orientation.to_vec3()) * 10000;//Vector3D(-10000, 0, 0);
 
 	// Aplicación de las fuerzas y obtención de reacciones
 	auto reaction_forces = _propellers->propagateForces({ Vector3D(), motor_torque, Vector3D(), _propellers->core_piece()->transform().p });
@@ -197,6 +200,12 @@ void Submarine::applyMotorForce(float t)
 		_propellers->core_piece()->transform().p, // Centro del movimiento
 		(_motor_relative_pos.to_vec3() + _center_mass->position()) - _propellers->core_piece()->transform().p, // Desplazamiento lineal
 		new_angular_velocity * t // Rotación
+		});
+
+	_rudder->propagateMotionEffect({
+		_rudder->transform().p, // Centro del movimiento
+		_center_mass->position() - _rudder->transform().p, // Desplazamiento lineal
+		Vector3D()// Rotación
 		});
 
 	if (_motor_force < 100)

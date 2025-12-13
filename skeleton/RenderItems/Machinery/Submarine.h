@@ -5,6 +5,7 @@
 #include <memory>
 
 #include "SubmarinePropeller.h"
+#include "IndustrialPieces/PropellerBladePiece.h"
 
 class Particle;
 class Projectile;
@@ -44,6 +45,7 @@ private:
 
 	// Componentes de input motor
 	SubmarinePropeller* _propellers; // Hélices
+	PropellerBladePiece* _rudder; // Timón (aletas traseras que rotan el submarino)
 
 	Vector3D _motor_torque;
 	Vector3D _motor_relative_pos;

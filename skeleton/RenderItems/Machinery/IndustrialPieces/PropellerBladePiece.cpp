@@ -15,10 +15,10 @@ IndustrialPiece::ForceTransmisionPack PropellerBladePiece::applyPieceReactionFor
 
 	Vector3D blade_velocity = _angular_velocity.cross(radial_position);
 
-	if(blade_velocity.magnitude() <= 0)
-		return { Vector3D(), Vector3D(), Vector3D(), Vector3D() };
-
 	Vector3D flow_velocity = _linear_velocity + blade_velocity;
+
+	if(flow_velocity.magnitude() <= 0)
+		return { Vector3D(), Vector3D(), Vector3D(), Vector3D() };
 
 	// El angulo del ala respecto al movimiento
 	float blade_angle = SpaceGeometry::angleBetween(_transform.q.rotate(Vector3D(0, 1, 0).to_vec3()), blade_velocity);
