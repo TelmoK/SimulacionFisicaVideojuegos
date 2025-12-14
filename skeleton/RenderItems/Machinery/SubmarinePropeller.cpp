@@ -55,6 +55,8 @@ SubmarinePropeller::SubmarinePropeller(int blade_num, physx::PxPhysics* gPhysics
 			Vector4(1, 0, 1, 1)
 		);
 
+		blade->reaction_mode = PropellerBladePiece::ANGULAR;
+
 		// Posicionamiento y Orientación de la pala
 		physx::PxQuat rotation_parallel_to_boss = physx::PxQuat(physx::PxPi / 2, Vector3D(0, 0, 1).to_vec3());
 		physx::PxQuat rotation_in_boss = physx::PxQuat(_blade_angle, Vector3D(0, 1, 0).to_vec3());
@@ -86,9 +88,6 @@ SubmarinePropeller::SubmarinePropeller(int blade_num, physx::PxPhysics* gPhysics
 
 	_mass = SHAFT_MASS + BOSS_MASS + BLADE_MASS * blade_num;
 	_density = _mass / volume;
-
-	_shaft->setQuaternion(physx::PxQuat(physx::PxPi, Vector3(0, 1, 0)));
-	_shaft->setPosition(Vector3D(-10, 20, 0));
 }
 
 SubmarinePropeller::~SubmarinePropeller()
@@ -141,8 +140,16 @@ IndustrialPiece::ForceTransmisionPack SubmarinePropeller::propagateForces(const 
 
 void SubmarinePropeller::update(double t)
 {
-/*	// Aplicación de las fuerzas y obtención de reacciones
-	IndustrialPiece::ForceTransmisionPack motor_forces{ Vector3D(), Vector3D(-1000,0, 0), Vector3D(), _shaft->transform().p };
+/*
+
+	EJEMPLO DE MOVIMIENTO DE LAS HÉLICES DE FORMA INTEPENDIENTE
+	
+	// El torque debe seguir la orientación de las hélices.
+	// Cuidado con los valores muy altos.
+	Vector3D torque = Vector3D(1000,0, 0); 
+
+	// Aplicación de las fuerzas y obtención de reacciones
+	IndustrialPiece::ForceTransmisionPack motor_forces{ Vector3D(), torque, Vector3D(), _shaft->transform().p };
 	auto reaction_forces = _shaft->propagateForces(motor_forces, _shaft_ap);
 
 	// Cálculo de las fuerzas totales
@@ -172,8 +179,11 @@ void SubmarinePropeller::update(double t)
 	// Moviendo la pieza
 	Vector3D p = Vector3D(_shaft->transform().p);
 	_shaft->propagateMotionEffect({ p, new_linear_velocity * t, new_angular_velocity * t});
-	*/
-	//std::cout << "Vel L " << (new_linear_velocity * t).to_str() << "\n";
-	//std::cout << "Vel Ang " << (new_angular_velocity * t).to_str() << "\n\n";
+
+	// DEBUG DE LOS VALORES DE MOVIMIENTO
+	// std::cout << "Velocidad Lineal:  " << (new_linear_velocity * t).to_str() << "\n";
+	// std::cout << "Velocidad Angular: " << (new_angular_velocity * t).to_str() << "\n\n";
+
+*/
 }
 

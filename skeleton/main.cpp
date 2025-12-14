@@ -134,13 +134,12 @@ void initPhysics(bool interactive)
 
 	general_particle_sys->referenceForceGenerator(general_thrust_generator);
 	general_particle_sys->referenceForceGenerator(general_gravity_generator);
-
-	// Pruebas con IndustriualPiece
-	
-	//propeller = new SubmarinePropeller(8, gPhysics);
-	
 	
 	jellyfish = new JellyfishMob(gPhysics, gScene, {0.4, 0, 0.4, 1});
+
+	// CAMARA INICIAL
+	GetCamera()->setDir(Vector3D(1, 0, 0).normalized().to_vec3());
+	GetCamera()->setEye(Vector3D(-30, 100, 0).to_vec3());
 }
 
 

@@ -25,7 +25,7 @@ IndustrialPiece::ForceTransmisionPack IndustrialPiece::propagateForces(const For
 	}
 
 	// Aquí se aplica alguna transformación a force_pack en función de la pieza actual
-	sum_force_pack += applyPieceReactionForces(force_pack, force_emitter_point);
+	sum_force_pack += applyPieceReactionForces(force_pack);
 
 	return sum_force_pack;
 }
@@ -36,6 +36,7 @@ void IndustrialPiece::propagateMotionEffect(MotionTransmitionPack motion)
 
 	_linear_velocity = motion.linear_velocity;
 	_angular_velocity = motion.angular_velocity;
+	_rotation_point = motion.motion_center;
 
 	Vector3D translation = _linear_velocity;
 

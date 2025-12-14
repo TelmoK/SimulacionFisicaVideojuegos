@@ -70,7 +70,7 @@ public:
 	/*
 		Devuelve la fuerza reactiva que esta pieza aplica al paquete de fuerzas recibido.
 	*/
-	virtual ForceTransmisionPack applyPieceReactionForces(const ForceTransmisionPack& force_pack, AttachmentPoint* force_emitter_point) {
+	virtual ForceTransmisionPack applyPieceReactionForces(const ForceTransmisionPack& force_pack) {
 		return { Vector3D(), Vector3D(), Vector3D(), Vector3D() };
 	}
 

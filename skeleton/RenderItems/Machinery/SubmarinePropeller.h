@@ -31,7 +31,11 @@ public:
 
 	// Hacia donde apuntan la hélices antes de aplicar cualquier rotación.
 	// Importante para aplicar la fuerza del motor en la dirección correcta.
-	const Vector3D base_orientation = Vector3D(1, 0, 0); 
+	const Vector3D base_orientation = Vector3D(1, 0, 0);
+
+private:
+
+	//IndustrialPiece::ForceTransmisionPack propagateForcesLinear();
 
 protected:
 	// Puntero a Physics de la escena para calcular el tensor de inercia

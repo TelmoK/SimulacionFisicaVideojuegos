@@ -61,6 +61,11 @@ public:
 		return Vector3D(-x, -y, -z);
 	}
 
+	bool operator==(const Vector3D& other) const
+	{
+		return (x == other.x && y == other.y && z == other.z);
+	}
+
 	std::string to_str()
 	{
 		return "(" + std::to_string(x) + ", " + std::to_string(y) + ", " + std::to_string(z) + ")";

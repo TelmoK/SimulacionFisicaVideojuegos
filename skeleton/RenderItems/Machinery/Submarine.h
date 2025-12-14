@@ -31,33 +31,34 @@ public:
 
 private:
 
+	// Comportamiento con la física de la escena
 	physx::PxPhysics* _gPhysics;
 	physx::PxScene* _gScene;
-
 	ParticleSystem* _world_particle_sys;
 
-	/*temp*/ float _motor_force;
-
+	// Gestión de  fuerzas que recibe el submarino
 	Particle* _center_mass; // El centro de masas está representado por una partícula (no visible)
 
-	// Objeto renderizado
+	// Partes del submarino
 	RenderItem* cabin;
-
-	// Componentes de input motor
 	SubmarinePropeller* _propellers; // Hélices
 	PropellerBladePiece* _rudder; // Timón (aletas traseras que rotan el submarino)
 
-	Vector3D _motor_torque;
-	Vector3D _motor_relative_pos;
+	Vector3D _motor_relative_pos; // Posición de las hélices respecto al centro de masas
+	Vector3D _rudder_relative_pos; // Posición del timón respecto al centro de masas
 
-	Particle* _motor_bubble_particle_model; // La partícula modelo donde se van a generar las bubujas por el motor
-	Particle* _tank_bubble_particle_model; // La partícula modelo donde de la que se generan burbujas al hundirse
-	std::shared_ptr<UniformParticleGenerator> _motor_particle_generator;
+	/*temp*/ float _motor_force;
 
+	// Control de la cámara
 	CameraMode _camera_mode;
 	Vector3D _subarine_eye;
 
 	// Proyectiles 
 	std::list<Projectile*> _projectiles;
 	float _projectileSpeed = 30;
+
+	// Efectos visuales
+	Particle* _motor_bubble_particle_model; // La partícula modelo donde se van a generar las bubujas por el motor
+	Particle* _tank_bubble_particle_model; // La partícula modelo donde de la que se generan burbujas al hundirse
+	std::shared_ptr<UniformParticleGenerator> _motor_particle_generator;
 };

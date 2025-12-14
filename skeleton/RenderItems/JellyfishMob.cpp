@@ -24,7 +24,7 @@ JellyfishMob::JellyfishMob(physx::PxPhysics* gPhysics, physx::PxScene* gScene, c
 void JellyfishMob::update(float t)
 {
 	addFriction();
-	_body->addForce(Vector3(0, 8.8, 0));
+	/*TODO: FLOTACIÓN SOLIDOS RÍGIDOS*/_body->addForce(Vector3(0, 8.8, 0));
 
 	// Hacemos la cuenta atras hasta el próximo impulso
 	if (_impulse_count_down > 0)
@@ -80,7 +80,7 @@ void JellyfishMob::update(float t)
 void JellyfishMob::addFriction()
 {
 	if (_body->getLinearVelocity().magnitude() > 0)
-		_body->addForce(_body->getLinearVelocity() * _body->getMass() * -0.3); // Rozamiento
+		_body->addForce(_body->getLinearVelocity() * _body->getMass() * -0.25); // Rozamiento
 
 	// Si la medusa recibe un impacto que la haga rotar demasiado se frenará un poco
 
