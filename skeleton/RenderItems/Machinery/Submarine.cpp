@@ -41,7 +41,7 @@ Submarine::Submarine(physx::PxPhysics* gPhysics, physx::PxScene* gScene, Vector3
 
 	_rudder = new PropellerBladePiece(position, 9, 4, 1, 5, {0, 1, 1, 1});
 	_rudder->reaction_mode = PropellerBladePiece::LINEAR;
-	_rudder->setQuaternion(physx::PxQuat(physx::PxPi * 0*0.25, Vector3(0, 1, 0)) * physx::PxQuat(physx::PxPi * -0.5, Vector3(1, 0, 0)) * physx::PxQuat(physx::PxPi*0.5, Vector3(0, 1, 0)));
+	_rudder->setQuaternion(physx::PxQuat(physx::PxPi * -0.25, Vector3(0, 1, 0)) * physx::PxQuat(physx::PxPi * -0.5, Vector3(1, 0, 0)) * physx::PxQuat(physx::PxPi*0.5, Vector3(0, 1, 0)));
 
 	// Posición de la cámara en primera persona
 	_subarine_eye = Vector3D(lenght + 1, 0, 0);

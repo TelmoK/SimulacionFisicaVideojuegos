@@ -20,48 +20,6 @@ IndustrialPiece::ForceTransmisionPack PropellerBladePiece::applyPieceReactionFor
 
 	// if (reaction_mode == REACTION_MODE::ANGULAR)
 	return applyAngularReactionForce();
-
-	/*
-	Vector3D radial_position = SpaceGeometry::distanceLineToPoint(force_pack.torque_axis_point, force_pack.torque, _transform.p);
-
-	Vector3D blade_rotational_velocity = _angular_velocity.cross(radial_position);
-
-	Vector3D flow_velocity = _linear_velocity + blade_rotational_velocity;
-
-	if(flow_velocity.magnitude() <= 0)
-		return { Vector3D(), Vector3D(), Vector3D(), Vector3D() };
-
-	// El angulo del ala respecto al movimiento
-	float blade_angle = SpaceGeometry::angleBetween(_transform.q.rotate(_surface_normal.to_vec3()), blade_rotational_velocity);
-	float attack_angle = blade_angle - SpaceGeometry::angleBetween(blade_rotational_velocity, flow_velocity);
-
-	// Cálculo de los coeficientes
-	Vector3D blade_normal_in_world = _transform.q.rotate(_surface_normal.to_vec3()); // Normal de la pala
-
-	float cos_velocity_surface = SpaceGeometry::cosineBetween(flow_velocity, blade_normal_in_world);
-
-	float DRAG_COEF = _base_drag_coef + (_max_drag_coef - _base_drag_coef) * cos_velocity_surface;
-	float LIFT_COEF = 6 * attack_angle;
-
-	// Fuerzas hidrodinámicas
-
-	// Arrastre
-	float v2 = pow(flow_velocity.magnitude(), 2);
-	Vector3D v = flow_velocity.normalized();
-
-	Vector3D drag_force = -v * 0.5 * WATER_DENSITY * v2 * _surface_area * DRAG_COEF;
-
-	// Sustentación
-	Vector3D lift_vec_dir = flow_velocity.cross(radial_position).normalized();
-
-	Vector3D lift_force = lift_vec_dir * 0.5 * WATER_DENSITY * pow(flow_velocity.magnitude(), 2)
-		* _surface_area * LIFT_COEF;
-
-	// Fuerzas de reacción
-	Vector3D counter_torque = drag_force.cross(radial_position);
-	Vector3D thrust_force = lift_force;
-
-	return { thrust_force, counter_torque, Vector3D(_transform.p), force_pack.torque_axis_point };*/
 }
 
 IndustrialPiece::ForceTransmisionPack PropellerBladePiece::applyLinearReactionForce()
@@ -97,17 +55,10 @@ IndustrialPiece::ForceTransmisionPack PropellerBladePiece::applyLinearReactionFo
 	Vector3D lift_vec_dir = flow_velocity.cross(wingspan_vector).normalized(); // CAMBIÓ
 
 	Vector3D lift_force = lift_vec_dir * 0.5 * WATER_DENSITY * pow(flow_velocity.magnitude(), 2)
-		* _surface_area * LIFT_COEF;
-
-	lift_force = lift_vec_dir.normalized() * 50000 * physx::PxSign(LIFT_COEF);
-
-	std::cout << "LIFT DIR " << (lift_force.normalized() * 10000000).to_str() << "\n";
+		* _surface_area * LIFT_COEF * 10;
 
 	// Fuerzas de reacción
 	Vector3D thrust_force = lift_force + drag_force; // CAMBIÓ
-
-	std::cout << "DRAG " << drag_force.to_str() << "\n";
-	std::cout << "LIFT " << lift_force.to_str() << "\n\n";
 
 	return { thrust_force, Vector3D(), Vector3D(_transform.p), Vector3D() }; // CAMBIÓ
 }
