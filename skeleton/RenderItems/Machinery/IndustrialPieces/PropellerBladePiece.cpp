@@ -55,7 +55,7 @@ IndustrialPiece::ForceTransmisionPack PropellerBladePiece::applyLinearReactionFo
 	Vector3D lift_vec_dir = flow_velocity.cross(wingspan_vector).normalized(); // CAMBIÓ
 
 	Vector3D lift_force = lift_vec_dir * 0.5 * WATER_DENSITY * pow(flow_velocity.magnitude(), 2)
-		* _surface_area * LIFT_COEF * 10;
+		* _surface_area * LIFT_COEF * 10; // TODO: Quitar el 10
 
 	// Fuerzas de reacción
 	Vector3D thrust_force = lift_force + drag_force; // CAMBIÓ

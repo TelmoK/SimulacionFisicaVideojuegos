@@ -29,6 +29,8 @@ public:
 
 	void keyPress(unsigned char key);
 
+	void setMassSpaceInvInertiaTensor();
+	int temp = 0.8;
 private:
 
 	// Comportamiento con la física de la escena
@@ -44,8 +46,18 @@ private:
 	SubmarinePropeller* _propellers; // Hélices
 	PropellerBladePiece* _rudder; // Timón (aletas traseras que rotan el submarino)
 
+	Vector3D _submarine_up = Vector3D(0, 1, 0);
 	Vector3D _motor_relative_pos; // Posición de las hélices respecto al centro de masas
 	Vector3D _rudder_relative_pos; // Posición del timón respecto al centro de masas
+
+	physx::PxQuat _motor_initial_quaternion;
+	physx::PxQuat _motor_spin_phase_quaternion; // Para guardar la rotación de las hélices en su propio eje
+	physx::PxQuat _rudder_initial_quaternion;
+
+	// Las rotaciones se aplica en los ejes principales de las hélices, por lo que nos basta con la diagonal
+	// del tensor de inercia inverso
+	Vector3D _propellers_inv_inertia_diagonal;
+	Vector3D _submarine_inv_inertia_diagonal;
 
 	/*temp*/ float _motor_force;
 

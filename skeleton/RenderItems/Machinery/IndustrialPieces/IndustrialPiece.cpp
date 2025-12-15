@@ -49,10 +49,10 @@ void IndustrialPiece::propagateMotionEffect(MotionTransmitionPack motion)
 		rotation = physx::PxQuat(motion.angular_velocity.magnitude(), ang_vel);
 
 	// Se aplica la transformación angular
-	Vector3D positionToCenter =  motion.motion_center - _transform.p;
+	Vector3D positionToCenter = _transform.p - motion.motion_center.to_vec3();
 	Vector3D rotatedPositionToCenter = rotation.rotate(positionToCenter.to_vec3());
 
-	_transform.p = (motion.motion_center - rotatedPositionToCenter).to_vec3(); // Aplicar movimiento circular sobre el centro de movimiento
+	_transform.p = (motion.motion_center + rotatedPositionToCenter).to_vec3(); // Aplicar movimiento circular sobre el centro de movimiento
 
 	_transform.q = rotation * _transform.q;
 
