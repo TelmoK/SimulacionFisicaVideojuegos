@@ -40,6 +40,8 @@ public:
 		x = other.x;
 		y = other.y;
 		z = other.z;
+
+		return Vector3D(x, y, z);
 	}
 
 	void operator+=(const Vector3D& other)

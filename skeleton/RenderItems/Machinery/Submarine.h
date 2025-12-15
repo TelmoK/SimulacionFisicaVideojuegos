@@ -30,6 +30,9 @@ public:
 	void keyPress(unsigned char key);
 
 	void setMassSpaceInvInertiaTensor();
+
+	float getDensity();
+
 	int temp = 0.8;
 private:
 
@@ -45,6 +48,8 @@ private:
 	RenderItem* cabin;
 	SubmarinePropeller* _propellers; // Hélices
 	PropellerBladePiece* _rudder; // Timón (aletas traseras que rotan el submarino)
+
+	Vector3D BODY_SIZE = Vector3D(8, 5, 5);
 
 	Vector3D _submarine_up = Vector3D(0, 1, 0);
 	Vector3D _motor_relative_pos; // Posición de las hélices respecto al centro de masas
