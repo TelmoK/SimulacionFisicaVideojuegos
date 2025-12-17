@@ -3,8 +3,8 @@
 #include "../../RenderUtils.hpp"
 #include "../../RenderItems/Particle.h"
 
-ParticleGenerator::ParticleGenerator(ParticleSystem* particle_system, Particle* model_particle, float generation_period, int periodic_generated_particles)
-	: _particle_system(particle_system), _model_particle(model_particle),
+ParticleGenerator::ParticleGenerator(EntitySystem* particle_system, Particle* model_particle, float generation_period, int periodic_generated_particles)
+	: _entity_system(particle_system), _model_particle(model_particle),
 	_generation_period(generation_period), _periodic_generated_particles(periodic_generated_particles)
 {
 	DeregisterRenderItem(model_particle);

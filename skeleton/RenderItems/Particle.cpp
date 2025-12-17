@@ -2,7 +2,7 @@
 
 #include "../ParticleSystem/ParticleSystem.h"
 
-Particle::Particle(ParticleSystem* p_sys, Vector3D position, Vector3D velocity, Vector3D acceleration, float mass, float volume)
+Particle::Particle(EntitySystem* p_sys, Vector3D position, Vector3D velocity, Vector3D acceleration, float mass, float volume)
 	: Particle(position, velocity, acceleration, mass, volume)
 {
 		p_sys->registerNewParticle(this, 5);

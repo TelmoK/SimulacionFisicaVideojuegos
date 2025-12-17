@@ -6,7 +6,7 @@
 class SpringForceGenerator : public ForceGenerator
 {
 public:
-	SpringForceGenerator(ParticleSystem* particle_system, Particle* spring_origin_particle, float elastic_const, float resting_length)
+	SpringForceGenerator(EntitySystem* particle_system, Particle* spring_origin_particle, float elastic_const, float resting_length)
 		: ForceGenerator(particle_system), _spring_origin_particle(spring_origin_particle), _elastic_const(elastic_const), _resting_length(resting_length)
 	{
 	}

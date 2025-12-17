@@ -8,7 +8,7 @@ class ExplosiveForceGenerator : public ForceGenerator
 {
 public:
 	ExplosiveForceGenerator(
-		ParticleSystem* particle_system, Vector3D center, float explosion_intensity, 
+		EntitySystem* particle_system, Vector3D center, float explosion_intensity, 
 		float explosion_radius, float explosion_duration
 	)
 		: ForceGenerator(particle_system), _explosion_center(center), _explosion_intensity(explosion_intensity),

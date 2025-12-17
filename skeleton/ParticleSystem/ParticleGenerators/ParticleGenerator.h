@@ -1,6 +1,6 @@
 #pragma once
 
-class ParticleSystem;
+class EntitySystem;
 class Particle;
 
 class ParticleGenerator
@@ -10,7 +10,7 @@ public:
 	/*
 		Si generation_period < 0 las partículas no se generan de forma periódica.
 	*/
-	ParticleGenerator(ParticleSystem* particle_system, Particle* model_particle, float generation_period = 1, int periodic_generated_particles = 1);
+	ParticleGenerator(EntitySystem* particle_system, Particle* model_particle, float generation_period = 1, int periodic_generated_particles = 1);
 
 	~ParticleGenerator();
 
@@ -38,7 +38,7 @@ public:
 
 protected:
 
-	ParticleSystem* _particle_system = nullptr;
+	EntitySystem* _entity_system = nullptr;
 
 	Particle* _model_particle = nullptr;
 

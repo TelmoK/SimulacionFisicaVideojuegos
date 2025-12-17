@@ -3,7 +3,7 @@
 #include "../../RenderItems/Particle.h"
 #include "../ParticleSystem.h"
 
-RoundAreaRangeGenerator::RoundAreaRangeGenerator(ParticleSystem* particle_system, Particle* model_particle, float generation_period, int periodic_generated_particles, AreaType area_type, float radius)
+RoundAreaRangeGenerator::RoundAreaRangeGenerator(EntitySystem* particle_system, Particle* model_particle, float generation_period, int periodic_generated_particles, AreaType area_type, float radius)
 	: ParticleGenerator(particle_system, model_particle, generation_period, periodic_generated_particles), 
 	_radius(radius), _area_type(area_type)
 {
@@ -23,6 +23,6 @@ void RoundAreaRangeGenerator::generateParticles(int particle_num)
 
 		spawned_particle->transform().p.z += u_distribution(mt);
 
-		_particle_system->registerNewParticle(spawned_particle); // Se registra la partícula en el Sistema de Partículas
+		_entity_system->registerNewParticle(spawned_particle); // Se registra la partícula en el Sistema de Partículas
 	}
 }

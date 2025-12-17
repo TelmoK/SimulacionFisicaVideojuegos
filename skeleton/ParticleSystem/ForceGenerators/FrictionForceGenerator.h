@@ -5,7 +5,7 @@
 class FrictionForceGenerator : public ForceGenerator
 {
 public:
-	FrictionForceGenerator(ParticleSystem* particle_system, float friction_factor)
+	FrictionForceGenerator(EntitySystem* particle_system, float friction_factor)
 		: ForceGenerator(particle_system), _friction_factor(friction_factor) {
 	}
 

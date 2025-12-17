@@ -6,7 +6,7 @@
 class WindForceGenerator : public ForceGenerator
 {
 public:
-	WindForceGenerator(ParticleSystem* particle_system, Vector3D wind_velocity, float k1, float k2 = 0)
+	WindForceGenerator(EntitySystem* particle_system, Vector3D wind_velocity, float k1, float k2 = 0)
 		: ForceGenerator(particle_system), wind_velocity(wind_velocity), k1(k1), k2(k2)
 	{
 	}

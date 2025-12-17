@@ -5,7 +5,7 @@
 class TornadoForceGenerator : public ForceGenerator
 {
 public:
-	TornadoForceGenerator(ParticleSystem* particle_system, Vector3D tornado_eye, Vector3D wind_velocity, float k1, float k2, float tornadoForce)
+	TornadoForceGenerator(EntitySystem* particle_system, Vector3D tornado_eye, Vector3D wind_velocity, float k1, float k2, float tornadoForce)
 		: ForceGenerator(particle_system), tornado_eye(tornado_eye), wind_velocity(wind_velocity), 
 		k1(k1), k2(k2), tornadoForce(tornadoForce) 
 	{

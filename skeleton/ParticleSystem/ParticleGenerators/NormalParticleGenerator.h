@@ -5,7 +5,7 @@
 class NormalParticleGenerator : public ParticleGenerator
 {
 public:
-	NormalParticleGenerator(ParticleSystem* particle_system, Particle* model_particle, float generation_period = 1, int periodic_generated_particles = 1);
+	NormalParticleGenerator(EntitySystem* particle_system, Particle* model_particle, float generation_period = 1, int periodic_generated_particles = 1);
 
 	void generateParticles(int particle_num) override;
 

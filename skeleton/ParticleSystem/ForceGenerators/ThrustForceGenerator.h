@@ -6,7 +6,7 @@ class ThrustForceGenerator : public ForceGenerator
 {
 public:
 	ThrustForceGenerator(
-		ParticleSystem* particle_system, float fluid_density, float gravity, float objects_height,
+		EntitySystem* particle_system, float fluid_density, float gravity, float objects_height,
 		physx::PxBoxGeometry* fluid_area = nullptr, physx::PxTransform* fluid_area_transform = nullptr
 	)
 		: ForceGenerator(particle_system), _fluid_density(fluid_density), _gravity(gravity), 

@@ -54,9 +54,9 @@ ContactReportCallback gContactReportCallback;
 
 Axis3D* axis;
 
-std::unique_ptr<ParticleSystem> snow_particle_sys;
+std::unique_ptr<EntitySystem> snow_particle_sys;
 // El sistema de partículas que gestiona el centro de masas del submarino
-std::unique_ptr<ParticleSystem> submarine_particle_sys; 
+std::unique_ptr<EntitySystem> submarine_particle_sys; 
 
 std::unique_ptr<physx::PxBoxGeometry> sea_geometry;
 std::unique_ptr<physx::PxTransform> sea_transform;
@@ -106,8 +106,8 @@ void initPhysics(bool interactive)
 
 	axis = new Axis3D();
 
-	submarine_particle_sys = std::make_unique<ParticleSystem>();
-	snow_particle_sys = std::make_unique<ParticleSystem>();
+	submarine_particle_sys = std::make_unique<EntitySystem>();
+	snow_particle_sys = std::make_unique<EntitySystem>();
 
 	// La nieve
 	snow_particle_sys->referenceParticleGenerator(
@@ -124,7 +124,7 @@ void initPhysics(bool interactive)
 	snow_particle_sys->referenceForceGenerator(snow_wind_generator);
 	
 	// El "mar"
-	sea_geometry = std::make_unique<physx::PxBoxGeometry>(200, 200, 200);
+	sea_geometry = std::make_unique<physx::PxBoxGeometry>(1000, 200, 1000);
 	sea_transform = std::make_unique<physx::PxTransform>(PxVec3(0, -100, 0));
 	sea_water_block = std::make_unique<RenderItem>(CreateShape(*sea_geometry), sea_transform.get(), Vector4(0, 0, 1, 0.1));
 	

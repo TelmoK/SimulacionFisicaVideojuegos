@@ -1,13 +1,13 @@
 #pragma once
 #include <PxPhysXConfig.h>
 
-class ParticleSystem;
+class EntitySystem;
 class Particle;
 
 class ForceGenerator
 {
 public:
-	ForceGenerator(ParticleSystem* particle_system) : _particle_system(particle_system) {}
+	ForceGenerator(EntitySystem* particle_system) : _entity_system(particle_system) {}
 
 	/*
 		Aplica la fuerza en una partícula que le pase el sistema de partículas.
@@ -27,7 +27,7 @@ public:
 	}
 
 protected:
-	ParticleSystem* _particle_system = nullptr;
+	EntitySystem* _entity_system = nullptr;
 
 	bool _active = true;
 };

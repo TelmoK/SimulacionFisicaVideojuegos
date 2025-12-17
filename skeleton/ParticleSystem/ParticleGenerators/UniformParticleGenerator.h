@@ -6,7 +6,7 @@
 class UniformParticleGenerator : public ParticleGenerator
 {
 public:
-	UniformParticleGenerator(ParticleSystem* particle_system, Particle* model_particle, float generation_period = 1, int periodic_generated_particles = 1);
+	UniformParticleGenerator(EntitySystem* particle_system, Particle* model_particle, float generation_period = 1, int periodic_generated_particles = 1);
 
 	void generateParticles(int particle_num) override;
 

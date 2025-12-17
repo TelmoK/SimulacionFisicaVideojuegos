@@ -7,7 +7,7 @@ public:
 	enum AreaType { CIRCLE, SPHERE };
 
 	RoundAreaRangeGenerator(
-		ParticleSystem* particle_system, Particle* model_particle, float generation_period = 1,
+		EntitySystem* particle_system, Particle* model_particle, float generation_period = 1,
 		int periodic_generated_particles = 1, AreaType _area_type = CIRCLE, float radius = 10
 	);
 

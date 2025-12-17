@@ -5,7 +5,7 @@
 #include <random>
 #include <iostream>
 
-UniformParticleGenerator::UniformParticleGenerator(ParticleSystem* particle_system, Particle* model_particle, float generation_period, int periodic_generated_particles)
+UniformParticleGenerator::UniformParticleGenerator(EntitySystem* particle_system, Particle* model_particle, float generation_period, int periodic_generated_particles)
 	: ParticleGenerator(particle_system, model_particle, generation_period, periodic_generated_particles)
 {
 	u_distribution = std::uniform_real_distribution<double>(0, 1);
@@ -28,6 +28,6 @@ void UniformParticleGenerator::generateParticles(int particle_num)
 		spawned_particle->transform().p.y += u_distribution(mt);
 		spawned_particle->transform().p.z += u_distribution(mt);
 
-		_particle_system->registerNewParticle(spawned_particle); // Se registra la partícula en el Sistema de Partículas
+		_entity_system->registerNewParticle(spawned_particle); // Se registra la partícula en el Sistema de Partículas
 	}
 }

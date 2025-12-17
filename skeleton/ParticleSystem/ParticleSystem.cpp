@@ -1,74 +1,101 @@
 #include "ParticleSystem.h"
 #include "../RenderItems/Particle.h"
 
-ParticleSystem::~ParticleSystem()
+EntitySystem::~EntitySystem()
 {
-	for (auto p_register_it = _particle_registers.begin(); p_register_it != _particle_registers.end(); )
-		p_register_it = deleteParticleGeneration((*p_register_it)->list_it);
+	for (auto p_register_it = _entity_registers.begin(); p_register_it != _entity_registers.end(); )
+		p_register_it = deleteEntityGeneration((*p_register_it)->list_it);
 }
 
-void ParticleSystem::registerNewParticle(Particle* particle, float life_time, bool inmortal)
+void EntitySystem::registerNewParticle(Particle* particle, float life_time, bool inmortal)
 {
-	ParticleGeneration* generation = new ParticleGeneration();
+	EntityGeneration* generation = new EntityGeneration();
 	
-	_particle_registers.push_back(generation);
+	_entity_registers.push_back(generation);
 	
 	generation->particle = particle;
-	generation->list_it = std::prev(_particle_registers.end());
+	generation->list_it = std::prev(_entity_registers.end());
 	generation->life_time = life_time;
 	generation->inmortal = inmortal;
 }
 
-ParticleSystem::ParticleGeneration_It ParticleSystem::deleteParticleGeneration(ParticleGeneration_It particle_generation)
+void EntitySystem::registerNewBody(physx::PxRigidDynamic* dynamicBody, float life_time, bool inmortal)
 {
-	ParticleGeneration* generation = (*particle_generation);
+	EntityGeneration* generation = new EntityGeneration();
 
-	auto next_gen_it = _particle_registers.erase(particle_generation);
+	_entity_registers.push_back(generation);
+
+	generation->dynamicBody = dynamicBody;
+	generation->list_it = std::prev(_entity_registers.end());
+	generation->life_time = life_time;
+	generation->inmortal = inmortal;
+}
+
+EntitySystem::EntityGeneration_It EntitySystem::deleteEntityGeneration(EntityGeneration_It entity_generation)
+{
+	EntityGeneration* generation = (*entity_generation);
+
+	auto next_gen_it = _entity_registers.erase(entity_generation);
 
 	delete generation->particle;
+
+	if(generation->dynamicBody)
+		generation->dynamicBody->release();
+
 	delete generation;
 
 	return next_gen_it;
 }
 
-void ParticleSystem::cleanUpDeadParticles()
+void EntitySystem::cleanUpDeadEntities()
 {
-	for (auto p_register_it = _particle_registers.begin(); p_register_it != _particle_registers.end(); )
+	for (auto p_register_it = _entity_registers.begin(); p_register_it != _entity_registers.end(); )
 	{
 		// Se gestiona la invalidación de iteradores setteando p_register_it
 		// al elemento siguiente al borrado, si no se ha borrado simplemente se incrementa en uno
 		if (!(*p_register_it)->inmortal && (*p_register_it)->life_time <= 0)
-			p_register_it = deleteParticleGeneration((*p_register_it)->list_it);
+			p_register_it = deleteEntityGeneration((*p_register_it)->list_it);
 		else
 			++p_register_it;
 	}
 }
 
-void ParticleSystem::referenceParticleGenerator(std::shared_ptr<ParticleGenerator> particle_generator)
+void EntitySystem::referenceParticleGenerator(std::shared_ptr<ParticleGenerator> particle_generator)
 {
 	_particle_generators.push_back(std::move(particle_generator));
 }
 
-void ParticleSystem::referenceForceGenerator(std::shared_ptr<ForceGenerator> force_generator)
+void EntitySystem::referenceForceGenerator(std::shared_ptr<ForceGenerator> force_generator)
 {
 	_force_generators.push_back(std::move(force_generator));
 }
 
-void ParticleSystem::update(float t)
+void EntitySystem::update(float t)
 {
-	cleanUpDeadParticles();
+	cleanUpDeadEntities();
 
 	for(std::shared_ptr<ParticleGenerator> particle_generator : _particle_generators)
 		particle_generator->handleGenerationPeriod(t);
 
-	for (ParticleGeneration* p_generation : _particle_registers)
+	for (EntityGeneration* ent_generation : _entity_registers)
 	{
-		for(std::shared_ptr<ForceGenerator> force_generator : _force_generators)
-			force_generator->applyForce(p_generation->particle, t);
+		if (ent_generation->particle)
+		{
+			for(std::shared_ptr<ForceGenerator> force_generator : _force_generators)
+				force_generator->applyForce(ent_generation->particle, t);
 
-		p_generation->particle->integrate(t);
+			ent_generation->particle->integrate(t);
+		}
+
+		if (ent_generation->dynamicBody)
+		{
+			for(std::shared_ptr<ForceGenerator> force_generator : _force_generators)
+				force_generator->applyForce(ent_generation->dynamicBody, t);
+			
+			// La integración de los cuerpos la gestiona Physx
+		}
 		
-		if(!p_generation->inmortal)
-			p_generation->life_time -= t;
+		if(!ent_generation->inmortal)
+			ent_generation->life_time -= t;
 	}
 }

@@ -6,19 +6,25 @@
 #include "ForceGenerators/ForceGenerator.h"
 #include "ParticleGenerators/ParticleGenerator.h"
 
-class ParticleSystem
+class EntitySystem
 {
 public:
 
-	ParticleSystem() {}
+	EntitySystem() {}
 
-	~ParticleSystem();
+	~EntitySystem();
 
 	/*
 		Metodo usado por los ParticleGenerators para registrar en el sistema las partículas que generan
 		y gestionar su actualización y destrucción desde él.
 	*/
 	void registerNewParticle(Particle* particle, float life_time = 2, bool inmortal = false);
+
+	/*
+		Metodo usado por los BodyGenerators para registrar en el sistema los cuerpos dinámicos que generan 
+		y gestionar su actualización y destrucción desde él.
+	*/
+	void registerNewBody(physx::PxRigidDynamic* dynamicBody, float life_time = 20, bool inmortal = true);
 
 	/*
 		Mete en un vector un puntero a un generador de fuezas que usará en cada update() para aplicárselo
@@ -36,26 +42,31 @@ public:
 private:
 
 	/**
-		Struct que monitoriza las partículas creadas y su iterador de la lista de generaciones. Es como
-		una Variable de Sesión para cada partícula generada.
+		Struct que monitoriza las partículas y los sólidos rígidos creados y su iterador 
+		de la lista de generaciones. Es como una Variable de Sesión para cada objeto físico
+		generado.
 	*/
-	struct ParticleGeneration
+	struct EntityGeneration
 	{
 		Particle* particle = nullptr;
-		std::list<ParticleGeneration*>::iterator list_it;
+		physx::PxRigidDynamic* dynamicBody = nullptr;
+
+		std::list<EntityGeneration*>::iterator list_it;
 		float life_time = 5;
 		bool inmortal = false;
 	};
 
-	std::list<ParticleGeneration*> _particle_registers;
+	std::list<EntityGeneration*> _entity_registers;
 
-	using ParticleGeneration_It = std::list<ParticleGeneration*>::iterator;
+	using EntityGeneration_It = std::list<EntityGeneration*>::iterator;
 
 	std::vector<std::shared_ptr<ForceGenerator>> _force_generators;
 
 	std::vector<std::shared_ptr<ParticleGenerator>> _particle_generators;
 
-	ParticleGeneration_It deleteParticleGeneration(ParticleGeneration_It particle_generation);
+	//std::vector<std::shared_ptr<BodyGenerator>> _particle_generators;
 
-	void cleanUpDeadParticles();
+	EntityGeneration_It deleteEntityGeneration(EntityGeneration_It entity_generation);
+
+	void cleanUpDeadEntities();
 };

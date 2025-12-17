@@ -5,7 +5,7 @@
 #include <random>
 #include <iostream>
 
-NormalParticleGenerator::NormalParticleGenerator(ParticleSystem* particle_system, Particle* model_particle, float generation_period, int periodic_generated_particles)
+NormalParticleGenerator::NormalParticleGenerator(EntitySystem* particle_system, Particle* model_particle, float generation_period, int periodic_generated_particles)
 	: ParticleGenerator(particle_system, model_particle, generation_period, periodic_generated_particles)
 {
 	n_distribution = std::normal_distribution<double>(0, 1);
@@ -27,6 +27,6 @@ void NormalParticleGenerator::generateParticles(int particle_num)
 		spawned_particle->transform().p.x += n_distribution(mt);
 		spawned_particle->transform().p.y += n_distribution(mt);
 
-		_particle_system->registerNewParticle(spawned_particle); // Se registra la partícula en el Sistema de Partículas
+		_entity_system->registerNewParticle(spawned_particle); // Se registra la partícula en el Sistema de Partículas
 	}
 }

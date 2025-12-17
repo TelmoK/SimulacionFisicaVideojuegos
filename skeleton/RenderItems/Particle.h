@@ -2,12 +2,12 @@
 #include "../RenderUtils.hpp"
 #include "../Utils/Vector3D.h"
 
-class ParticleSystem;
+class EntitySystem;
 
 class Particle : public RenderItem
 {
 public:
-	Particle(ParticleSystem* p_sys, Vector3D position, Vector3D velocity = Vector3D(), 
+	Particle(EntitySystem* p_sys, Vector3D position, Vector3D velocity = Vector3D(), 
 		Vector3D acceleration = Vector3D(), float mass = 1, float volume = 1);
 	Particle(Vector3D position, Vector3D velocity = Vector3D(), Vector3D acceleration = Vector3D(),
 		float mass = 1, float volume = 1);

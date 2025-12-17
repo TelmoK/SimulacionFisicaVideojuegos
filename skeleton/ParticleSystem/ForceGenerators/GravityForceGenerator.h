@@ -5,7 +5,7 @@
 class GravityForceGenerator : public ForceGenerator
 {
 public:
-	GravityForceGenerator(ParticleSystem* particle_system, float gravityForce) 
+	GravityForceGenerator(EntitySystem* particle_system, float gravityForce) 
 		: ForceGenerator(particle_system), gravityForce(gravityForce){}
 
 	/*

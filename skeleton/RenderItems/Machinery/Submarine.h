@@ -9,7 +9,7 @@
 
 class Particle;
 class Projectile;
-class ParticleSystem;
+class EntitySystem;
 class UniformParticleGenerator;
 
 class Submarine
@@ -17,7 +17,7 @@ class Submarine
 public:
 	enum CameraMode { THIRD_PERSON, SHELFIE, FIRST_PERSON, DETACHED };
 
-	Submarine(physx::PxPhysics* gPhysics, physx::PxScene* gScene, Vector3D position, ParticleSystem* world_particle_sys);
+	Submarine(physx::PxPhysics* gPhysics, physx::PxScene* gScene, Vector3D position, EntitySystem* world_particle_sys);
 
 	~Submarine();
 
@@ -38,7 +38,7 @@ private:
 	// Comportamiento con la física de la escena
 	physx::PxPhysics* _gPhysics;
 	physx::PxScene* _gScene;
-	ParticleSystem* _world_particle_sys;
+	EntitySystem* _world_particle_sys;
 
 	// Gestión de  fuerzas que recibe el submarino
 	Particle* _center_mass; // El centro de masas está representado por una partícula (no visible)
