@@ -13,6 +13,10 @@ public:
 
 	void addFriction();
 
+	physx::PxRigidDynamic* body() {
+		return _body;
+	}
+
 protected:
 	physx::PxPhysics* _gPhysics;
 	physx::PxScene* _gScene;

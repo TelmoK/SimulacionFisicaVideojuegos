@@ -36,6 +36,8 @@ protected:
 
 	void applyForceInArea(Particle* particle, double t);
 
+	void applyForceInArea(physx::PxRigidDynamic* body, double t);
+
 
 	float _fluid_density;
 	float _gravity;

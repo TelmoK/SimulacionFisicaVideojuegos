@@ -132,6 +132,9 @@
     <ClInclude Include="RenderItems\JellyfishMob.h">
       <Filter>RenderItems</Filter>
     </ClInclude>
+    <ClInclude Include="ParticleSystem\ForceGenerators\FrictionForceGenerator.h">
+      <Filter>ParticleSystem\ForceGenerator</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Render">

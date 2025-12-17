@@ -277,6 +277,7 @@
   <ItemGroup>
     <ClInclude Include="callbacks.hpp" />
     <ClInclude Include="core.hpp" />
+    <ClInclude Include="ParticleSystem\ForceGenerators\FrictionForceGenerator.h" />
     <ClInclude Include="ParticleSystem\ForceGenerators\SpringForceGenerator.h" />
     <ClInclude Include="ParticleSystem\ForceGenerators\ExplosiveForceGenerator.h" />
     <ClInclude Include="ParticleSystem\ForceGenerators\ForceGenerator.h" />

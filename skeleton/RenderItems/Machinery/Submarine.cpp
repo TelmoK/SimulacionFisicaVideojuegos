@@ -14,8 +14,8 @@ Submarine::Submarine(physx::PxPhysics* gPhysics, physx::PxScene* gScene, Vector3
 	// Creación de la partícula que representa el centro de masas
 	_center_mass = new Particle(position, Vector3D());
 
-	_center_mass->mass() = 300000;//7880000;
-	_center_mass->volume() = BODY_SIZE.x * BODY_SIZE.y * BODY_SIZE.z;
+	_center_mass->mass() = 30000;//7880000;
+	_center_mass->volume() = BODY_SIZE.x * BODY_SIZE.y * BODY_SIZE.z * 0.5;
 	
 	// Usamos la partícula como modelo, no se renderiza
 	DeregisterRenderItem(_center_mass); 
@@ -41,7 +41,7 @@ Submarine::Submarine(physx::PxPhysics* gPhysics, physx::PxScene* gScene, Vector3
 
 	// Timón
 	_rudder_relative_pos = Vector3D(-BODY_SIZE.x, 0, 0);
-	_rudder_initial_quaternion = physx::PxQuat(physx::PxPi * 0.45, Vector3(0, 1, 0)) * physx::PxQuat(physx::PxPi * -0.5, Vector3(1, 0, 0)) * physx::PxQuat(physx::PxPi * 0.5, Vector3(0, 1, 0));
+	_rudder_initial_quaternion = physx::PxQuat(physx::PxPi * 0.25, Vector3(0, 1, 0)) * physx::PxQuat(physx::PxPi * -0.5, Vector3(1, 0, 0)) * physx::PxQuat(physx::PxPi * 0.5, Vector3(0, 1, 0));
 
 	_rudder = new PropellerBladePiece(position + _rudder_relative_pos, 9, 4, 1, 5, {0, 1, 1, 1});
 	_rudder->reaction_mode = PropellerBladePiece::LINEAR;
@@ -66,7 +66,7 @@ Submarine::~Submarine()
 {
 	DeregisterRenderItem(cabin);
 	delete cabin;
-	//delete _center_mass;
+	delete _center_mass;
 }
 
 float Submarine::getDensity() 
@@ -94,12 +94,8 @@ void Submarine::setMassSpaceInvInertiaTensor()
 void Submarine::update(float t)
 {
 	// Control de cámara
-	//handleCameraFollow();
-	temp -= t;
-	if(temp <= 0){
-		new RenderItem(CreateShape(physx::PxSphereGeometry(1)), new physx::PxTransform(_center_mass->transform().p), {1,1,0,1});
-		temp = 100;
-	}
+	handleCameraFollow();
+	
 	// Fuerzas
 	applyMotorForce(t);
 
@@ -204,7 +200,7 @@ void Submarine::applyMotorForce(float t)
 {
 	// [1] OBTENCIÓN DE FUERZAS
 
-	Vector3D motor_torque = _propellers->core_piece()->transform().q.rotate(_propellers->base_orientation.to_vec3()) * 800000;//Vector3D(-10000, 0, 0);
+	Vector3D motor_torque = _propellers->core_piece()->transform().q.rotate(_propellers->base_orientation.to_vec3()) * 1000000;//Vector3D(-10000, 0, 0);
 
 	// Aplicación de las fuerzas y obtención de reacciones
 
@@ -225,7 +221,7 @@ void Submarine::applyMotorForce(float t)
 	Vector3D rudder_torque = rudder_reaction_forces.force.cross(_rudder_relative_pos);
 	rudder_torque.x = rudder_torque.z = 0; // Limpiando imperfecciones en el torque
 
-	//Vector3D subamrine_angular_acceleration = Vector3D(0, 0.001, 0);// rudder_torque.normalized()* t;
+	// Vector3D subamrine_angular_acceleration = Vector3D(0, 0.001, 0);// rudder_torque.normalized()* t;
 	// Aceleración angular de las hélices
 	Vector3D subamrine_angular_acceleration = Vector3D(
 		_submarine_inv_inertia_diagonal.x * rudder_torque.x,
@@ -244,7 +240,8 @@ void Submarine::applyMotorForce(float t)
 
 	// Truncando el ángulo aplicado para evitar que se rompa el programa y aplicando el tiempoi delta
 	new_angular_velocity = new_angular_velocity.normalized() * fmod(new_angular_velocity.magnitude(), (2 * physx::PxPi)) * t;
-	
+	std::cout << "Old Spin " << subamrine_angular_acceleration.to_str() << "\n";
+	subamrine_angular_acceleration = subamrine_angular_acceleration.normalized() * fmod(subamrine_angular_acceleration.magnitude(), (2 * physx::PxPi)) * t;
 
 	// [3] APLICANDO MOVIMIENTO ANGULAR (Rotación del submarino por el timón)
 
@@ -286,7 +283,9 @@ void Submarine::applyMotorForce(float t)
 		Vector3D()// Rotación
 		});
 	
-	
+	std::cout << "Pos " << Vector3D(_center_mass->position()).to_str() << "\n";
+	std::cout << "Spin " << subamrine_angular_acceleration.to_str() << "\n\n";
+
 	// Generando partículas de burbuja
 
 	if (_motor_force < 100)

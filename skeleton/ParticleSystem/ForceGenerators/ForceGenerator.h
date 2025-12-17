@@ -1,4 +1,5 @@
 #pragma once
+#include <PxPhysXConfig.h>
 
 class ParticleSystem;
 class Particle;
@@ -13,6 +14,7 @@ public:
 		t es el delta time.
 	*/
 	virtual void applyForce(Particle* particle, double t) = 0;
+	virtual void applyForce(physx::PxRigidDynamic* body, double t) {}
 
 	virtual void update(float t) {}
 

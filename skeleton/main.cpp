@@ -22,6 +22,7 @@
 #include "ParticleSystem/ForceGenerators/WindForceGenerator.h"
 #include "ParticleSystem/ForceGenerators/TornadoForceGenerator.h"
 #include "ParticleSystem/ForceGenerators/ThrustForceGenerator.h"
+#include "ParticleSystem/ForceGenerators/FrictionForceGenerator.h"
 
 #include "RenderItems/Machinery/IndustrialPieces/IndustrialPiece.h"
 #include "RenderItems/Machinery/Submarine.h"
@@ -54,7 +55,8 @@ ContactReportCallback gContactReportCallback;
 Axis3D* axis;
 
 std::unique_ptr<ParticleSystem> snow_particle_sys;
-std::unique_ptr<ParticleSystem> general_particle_sys;
+// El sistema de partículas que gestiona el centro de masas del submarino
+std::unique_ptr<ParticleSystem> submarine_particle_sys; 
 
 std::unique_ptr<physx::PxBoxGeometry> sea_geometry;
 std::unique_ptr<physx::PxTransform> sea_transform;
@@ -104,7 +106,7 @@ void initPhysics(bool interactive)
 
 	axis = new Axis3D();
 
-	general_particle_sys = std::make_unique<ParticleSystem>();
+	submarine_particle_sys = std::make_unique<ParticleSystem>();
 	snow_particle_sys = std::make_unique<ParticleSystem>();
 
 	// La nieve
@@ -127,19 +129,22 @@ void initPhysics(bool interactive)
 	sea_water_block = std::make_unique<RenderItem>(CreateShape(*sea_geometry), sea_transform.get(), Vector4(0, 0, 1, 0.1));
 	
 	// El submarino y demás
-	submarine = new Submarine(gPhysics, gScene, Vector3D(0, 100, 0), general_particle_sys.get());
+	submarine = new Submarine(gPhysics, gScene, Vector3D(0, 100, 0), submarine_particle_sys.get());
 
 	general_gravity_generator = std::make_shared<GravityForceGenerator>(snow_particle_sys.get(), -9.8);
-	general_thrust_generator = std::make_shared<ThrustForceGenerator>(general_particle_sys.get(), WATER_DENSITY, -9.8, 5, sea_geometry.get(), sea_transform.get());
+	general_thrust_generator = std::make_shared<ThrustForceGenerator>(submarine_particle_sys.get(), WATER_DENSITY, -9.8, 5, sea_geometry.get(), sea_transform.get());
 
-	general_particle_sys->referenceForceGenerator(general_thrust_generator);
-	general_particle_sys->referenceForceGenerator(general_gravity_generator);
+	submarine_particle_sys->referenceForceGenerator(general_thrust_generator);
+	submarine_particle_sys->referenceForceGenerator(general_gravity_generator);
+	submarine_particle_sys->referenceForceGenerator(
+		std::make_shared<FrictionForceGenerator>(submarine_particle_sys.get(), 0.2)
+	);
 	
-	jellyfish = new JellyfishMob(gPhysics, gScene, {0.4, 0, 0.4, 1});
+	jellyfish = new JellyfishMob(gPhysics, gScene, {0.8, 0, 0.8, 1});
 
 	// CAMARA INICIAL
-	GetCamera()->setDir(Vector3D(1, 0, 0).normalized().to_vec3());
-	GetCamera()->setEye(Vector3D(-30, 100, 0).to_vec3());
+	//GetCamera()->setDir(Vector3D(1, 0, 0).normalized().to_vec3());
+	//GetCamera()->setEye(Vector3D(-30, 100, 0).to_vec3());
 }
 
 
@@ -154,7 +159,7 @@ void stepPhysics(bool interactive, double t)
 	gScene->fetchResults(true);
 
 	snow_particle_sys->update(t);
-	general_particle_sys->update(t);
+	submarine_particle_sys->update(t);
 	
 	submarine->update(t);
 	

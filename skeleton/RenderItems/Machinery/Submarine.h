@@ -33,7 +33,6 @@ public:
 
 	float getDensity();
 
-	int temp = 0.8;
 private:
 
 	// Comportamiento con la física de la escena
