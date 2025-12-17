@@ -1,6 +1,6 @@
 #include "Particle.h"
 
-#include "../ParticleSystem/ParticleSystem.h"
+#include "../ParticleSystem/EntitySystem.h"
 
 Particle::Particle(EntitySystem* p_sys, Vector3D position, Vector3D velocity, Vector3D acceleration, float mass, float volume)
 	: Particle(position, velocity, acceleration, mass, volume)

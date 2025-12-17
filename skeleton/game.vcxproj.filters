@@ -16,18 +16,6 @@
     <ClCompile Include="RenderItems\Particle.cpp">
       <Filter>RenderItems</Filter>
     </ClCompile>
-    <ClCompile Include="ParticleSystem\ParticleSystem.cpp">
-      <Filter>ParticleSystem</Filter>
-    </ClCompile>
-    <ClCompile Include="ParticleSystem\ParticleGenerators\UniformParticleGenerator.cpp">
-      <Filter>ParticleSystem\ParticleGenerators</Filter>
-    </ClCompile>
-    <ClCompile Include="ParticleSystem\ParticleGenerators\ParticleGenerator.cpp">
-      <Filter>ParticleSystem\ParticleGenerators</Filter>
-    </ClCompile>
-    <ClCompile Include="ParticleSystem\ParticleGenerators\NormalParticleGenerator.cpp">
-      <Filter>ParticleSystem\ParticleGenerators</Filter>
-    </ClCompile>
     <ClCompile Include="RenderItems\Machinery\IndustrialPieces\IndustrialPiece.cpp">
       <Filter>RenderItems\Machinery\IndustrialPieces</Filter>
     </ClCompile>
@@ -40,12 +28,6 @@
     <ClCompile Include="RenderItems\Machinery\Submarine.cpp">
       <Filter>RenderItems\Machinery</Filter>
     </ClCompile>
-    <ClCompile Include="ParticleSystem\ParticleGenerators\RoundAreaRangeGenerator.cpp">
-      <Filter>ParticleSystem\ParticleGenerators</Filter>
-    </ClCompile>
-    <ClCompile Include="ParticleSystem\ForceGenerators\ThrustForceGenerator.cpp">
-      <Filter>ParticleSystem\ForceGenerator</Filter>
-    </ClCompile>
     <ClCompile Include="RenderItems\Projectile.cpp">
       <Filter>RenderItems</Filter>
     </ClCompile>
@@ -54,6 +36,24 @@
     </ClCompile>
     <ClCompile Include="RenderItems\JellyfishMob.cpp">
       <Filter>RenderItems</Filter>
+    </ClCompile>
+    <ClCompile Include="EntitySystem\ForceGenerators\ThrustForceGenerator.cpp">
+      <Filter>EntitySystem\ForceGenerator</Filter>
+    </ClCompile>
+    <ClCompile Include="EntitySystem\ParticleGenerators\NormalParticleGenerator.cpp">
+      <Filter>EntitySystem\ParticleGenerators</Filter>
+    </ClCompile>
+    <ClCompile Include="EntitySystem\ParticleGenerators\ParticleGenerator.cpp">
+      <Filter>EntitySystem\ParticleGenerators</Filter>
+    </ClCompile>
+    <ClCompile Include="EntitySystem\ParticleGenerators\RoundAreaRangeGenerator.cpp">
+      <Filter>EntitySystem\ParticleGenerators</Filter>
+    </ClCompile>
+    <ClCompile Include="EntitySystem\ParticleGenerators\UniformParticleGenerator.cpp">
+      <Filter>EntitySystem\ParticleGenerators</Filter>
+    </ClCompile>
+    <ClCompile Include="EntitySystem\EntitySystem.cpp">
+      <Filter>EntitySystem</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -75,21 +75,6 @@
     <ClInclude Include="RenderItems\Particle.h">
       <Filter>RenderItems</Filter>
     </ClInclude>
-    <ClInclude Include="ParticleSystem\ParticleGenerators\ParticleGenerator.h">
-      <Filter>ParticleSystem\ParticleGenerators</Filter>
-    </ClInclude>
-    <ClInclude Include="ParticleSystem\ParticleSystem.h">
-      <Filter>ParticleSystem</Filter>
-    </ClInclude>
-    <ClInclude Include="ParticleSystem\ParticleGenerators\UniformParticleGenerator.h">
-      <Filter>ParticleSystem\ParticleGenerators</Filter>
-    </ClInclude>
-    <ClInclude Include="ParticleSystem\ParticleGenerators\NormalParticleGenerator.h">
-      <Filter>ParticleSystem\ParticleGenerators</Filter>
-    </ClInclude>
-    <ClInclude Include="ParticleSystem\ForceGenerators\ForceGenerator.h">
-      <Filter>ParticleSystem\ForceGenerator</Filter>
-    </ClInclude>
     <ClInclude Include="RenderItems\Machinery\IndustrialPieces\IndustrialPiece.h">
       <Filter>RenderItems\Machinery\IndustrialPieces</Filter>
     </ClInclude>
@@ -99,26 +84,8 @@
     <ClInclude Include="Utils\SpaceGeometry.h">
       <Filter>Utils</Filter>
     </ClInclude>
-    <ClInclude Include="ParticleSystem\ForceGenerators\GravityForceGenerator.h">
-      <Filter>ParticleSystem\ForceGenerator</Filter>
-    </ClInclude>
-    <ClInclude Include="ParticleSystem\ForceGenerators\ExplosiveForceGenerator.h">
-      <Filter>ParticleSystem\ForceGenerator</Filter>
-    </ClInclude>
-    <ClInclude Include="ParticleSystem\ForceGenerators\WindForceGenerator.h">
-      <Filter>ParticleSystem\ForceGenerator</Filter>
-    </ClInclude>
-    <ClInclude Include="ParticleSystem\ForceGenerators\TornadoForceGenerator.h">
-      <Filter>ParticleSystem\ForceGenerator</Filter>
-    </ClInclude>
     <ClInclude Include="RenderItems\Machinery\Submarine.h">
       <Filter>RenderItems\Machinery</Filter>
-    </ClInclude>
-    <ClInclude Include="ParticleSystem\ParticleGenerators\RoundAreaRangeGenerator.h">
-      <Filter>ParticleSystem\ParticleGenerators</Filter>
-    </ClInclude>
-    <ClInclude Include="ParticleSystem\ForceGenerators\ThrustForceGenerator.h">
-      <Filter>ParticleSystem\ForceGenerator</Filter>
     </ClInclude>
     <ClInclude Include="RenderItems\Projectile.h">
       <Filter>RenderItems</Filter>
@@ -126,14 +93,47 @@
     <ClInclude Include="RenderItems\Machinery\SubmarinePropeller.h">
       <Filter>RenderItems\Machinery</Filter>
     </ClInclude>
-    <ClInclude Include="ParticleSystem\ForceGenerators\SpringForceGenerator.h">
-      <Filter>ParticleSystem\ForceGenerator</Filter>
-    </ClInclude>
     <ClInclude Include="RenderItems\JellyfishMob.h">
       <Filter>RenderItems</Filter>
     </ClInclude>
-    <ClInclude Include="ParticleSystem\ForceGenerators\FrictionForceGenerator.h">
-      <Filter>ParticleSystem\ForceGenerator</Filter>
+    <ClInclude Include="EntitySystem\ForceGenerators\ExplosiveForceGenerator.h">
+      <Filter>EntitySystem\ForceGenerator</Filter>
+    </ClInclude>
+    <ClInclude Include="EntitySystem\ForceGenerators\ForceGenerator.h">
+      <Filter>EntitySystem\ForceGenerator</Filter>
+    </ClInclude>
+    <ClInclude Include="EntitySystem\ForceGenerators\FrictionForceGenerator.h">
+      <Filter>EntitySystem\ForceGenerator</Filter>
+    </ClInclude>
+    <ClInclude Include="EntitySystem\ForceGenerators\GravityForceGenerator.h">
+      <Filter>EntitySystem\ForceGenerator</Filter>
+    </ClInclude>
+    <ClInclude Include="EntitySystem\ForceGenerators\SpringForceGenerator.h">
+      <Filter>EntitySystem\ForceGenerator</Filter>
+    </ClInclude>
+    <ClInclude Include="EntitySystem\ForceGenerators\ThrustForceGenerator.h">
+      <Filter>EntitySystem\ForceGenerator</Filter>
+    </ClInclude>
+    <ClInclude Include="EntitySystem\ForceGenerators\TornadoForceGenerator.h">
+      <Filter>EntitySystem\ForceGenerator</Filter>
+    </ClInclude>
+    <ClInclude Include="EntitySystem\ForceGenerators\WindForceGenerator.h">
+      <Filter>EntitySystem\ForceGenerator</Filter>
+    </ClInclude>
+    <ClInclude Include="EntitySystem\ParticleGenerators\NormalParticleGenerator.h">
+      <Filter>EntitySystem\ParticleGenerators</Filter>
+    </ClInclude>
+    <ClInclude Include="EntitySystem\ParticleGenerators\ParticleGenerator.h">
+      <Filter>EntitySystem\ParticleGenerators</Filter>
+    </ClInclude>
+    <ClInclude Include="EntitySystem\ParticleGenerators\RoundAreaRangeGenerator.h">
+      <Filter>EntitySystem\ParticleGenerators</Filter>
+    </ClInclude>
+    <ClInclude Include="EntitySystem\ParticleGenerators\UniformParticleGenerator.h">
+      <Filter>EntitySystem\ParticleGenerators</Filter>
+    </ClInclude>
+    <ClInclude Include="EntitySystem\EntitySystem.h">
+      <Filter>EntitySystem</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -146,20 +146,20 @@
     <Filter Include="Utils">
       <UniqueIdentifier>{5185c5cb-1acd-4363-84b0-3285295c9278}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ParticleSystem">
-      <UniqueIdentifier>{1e5f62fc-f1c1-4e6b-a7f6-f1c7d11c9564}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ParticleSystem\ParticleGenerators">
-      <UniqueIdentifier>{c0356ecb-7fda-4e7c-8d47-2d4f7aa78b6b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ParticleSystem\ForceGenerator">
-      <UniqueIdentifier>{2f35cbc2-7c0e-4dd6-8ed7-6381bfb156c4}</UniqueIdentifier>
-    </Filter>
     <Filter Include="RenderItems\Machinery">
       <UniqueIdentifier>{2f6ec1fe-62f1-4593-a616-448b4b357c2e}</UniqueIdentifier>
     </Filter>
     <Filter Include="RenderItems\Machinery\IndustrialPieces">
       <UniqueIdentifier>{97835293-3e55-4282-bc96-79faea20097e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EntitySystem">
+      <UniqueIdentifier>{1e5f62fc-f1c1-4e6b-a7f6-f1c7d11c9564}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EntitySystem\ParticleGenerators">
+      <UniqueIdentifier>{c0356ecb-7fda-4e7c-8d47-2d4f7aa78b6b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EntitySystem\ForceGenerator">
+      <UniqueIdentifier>{2f35cbc2-7c0e-4dd6-8ed7-6381bfb156c4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

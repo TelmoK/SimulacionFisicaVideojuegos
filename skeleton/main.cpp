@@ -14,15 +14,15 @@
 #include "RenderItems/Particle.h"
 #include "RenderItems/JellyfishMob.h"
 
-#include "ParticleSystem/ParticleSystem.h"
-#include "ParticleSystem/ParticleGenerators/UniformParticleGenerator.h"
-#include "ParticleSystem/ParticleGenerators/RoundAreaRangeGenerator.h"
-
-#include "ParticleSystem/ForceGenerators/GravityForceGenerator.h"
-#include "ParticleSystem/ForceGenerators/WindForceGenerator.h"
-#include "ParticleSystem/ForceGenerators/TornadoForceGenerator.h"
-#include "ParticleSystem/ForceGenerators/ThrustForceGenerator.h"
-#include "ParticleSystem/ForceGenerators/FrictionForceGenerator.h"
+#include "EntitySystem/EntitySystem.h"
+#include "EntitySystem/ParticleGenerators/UniformParticleGenerator.h"
+#include "EntitySystem/ParticleGenerators/RoundAreaRangeGenerator.h"
+		  
+#include "EntitySystem/ForceGenerators/GravityForceGenerator.h"
+#include "EntitySystem/ForceGenerators/WindForceGenerator.h"
+#include "EntitySystem/ForceGenerators/TornadoForceGenerator.h"
+#include "EntitySystem/ForceGenerators/ThrustForceGenerator.h"
+#include "EntitySystem/ForceGenerators/FrictionForceGenerator.h"
 
 #include "RenderItems/Machinery/IndustrialPieces/IndustrialPiece.h"
 #include "RenderItems/Machinery/Submarine.h"

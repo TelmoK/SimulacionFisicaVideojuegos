@@ -1,7 +1,7 @@
 #include "UniformParticleGenerator.h"
 
 #include "../../RenderItems/Particle.h"
-#include "../ParticleSystem.h"
+#include "../EntitySystem.h"
 #include <random>
 #include <iostream>
 

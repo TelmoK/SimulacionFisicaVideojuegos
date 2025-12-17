@@ -1,4 +1,4 @@
-#include "ParticleSystem.h"
+#include "EntitySystem.h"
 #include "../RenderItems/Particle.h"
 
 EntitySystem::~EntitySystem()

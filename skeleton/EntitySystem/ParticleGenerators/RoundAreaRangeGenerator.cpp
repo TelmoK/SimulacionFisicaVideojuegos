@@ -1,7 +1,7 @@
 #include "RoundAreaRangeGenerator.h"
 
 #include "../../RenderItems/Particle.h"
-#include "../ParticleSystem.h"
+#include "../EntitySystem.h"
 
 RoundAreaRangeGenerator::RoundAreaRangeGenerator(EntitySystem* particle_system, Particle* model_particle, float generation_period, int periodic_generated_particles, AreaType area_type, float radius)
 	: ParticleGenerator(particle_system, model_particle, generation_period, periodic_generated_particles), 
