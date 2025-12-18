@@ -15,7 +15,7 @@ public:
 	}
 
 	/*
-		Aplica la fuerza en una partícula que le pase el sistema de partículas.
+		Aplica la fuerza en una partícula que le pase el sistema de entidades.
 		t es el delta time.
 	*/
 	void applyForce(Particle* particle, double t) override
@@ -30,11 +30,29 @@ public:
 		applyForceInArea(particle, t);
 	}
 
+	/*
+		Aplica la fuerza en un cuerpo que le pase el sistema de entidades.
+		t es el delta time.
+	*/
+	void applyForce(physx::PxRigidDynamic* body, double t) override
+	{
+		if (!_active) return;
+
+		if (_fluid_area == nullptr || _fluid_area_transform == nullptr) {
+			applyForceInWorld(body, t);
+			return;
+		}
+
+		applyForceInArea(body, t);
+	}
+
 protected:
 
 	void applyForceInWorld(Particle* particle, double t);
 
 	void applyForceInArea(Particle* particle, double t);
+
+	void applyForceInWorld(physx::PxRigidDynamic* body, double t);
 
 	void applyForceInArea(physx::PxRigidDynamic* body, double t);
 

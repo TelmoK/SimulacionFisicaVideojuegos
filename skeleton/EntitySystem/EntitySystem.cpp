@@ -36,8 +36,6 @@ EntitySystem::EntityGeneration_It EntitySystem::deleteEntityGeneration(EntityGen
 {
 	EntityGeneration* generation = (*entity_generation);
 
-	auto next_gen_it = _entity_registers.erase(entity_generation);
-
 	delete generation->particle;
 
 	if(generation->dynamicBody) // Si la generación pertenece a un sólido rígido
@@ -48,6 +46,8 @@ EntitySystem::EntityGeneration_It EntitySystem::deleteEntityGeneration(EntityGen
 	}
 
 	delete generation;
+
+	auto next_gen_it = _entity_registers.erase(entity_generation);
 
 	return next_gen_it;
 }

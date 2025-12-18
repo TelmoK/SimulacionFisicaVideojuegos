@@ -29,7 +29,7 @@ void JellyfishMobGenerator::generateBodies(int body_num)
 		position.z += n_distribution(mt) * _generation_radius;
 
 		if (position.y > _water_height) // No generamos medusas fuera del agua
-			position.y = _water_height - 5;
+			position.y = _water_height * 0.5 - 5;
 
 		JellyfishMob* jellyfish = new JellyfishMob(position, _gPhysics, _gScene, { 0.8, 0, 0.8, 1 });
 		

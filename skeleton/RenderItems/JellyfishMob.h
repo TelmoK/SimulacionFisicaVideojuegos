@@ -39,8 +39,8 @@ protected:
 	float _rotation_count_down = 2; // Tiempo que le queda a la medusa para dejar de rotar
 	float _rotation_duration = 2; // Cuánto tiempo está rotando la medusa
 
-	float _impulse_force = 1000; // Magnitud de la fuerza que hace la medusa al impulsarse
-	float _rotation_force = 100; // Magnitu de la fuerza que hace rotar a la medusa
+	float _impulse_force = 9000; // Magnitud de la fuerza que hace la medusa al impulsarse
+	float _rotation_force = 5000; // Magnitu de la fuerza que hace rotar a la medusa
 
 	Vector3D _last_applied_torque;
 

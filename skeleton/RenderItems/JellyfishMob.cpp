@@ -11,10 +11,11 @@ JellyfishMob::JellyfishMob(Vector3D position, physx::PxPhysics* gPhysics, physx:
 	_body->setLinearVelocity({0, 0, 0});
 	_body->setAngularVelocity({ 0, 0, 0 });
 
-	physx::PxRigidBodyExt::updateMassAndInertia(*_body, 1025);
-
 	shape = CreateShape(physx::PxBoxGeometry(DEFAULT_SIZE.to_vec3())); // Definiendo la forma
 	actor->attachShape(*shape);
+
+	// Importante hacerlo despúés de redefinir la forma
+	physx::PxRigidBodyExt::updateMassAndInertia(*_body, 1025); // 1025 es la densidad media de una medusa
 
 	_gScene->addActor(*_body); // Añadiendo el cuerpo a la escena para que actúe físicamente
 
@@ -29,7 +30,7 @@ JellyfishMob::~JellyfishMob()
 void JellyfishMob::update(float t)
 {
 	addFriction();
-	/*TODO: FLOTACIÓN SOLIDOS RÍGIDOS*/_body->addForce(Vector3(0, 8.8, 0));
+	std::cout << Vector3D(_body->getGlobalPose().p).to_str() << "\n";
 
 	// Hacemos la cuenta atras hasta el próximo impulso
 	if (_impulse_count_down > 0)
@@ -84,9 +85,6 @@ void JellyfishMob::update(float t)
 
 void JellyfishMob::addFriction()
 {
-	if (_body->getLinearVelocity().magnitude() > 0)
-		_body->addForce(_body->getLinearVelocity() * _body->getMass() * -0.25); // Rozamiento
-
 	// Si la medusa recibe un impacto que la haga rotar demasiado se frenará un poco
 
 	Vector3 ang_moment = Vector3( // Momento angular

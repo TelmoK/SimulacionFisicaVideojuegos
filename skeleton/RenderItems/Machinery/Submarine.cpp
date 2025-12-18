@@ -14,8 +14,8 @@ Submarine::Submarine(physx::PxPhysics* gPhysics, physx::PxScene* gScene, Vector3
 	// Creación de la partícula que representa el centro de masas
 	_center_mass = new Particle(position, Vector3D());
 
-	_center_mass->mass() = 30000;//7880000;
-	_center_mass->volume() = BODY_SIZE.x * BODY_SIZE.y * BODY_SIZE.z * 0.5;
+	_center_mass->mass() = 30000;
+	_center_mass->volume() = BODY_SIZE.x * BODY_SIZE.y * BODY_SIZE.z * 0.5; // El submarino está hueco
 	
 	// Usamos la partícula como modelo, no se renderiza
 	DeregisterRenderItem(_center_mass); 
@@ -94,7 +94,7 @@ void Submarine::setMassSpaceInvInertiaTensor()
 void Submarine::update(float t)
 {
 	// Control de cámara
-	handleCameraFollow();
+	//handleCameraFollow();
 	
 	// Fuerzas
 	applyMotorForce(t);
