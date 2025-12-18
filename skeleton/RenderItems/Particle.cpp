@@ -21,11 +21,16 @@ Particle::~Particle()
 {
 	DeregisterRenderItem(this);
 }
-
 Particle* Particle::dynamic_copy()
 {
 	return new Particle(_transform.p, _velocity, _acceleration, _real_mass);
 }
+
+void Particle::update(float t)
+{
+	integrate(t);
+}
+
 
 void Particle::integrate(double t)
 {

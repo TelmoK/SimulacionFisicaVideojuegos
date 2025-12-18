@@ -147,6 +147,12 @@
     <ClInclude Include="EntitySystem\BodyGenerators\BodyGenerator.h">
       <Filter>EntitySystem\BodyGenerators</Filter>
     </ClInclude>
+    <ClInclude Include="RenderItems\DynamicEntity.h">
+      <Filter>RenderItems</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderItems\RenderBody.h">
+      <Filter>RenderItems</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Render">

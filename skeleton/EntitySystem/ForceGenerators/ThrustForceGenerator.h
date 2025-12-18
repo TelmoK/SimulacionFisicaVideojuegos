@@ -1,6 +1,7 @@
 #pragma once
 #include "WindForceGenerator.h"
 #include "../../RenderItems/Particle.h"
+#include "../../RenderItems/RenderBody.h"
 
 class ThrustForceGenerator : public ForceGenerator
 {
@@ -34,16 +35,16 @@ public:
 		Aplica la fuerza en un cuerpo que le pase el sistema de entidades.
 		t es el delta time.
 	*/
-	void applyForce(physx::PxRigidDynamic* body, double t) override
+	void applyForce(RenderBody* renderBody, double t) override
 	{
 		if (!_active) return;
 
 		if (_fluid_area == nullptr || _fluid_area_transform == nullptr) {
-			applyForceInWorld(body, t);
+			applyForceInWorld(renderBody->body(), t);
 			return;
 		}
 
-		applyForceInArea(body, t);
+		applyForceInArea(renderBody->body(), t);
 	}
 
 protected:

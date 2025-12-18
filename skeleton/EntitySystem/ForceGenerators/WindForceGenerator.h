@@ -2,6 +2,7 @@
 #include "ForceGenerator.h"
 
 #include "../../RenderItems/Particle.h"
+#include "../../RenderItems/RenderBody.h"
 
 class WindForceGenerator : public ForceGenerator
 {
@@ -30,9 +31,11 @@ public:
 		Aplica la fuerza en un cuerpo que le pase el sistema de entidades.
 		t es el delta time.
 	*/
-	void applyForce(physx::PxRigidDynamic* body, double t) override
+	void applyForce(RenderBody* renderBody, double t) override
 	{
 		if (!_active) return;
+		
+		physx::PxRigidDynamic* body = renderBody->body();
 
 		Vector3D velocity_diff = (wind_velocity - body->getLinearVelocity());
 

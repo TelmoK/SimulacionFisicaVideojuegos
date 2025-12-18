@@ -20,9 +20,11 @@ public:
 		particle->acceleration() += - particle->velocity() * _friction_factor;
 	}
 
-	void applyForce(physx::PxRigidDynamic* body, double t) override
+	void applyForce(RenderBody* renderBody, double t) override
 	{
 		if (!_active) return;
+
+		physx::PxRigidDynamic* body = renderBody->body();
 
 		body->addForce(-body->getLinearVelocity() * body->getMass() * _friction_factor);
 	}

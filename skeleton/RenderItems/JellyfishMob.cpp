@@ -3,7 +3,8 @@
 #include <PxRigidDynamic.h>
 
 JellyfishMob::JellyfishMob(Vector3D position, physx::PxPhysics* gPhysics, physx::PxScene* gScene, const Vector4& _color)
-	: RenderItem(CreateShape(physx::PxBoxGeometry(1, 1, 1)), gPhysics->createRigidDynamic(physx::PxTransform(position.to_vec3())), _color)
+	: RenderBody(),
+	RenderItem(CreateShape(physx::PxBoxGeometry(1, 1, 1)), gPhysics->createRigidDynamic(physx::PxTransform(position.to_vec3())), _color)
 	,_gPhysics(gPhysics), _gScene(gScene)
 {
 	_body = static_cast<physx::PxRigidDynamic*>(actor); // Obteniendo el cuerpo del actor pasado al render item
@@ -24,7 +25,7 @@ JellyfishMob::JellyfishMob(Vector3D position, physx::PxPhysics* gPhysics, physx:
 
 JellyfishMob::~JellyfishMob()
 {
-	_body->release();
+	DeregisterRenderItem(this);
 }
 
 void JellyfishMob::update(float t)

@@ -295,6 +295,7 @@
     <ClInclude Include="EntitySystem\ParticleGenerators\RoundAreaRangeGenerator.h" />
     <ClInclude Include="EntitySystem\ParticleGenerators\UniformParticleGenerator.h" />
     <ClInclude Include="RenderItems\Axis3D.h" />
+    <ClInclude Include="RenderItems\DynamicEntity.h" />
     <ClInclude Include="RenderItems\JellyfishMob.h" />
     <ClInclude Include="RenderItems\Machinery\IndustrialPieces\IndustrialPiece.h" />
     <ClInclude Include="RenderItems\Machinery\IndustrialPieces\PropellerBladePiece.h" />
@@ -302,6 +303,7 @@
     <ClInclude Include="RenderItems\Machinery\SubmarinePropeller.h" />
     <ClInclude Include="RenderItems\Particle.h" />
     <ClInclude Include="RenderItems\Projectile.h" />
+    <ClInclude Include="RenderItems\RenderBody.h" />
     <ClInclude Include="RenderUtils.hpp" />
     <ClInclude Include="Render\Camera.h" />
     <ClInclude Include="Render\Render.h" />

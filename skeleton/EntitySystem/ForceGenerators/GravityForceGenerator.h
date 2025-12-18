@@ -23,9 +23,11 @@ public:
 		Aplica la fuerza en un cuerpo que le pase el sistema de entidades.
 		t es el delta time.
 	*/
-	void applyForce(physx::PxRigidDynamic* body, double t) override
+	void applyForce(RenderBody* renderBody, double t) override
 	{
 		if (!_active) return;
+		
+		physx::PxRigidDynamic* body = renderBody->body();
 
 		body->addForce(Vector3(0, 1, 0) * gravityForce * body->getMass()); // F = m * a
 	}

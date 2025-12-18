@@ -36,9 +36,11 @@ public:
 		Aplica la fuerza en un cuerpo que le pase el sistema de entidades.
 		t es el delta time.
 	*/
-	void applyForce(physx::PxRigidDynamic* body, double t) override
+	void applyForce(RenderBody* renderBody, double t) override
 	{
 		if (!_active) return;
+		
+		physx::PxRigidDynamic* body = renderBody->body();
 
 		wind_velocity = Vector3D(
 			body->getGlobalPose().p.x - tornado_eye.x,

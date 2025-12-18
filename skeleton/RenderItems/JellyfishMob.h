@@ -1,30 +1,27 @@
 #pragma once
+#include "RenderBody.h"
+
 #include "../RenderUtils.hpp"
 #include "../Utils/Vector3D.h"
 
 #include <random>
 
-class JellyfishMob : public RenderItem
+class JellyfishMob : public RenderBody, public RenderItem
 {
 public:
 	JellyfishMob(Vector3D position, physx::PxPhysics* gPhysics, physx::PxScene* gScene, const Vector4& _color);
 
 	~JellyfishMob();
 
-	void update(float t);
+	void update(float t) override;
 
 	void addFriction();
-
-	physx::PxRigidDynamic* body() {
-		return _body;
-	}
 
 protected:
 	physx::PxPhysics* _gPhysics;
 	physx::PxScene* _gScene;
 
 	Vector3D DEFAULT_SIZE = Vector3D(5,4,5);
-	physx::PxRigidDynamic* _body; // Actor físico
 
 	// Gestión del movimiento
 	

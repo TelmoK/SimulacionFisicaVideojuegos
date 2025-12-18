@@ -3,6 +3,7 @@
 #include <memory>
 
 #include "../RenderItems/Particle.h"
+#include "../RenderItems/RenderBody.h"
 #include "ForceGenerators/ForceGenerator.h"
 #include "ParticleGenerators/ParticleGenerator.h"
 #include "BodyGenerators/BodyGenerator.h"
@@ -25,9 +26,7 @@ public:
 		Metodo usado por los BodyGenerators para registrar en el sistema los cuerpos dinámicos que generan 
 		y gestionar su actualización y destrucción desde él.
 	*/
-	void registerNewBody(
-		physx::PxRigidDynamic* dynamicBody, RenderItem* bodyRenderItem, 
-		float life_time = 20, bool inmortal = true);
+	void registerNewBody(RenderBody* dynamicBody, float life_time = 20, bool inmortal = true);
 
 	/*
 		Mete en un vector un puntero a un generador de fuezas que usará en cada update() para aplicárselo
@@ -60,8 +59,7 @@ private:
 	{
 		Particle* particle = nullptr;
 		// o
-		physx::PxRigidDynamic* dynamicBody = nullptr;
-		RenderItem* bodyRenderItem = nullptr; // El RendeItem que renderiza el cuerpo
+		RenderBody* dynamicBody = nullptr;
 
 		std::list<EntityGeneration*>::iterator list_it;
 		float life_time = 5;
