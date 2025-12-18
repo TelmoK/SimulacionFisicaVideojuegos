@@ -29,6 +29,8 @@ public:
 
 	void keyPress(unsigned char key);
 
+	void fillAirTank(float quantity);
+
 	void setMassSpaceInvInertiaTensor();
 
 	float getDensity();
@@ -67,7 +69,11 @@ private:
 	Vector3D _propellers_inv_inertia_diagonal;
 	Vector3D _submarine_inv_inertia_diagonal;
 
-	/*temp*/ float _motor_force;
+	// Fuerzas y valores para el movimiento
+	float _motor_force;
+	float _base_submarine_mass; // Masa del submarino con las cámarase de lastre vacías
+	float _air_tank_capacity;   // Capacidad en volumen de las camaras de lastre
+	float _air_tank_volume = 0;
 
 	// Control de la cámara
 	CameraMode _camera_mode;

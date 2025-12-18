@@ -7,15 +7,20 @@
 #include "../../EntitySystem/ForceGenerators/GravityForceGenerator.h"
 #include "../../RenderUtils.hpp"
 
+#define WATER_DENSITY 997
+
 Submarine::Submarine(physx::PxPhysics* gPhysics, physx::PxScene* gScene, Vector3D position, EntitySystem* world_particle_sys)
 	: _gPhysics(gPhysics), _gScene(gScene), _world_particle_sys(world_particle_sys), 
-	_motor_force(0), _camera_mode(CameraMode::SHELFIE)
+	_motor_force(5000000), _camera_mode(CameraMode::SHELFIE)
 {
 	// Creación de la partícula que representa el centro de masas
 	_center_mass = new Particle(position, Vector3D());
 
-	_center_mass->mass() = 30000;
-	_center_mass->volume() = BODY_SIZE.x * BODY_SIZE.y * BODY_SIZE.z * 0.5; // El submarino está hueco
+	_center_mass->mass() = 140000;
+	_center_mass->volume() = BODY_SIZE.x * BODY_SIZE.y * BODY_SIZE.z; // El submarino está hueco
+
+	_base_submarine_mass = _center_mass->mass();
+	_air_tank_capacity = _center_mass->volume() * 0.35;
 	
 	// Usamos la partícula como modelo, no se renderiza
 	DeregisterRenderItem(_center_mass); 
@@ -128,23 +133,12 @@ void Submarine::keyPress(unsigned char key)
 			));
 		break;
 
-	case 'X':
-		_motor_force += 800;
-		break;
-
-	case 'Z':
-		_motor_force -= 1200;
-		if (_motor_force < 0) _motor_force = 0;
-		break;
-
 	case 'L':
-		_center_mass->volume() += 50;
-		if (_center_mass->volume() > 450) _center_mass->volume() = 450;
+		fillAirTank(-50);
 		break;
 
 	case 'K':
-		_center_mass->volume() -= 50;
-		if (_center_mass->volume() < 50) _center_mass->volume() = 50;
+		fillAirTank(50);
 		break;
 
 	case '1':
@@ -170,6 +164,19 @@ void Submarine::keyPress(unsigned char key)
 	default:
 		break;
 	}
+}
+
+void Submarine::fillAirTank(float quantity)
+{
+	_air_tank_volume += quantity;
+
+	if (_air_tank_volume < 0) 
+		_air_tank_volume = 0;
+
+	if (_air_tank_volume > _air_tank_capacity) 
+		_air_tank_volume = _air_tank_capacity;
+
+	_center_mass->mass() = _base_submarine_mass + _air_tank_volume * WATER_DENSITY;
 }
 
 void Submarine::handleCameraFollow()
@@ -200,7 +207,7 @@ void Submarine::applyMotorForce(float t)
 {
 	// [1] OBTENCIÓN DE FUERZAS
 
-	Vector3D motor_torque = _propellers->core_piece()->transform().q.rotate(_propellers->base_orientation.to_vec3()) * 1000000;//Vector3D(-10000, 0, 0);
+	Vector3D motor_torque = _propellers->core_piece()->transform().q.rotate(_propellers->base_orientation.to_vec3()) * _motor_force;//Vector3D(-10000, 0, 0);
 
 	// Aplicación de las fuerzas y obtención de reacciones
 
@@ -283,8 +290,8 @@ void Submarine::applyMotorForce(float t)
 		Vector3D()// Rotación
 		});
 	
-	//std::cout << "Pos " << Vector3D(_center_mass->position()).to_str() << "\n";
-	//std::cout << "F " << total_linaer_force.to_str() << "\n\n";
+	std::cout << "Pos " << Vector3D(_center_mass->position()).to_str() << "\n";
+	std::cout << "Spin " << subamrine_angular_acceleration.to_str() << "\n\n";
 
 	// Generando partículas de burbuja
 
