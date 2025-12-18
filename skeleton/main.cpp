@@ -136,7 +136,7 @@ void initPhysics(bool interactive)
 	
 	// El submarino y demás
 
-	//submarine = new Submarine(gPhysics, gScene, Vector3D(0, 100, 0), submarine_particle_sys.get());
+	submarine = new Submarine(gPhysics, gScene, Vector3D(0, 100, 0), submarine_particle_sys.get());
 
 	general_gravity_generator = std::make_shared<GravityForceGenerator>(snow_particle_sys.get(), -9.8);
 	general_thrust_generator = std::make_shared<ThrustForceGenerator>(submarine_particle_sys.get(), WATER_DENSITY, -9.8, 5, sea_geometry.get(), sea_transform.get());
@@ -149,9 +149,9 @@ void initPhysics(bool interactive)
 	
 	// Las medusas
 	
-	jellyfish = new JellyfishMob({0, 100, 0}, gPhysics, gScene, { 0.8, 0, 0.8, 1 });
+	//jellyfish = new JellyfishMob({0, 100, 0}, gPhysics, gScene, { 0.8, 0, 0.8, 1 });
 
-	/*jellyfish_entity_sys->referenceBodyGenerator(
+	jellyfish_entity_sys->referenceBodyGenerator(
 		std::make_shared<JellyfishMobGenerator>(
 			jellyfish_entity_sys.get(), gPhysics, gScene, submarine->center_mass(),
 			100, sea_geometry->halfExtents.y, 10, 5
@@ -162,9 +162,6 @@ void initPhysics(bool interactive)
 	jellyfish_entity_sys->referenceForceGenerator(
 		std::make_shared<FrictionForceGenerator>(submarine_particle_sys.get(), 0.3)
 	);
-	jellyfish_entity_sys->referenceForceGenerator(
-		std::make_shared<GravityForceGenerator>(submarine_particle_sys.get(), -9.8)
-	);*/
 
 	// CAMARA INICIAL
 	//GetCamera()->setDir(Vector3D(1, 0, 0).normalized().to_vec3());
@@ -186,13 +183,13 @@ void stepPhysics(bool interactive, double t)
 	submarine_particle_sys->update(t);
 	jellyfish_entity_sys->update(t);
 	
-	//submarine->update(t);
+	submarine->update(t);
 	
 	
 	//propeller->update(t);
 
-	jellyfish->update(t);
-	general_thrust_generator->applyForce(jellyfish->body(), t);
+	//jellyfish->update(t);
+	//general_thrust_generator->applyForce(jellyfish->body(), t);
 }
 
 // Function to clean data
