@@ -32,6 +32,8 @@ public:
 
 	void fillAirTank(float quantity);
 
+	void switchRudder();
+
 	void setMassSpaceInvInertiaTensor();
 
 	float getDensity();
@@ -75,6 +77,7 @@ private:
 	float _base_submarine_mass; // Masa del submarino con las cámarase de lastre vacías
 	float _air_tank_capacity;   // Capacidad en volumen de las camaras de lastre
 	float _air_tank_volume = 0;
+	int _rudder_dir = 1; // Orientación del timón (izquierda = 1, derecha = -1)
 
 	// Control de la cámara
 	CameraMode _camera_mode;

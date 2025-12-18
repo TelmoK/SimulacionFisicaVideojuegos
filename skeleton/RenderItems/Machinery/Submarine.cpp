@@ -47,7 +47,11 @@ Submarine::Submarine(physx::PxPhysics* gPhysics, physx::PxScene* gScene, Vector3
 
 	// Timón
 	_rudder_relative_pos = Vector3D(-BODY_SIZE.x, 0, 0);
-	_rudder_initial_quaternion = physx::PxQuat(physx::PxPi * 0.25, Vector3(0, 1, 0)) * physx::PxQuat(physx::PxPi * -0.5, Vector3(1, 0, 0)) * physx::PxQuat(physx::PxPi * 0.5, Vector3(0, 1, 0));
+	_rudder_initial_quaternion = (
+			physx::PxQuat(physx::PxPi * physx::PxSign(_rudder_dir) * 0.25, Vector3(0, 1, 0)) *
+			physx::PxQuat(physx::PxPi * -0.5, Vector3(1, 0, 0)) * 
+			physx::PxQuat(physx::PxPi * 0.5, Vector3(0, 1, 0))
+		);
 
 	_rudder = new PropellerBladePiece(position + _rudder_relative_pos, 9, 4, 1, 5, { 1.0f, 0.45f, 0.0f, 1.0f });
 	_rudder->reaction_mode = PropellerBladePiece::LINEAR;
@@ -142,6 +146,9 @@ void Submarine::keyPress(unsigned char key)
 	case 'K':
 		fillAirTank(50);
 		break;
+	case 'R':
+		switchRudder();
+		break;
 
 	case '1':
 		_camera_mode = CameraMode::FIRST_PERSON;
@@ -179,6 +186,19 @@ void Submarine::fillAirTank(float quantity)
 		_air_tank_volume = _air_tank_capacity;
 
 	_center_mass->mass() = _base_submarine_mass + _air_tank_volume * WATER_DENSITY;
+}
+
+void Submarine::switchRudder()
+{
+	_rudder_dir *= -1;
+
+	_rudder_initial_quaternion = (
+		physx::PxQuat(physx::PxPi * physx::PxSign(_rudder_dir) * 0.25, Vector3(0, 1, 0)) *
+		physx::PxQuat(physx::PxPi * -0.5, Vector3(1, 0, 0)) *
+		physx::PxQuat(physx::PxPi * 0.5, Vector3(0, 1, 0))
+		);
+
+	_rudder->setQuaternion(_center_mass->transform().q * _rudder_initial_quaternion);
 }
 
 void Submarine::handleCameraFollow()
