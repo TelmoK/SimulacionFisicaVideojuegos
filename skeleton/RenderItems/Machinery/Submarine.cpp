@@ -25,7 +25,7 @@ Submarine::Submarine(physx::PxPhysics* gPhysics, physx::PxScene* gScene, Vector3
 	_world_particle_sys->registerNewEntity(_center_mass, 0, true);
 
 	// Renderización del cuerpo del submarino
-	cabin = new RenderItem(CreateShape(physx::PxBoxGeometry(BODY_SIZE.x, BODY_SIZE.y, BODY_SIZE.z)), &_center_mass->transform(), Vector4(1, 0, 1, 1));
+	cabin = new RenderItem(CreateShape(physx::PxBoxGeometry(BODY_SIZE.x, BODY_SIZE.y, BODY_SIZE.z)), &_center_mass->transform(), Vector4(1.0f, 0.72f, 0.0f, 1.0f));
 	
 	// Motor
 	_motor_relative_pos = Vector3D(-BODY_SIZE.x, 0, 0);
@@ -43,7 +43,7 @@ Submarine::Submarine(physx::PxPhysics* gPhysics, physx::PxScene* gScene, Vector3
 	_rudder_relative_pos = Vector3D(-BODY_SIZE.x, 0, 0);
 	_rudder_initial_quaternion = physx::PxQuat(physx::PxPi * 0.25, Vector3(0, 1, 0)) * physx::PxQuat(physx::PxPi * -0.5, Vector3(1, 0, 0)) * physx::PxQuat(physx::PxPi * 0.5, Vector3(0, 1, 0));
 
-	_rudder = new PropellerBladePiece(position + _rudder_relative_pos, 9, 4, 1, 5, {0, 1, 1, 1});
+	_rudder = new PropellerBladePiece(position + _rudder_relative_pos, 9, 4, 1, 5, { 1.0f, 0.45f, 0.0f, 1.0f });
 	_rudder->reaction_mode = PropellerBladePiece::LINEAR;
 	_rudder->setQuaternion(_rudder_initial_quaternion);
 

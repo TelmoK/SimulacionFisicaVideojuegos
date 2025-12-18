@@ -31,7 +31,15 @@ void JellyfishMobGenerator::generateBodies(int body_num)
 		if (position.y > _water_height) // No generamos medusas fuera del agua
 			position.y = _water_height * 0.5 - 5;
 
-		JellyfishMob* jellyfish = new JellyfishMob(position, _gPhysics, _gScene, { 0.8, 0, 0.8, 1 });
+		float red_color = n_distribution(mt);
+		float green_color = n_distribution(mt);
+		float blue_color = n_distribution(mt);
+
+		if (red_color < 0.5) blue_color = 0.5;
+		if (green_color > 0.35) blue_color = 0.35;
+		if (blue_color < 0.5) blue_color = 0.5;
+
+		JellyfishMob* jellyfish = new JellyfishMob(position, _gPhysics, _gScene, { 0.917, 0.237, blue_color, 1 });
 		
 		// Se registra el cuerpo en el Sistema de Entidades
 		_entity_system->registerNewEntity(jellyfish, 10, false); 

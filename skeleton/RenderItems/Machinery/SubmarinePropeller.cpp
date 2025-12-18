@@ -14,7 +14,7 @@ SubmarinePropeller::SubmarinePropeller(int blade_num, physx::PxPhysics* gPhysics
 			CreateShape(physx::PxBoxGeometry(SHAFT_SIZE.x, SHAFT_SIZE.y, SHAFT_SIZE.z)),
 			_shaft_local_transform.p,
 			10, 
-			Vector4(1, 0, 1, 1)
+			Vector4(0.4f, 0.4f, 0.45f, 1.0f) // Color
 		);
 
 	// Punto de anclaje del eje
@@ -32,7 +32,7 @@ SubmarinePropeller::SubmarinePropeller(int blade_num, physx::PxPhysics* gPhysics
 			CreateShape(physx::PxBoxGeometry(BOSS_SIZE.x, BOSS_SIZE.y, BOSS_SIZE.z)),
 			_boss_local_transform.p,
 			10,
-			Vector4(1, 0, 0, 1)
+			Vector4(0.15f, 0.15f, 0.15f, 1.0f) // Color
 		);
 
 	// Punto de anclaje del núcleo
@@ -52,7 +52,7 @@ SubmarinePropeller::SubmarinePropeller(int blade_num, physx::PxPhysics* gPhysics
 			Vector3D(SHAFT_SIZE.x, 0, 0),
 			BLADE_SIZE.x, BLADE_SIZE.z, BLADE_SIZE.y,
 			10,
-			Vector4(1, 0, 1, 1)
+			Vector4(0.72f, 0.53f, 0.04f, 1.0f) // Color
 		);
 
 		blade->reaction_mode = PropellerBladePiece::ANGULAR;

@@ -160,7 +160,7 @@ void initPhysics(bool interactive)
 
 	jellyfish_entity_sys->referenceForceGenerator(general_thrust_generator);
 	jellyfish_entity_sys->referenceForceGenerator(
-		std::make_shared<FrictionForceGenerator>(submarine_particle_sys.get(), 0.3)
+		std::make_shared<FrictionForceGenerator>(submarine_particle_sys.get(), 0.3, sea_geometry.get(), sea_transform.get())
 	);
 
 	// CAMARA INICIAL
