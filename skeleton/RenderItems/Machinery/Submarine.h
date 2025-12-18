@@ -33,6 +33,10 @@ public:
 
 	float getDensity();
 
+	Particle* center_mass() {
+		return _center_mass;
+	}
+
 private:
 
 	// Comportamiento con la física de la escena

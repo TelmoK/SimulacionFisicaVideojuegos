@@ -254,6 +254,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="callbacks.cpp" />
+    <ClCompile Include="EntitySystem\BodyGenerators\BodyGenerator.cpp" />
+    <ClCompile Include="EntitySystem\BodyGenerators\JellyfishMobGenerator.cpp" />
     <ClCompile Include="EntitySystem\EntitySystem.cpp" />
     <ClCompile Include="EntitySystem\ForceGenerators\ThrustForceGenerator.cpp" />
     <ClCompile Include="EntitySystem\ParticleGenerators\NormalParticleGenerator.cpp" />
@@ -277,6 +279,8 @@
   <ItemGroup>
     <ClInclude Include="callbacks.hpp" />
     <ClInclude Include="core.hpp" />
+    <ClInclude Include="EntitySystem\BodyGenerators\BodyGenerator.h" />
+    <ClInclude Include="EntitySystem\BodyGenerators\JellyfishMobGenerator.h" />
     <ClInclude Include="EntitySystem\EntitySystem.h" />
     <ClInclude Include="EntitySystem\ForceGenerators\ExplosiveForceGenerator.h" />
     <ClInclude Include="EntitySystem\ForceGenerators\ForceGenerator.h" />

@@ -2,8 +2,8 @@
 #include <PxActor.h>
 #include <PxRigidDynamic.h>
 
-JellyfishMob::JellyfishMob(physx::PxPhysics* gPhysics, physx::PxScene* gScene, const Vector4& _color)
-	: RenderItem(CreateShape(physx::PxBoxGeometry(1, 1, 1)), gPhysics->createRigidDynamic(physx::PxTransform({ 0, 40, 0 })), _color)
+JellyfishMob::JellyfishMob(Vector3D position, physx::PxPhysics* gPhysics, physx::PxScene* gScene, const Vector4& _color)
+	: RenderItem(CreateShape(physx::PxBoxGeometry(1, 1, 1)), gPhysics->createRigidDynamic(physx::PxTransform(position.to_vec3())), _color)
 	,_gPhysics(gPhysics), _gScene(gScene)
 {
 	_body = static_cast<physx::PxRigidDynamic*>(actor); // Obteniendo el cuerpo del actor pasado al render item
@@ -19,6 +19,11 @@ JellyfishMob::JellyfishMob(physx::PxPhysics* gPhysics, physx::PxScene* gScene, c
 	_gScene->addActor(*_body); // Añadiendo el cuerpo a la escena para que actúe físicamente
 
 	u_distribution = std::uniform_real_distribution<double>(-1, 1); // Para la dirección aleatoria
+}
+
+JellyfishMob::~JellyfishMob()
+{
+	_body->release();
 }
 
 void JellyfishMob::update(float t)

@@ -17,6 +17,8 @@
 #include "EntitySystem/EntitySystem.h"
 #include "EntitySystem/ParticleGenerators/UniformParticleGenerator.h"
 #include "EntitySystem/ParticleGenerators/RoundAreaRangeGenerator.h"
+
+#include "EntitySystem/BodyGenerators/JellyfishMobGenerator.h"
 		  
 #include "EntitySystem/ForceGenerators/GravityForceGenerator.h"
 #include "EntitySystem/ForceGenerators/WindForceGenerator.h"
@@ -57,6 +59,7 @@ Axis3D* axis;
 std::unique_ptr<EntitySystem> snow_particle_sys;
 // El sistema de partículas que gestiona el centro de masas del submarino
 std::unique_ptr<EntitySystem> submarine_particle_sys; 
+std::unique_ptr<EntitySystem> jellyfish_entity_sys; 
 
 std::unique_ptr<physx::PxBoxGeometry> sea_geometry;
 std::unique_ptr<physx::PxTransform> sea_transform;
@@ -106,10 +109,12 @@ void initPhysics(bool interactive)
 
 	axis = new Axis3D();
 
+	snow_particle_sys =		 std::make_unique<EntitySystem>();
 	submarine_particle_sys = std::make_unique<EntitySystem>();
-	snow_particle_sys = std::make_unique<EntitySystem>();
+	jellyfish_entity_sys =   std::make_unique<EntitySystem>();
 
 	// La nieve
+
 	snow_particle_sys->referenceParticleGenerator(
 		std::make_shared<RoundAreaRangeGenerator>(
 			snow_particle_sys.get(), new Particle(Vector3D(-200, 160, -200), Vector3D(0, 0, 0)), 0.1, 100,
@@ -124,11 +129,13 @@ void initPhysics(bool interactive)
 	snow_particle_sys->referenceForceGenerator(snow_wind_generator);
 	
 	// El "mar"
+
 	sea_geometry = std::make_unique<physx::PxBoxGeometry>(1000, 200, 1000);
 	sea_transform = std::make_unique<physx::PxTransform>(PxVec3(0, -100, 0));
 	sea_water_block = std::make_unique<RenderItem>(CreateShape(*sea_geometry), sea_transform.get(), Vector4(0, 0, 1, 0.1));
 	
 	// El submarino y demás
+
 	submarine = new Submarine(gPhysics, gScene, Vector3D(0, 100, 0), submarine_particle_sys.get());
 
 	general_gravity_generator = std::make_shared<GravityForceGenerator>(snow_particle_sys.get(), -9.8);
@@ -140,7 +147,16 @@ void initPhysics(bool interactive)
 		std::make_shared<FrictionForceGenerator>(submarine_particle_sys.get(), 0.2)
 	);
 	
-	jellyfish = new JellyfishMob(gPhysics, gScene, {0.8, 0, 0.8, 1});
+	// Las medusas
+	
+	//jellyfish = new JellyfishMob({0, 40, 0}, gPhysics, gScene, { 0.8, 0, 0.8, 1 });
+
+	jellyfish_entity_sys->referenceBodyGenerator(
+		std::make_shared<JellyfishMobGenerator>(
+			jellyfish_entity_sys.get(), gPhysics, gScene, submarine->center_mass(),
+			100, sea_geometry->halfExtents.y, 40, 5
+		)
+	);
 
 	// CAMARA INICIAL
 	//GetCamera()->setDir(Vector3D(1, 0, 0).normalized().to_vec3());
@@ -160,15 +176,14 @@ void stepPhysics(bool interactive, double t)
 
 	snow_particle_sys->update(t);
 	submarine_particle_sys->update(t);
+	jellyfish_entity_sys->update(t);
 	
 	submarine->update(t);
 	
 	
 	//propeller->update(t);
 
-	jellyfish->update(t);
-//	if (jh > 1) jh -= t;
-//	render_jellyfish->shape = CreateShape(PxBoxGeometry(5,jh,5));
+	//jellyfish->update(t);
 }
 
 // Function to clean data

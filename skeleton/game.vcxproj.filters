@@ -38,7 +38,7 @@
       <Filter>RenderItems</Filter>
     </ClCompile>
     <ClCompile Include="EntitySystem\ForceGenerators\ThrustForceGenerator.cpp">
-      <Filter>EntitySystem\ForceGenerator</Filter>
+      <Filter>EntitySystem\ForceGenerators</Filter>
     </ClCompile>
     <ClCompile Include="EntitySystem\ParticleGenerators\NormalParticleGenerator.cpp">
       <Filter>EntitySystem\ParticleGenerators</Filter>
@@ -54,6 +54,12 @@
     </ClCompile>
     <ClCompile Include="EntitySystem\EntitySystem.cpp">
       <Filter>EntitySystem</Filter>
+    </ClCompile>
+    <ClCompile Include="EntitySystem\BodyGenerators\JellyfishMobGenerator.cpp">
+      <Filter>EntitySystem\BodyGenerators</Filter>
+    </ClCompile>
+    <ClCompile Include="EntitySystem\BodyGenerators\BodyGenerator.cpp">
+      <Filter>EntitySystem\BodyGenerators</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -97,28 +103,28 @@
       <Filter>RenderItems</Filter>
     </ClInclude>
     <ClInclude Include="EntitySystem\ForceGenerators\ExplosiveForceGenerator.h">
-      <Filter>EntitySystem\ForceGenerator</Filter>
+      <Filter>EntitySystem\ForceGenerators</Filter>
     </ClInclude>
     <ClInclude Include="EntitySystem\ForceGenerators\ForceGenerator.h">
-      <Filter>EntitySystem\ForceGenerator</Filter>
+      <Filter>EntitySystem\ForceGenerators</Filter>
     </ClInclude>
     <ClInclude Include="EntitySystem\ForceGenerators\FrictionForceGenerator.h">
-      <Filter>EntitySystem\ForceGenerator</Filter>
+      <Filter>EntitySystem\ForceGenerators</Filter>
     </ClInclude>
     <ClInclude Include="EntitySystem\ForceGenerators\GravityForceGenerator.h">
-      <Filter>EntitySystem\ForceGenerator</Filter>
+      <Filter>EntitySystem\ForceGenerators</Filter>
     </ClInclude>
     <ClInclude Include="EntitySystem\ForceGenerators\SpringForceGenerator.h">
-      <Filter>EntitySystem\ForceGenerator</Filter>
+      <Filter>EntitySystem\ForceGenerators</Filter>
     </ClInclude>
     <ClInclude Include="EntitySystem\ForceGenerators\ThrustForceGenerator.h">
-      <Filter>EntitySystem\ForceGenerator</Filter>
+      <Filter>EntitySystem\ForceGenerators</Filter>
     </ClInclude>
     <ClInclude Include="EntitySystem\ForceGenerators\TornadoForceGenerator.h">
-      <Filter>EntitySystem\ForceGenerator</Filter>
+      <Filter>EntitySystem\ForceGenerators</Filter>
     </ClInclude>
     <ClInclude Include="EntitySystem\ForceGenerators\WindForceGenerator.h">
-      <Filter>EntitySystem\ForceGenerator</Filter>
+      <Filter>EntitySystem\ForceGenerators</Filter>
     </ClInclude>
     <ClInclude Include="EntitySystem\ParticleGenerators\NormalParticleGenerator.h">
       <Filter>EntitySystem\ParticleGenerators</Filter>
@@ -134,6 +140,12 @@
     </ClInclude>
     <ClInclude Include="EntitySystem\EntitySystem.h">
       <Filter>EntitySystem</Filter>
+    </ClInclude>
+    <ClInclude Include="EntitySystem\BodyGenerators\JellyfishMobGenerator.h">
+      <Filter>EntitySystem\BodyGenerators</Filter>
+    </ClInclude>
+    <ClInclude Include="EntitySystem\BodyGenerators\BodyGenerator.h">
+      <Filter>EntitySystem\BodyGenerators</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -158,7 +170,10 @@
     <Filter Include="EntitySystem\ParticleGenerators">
       <UniqueIdentifier>{c0356ecb-7fda-4e7c-8d47-2d4f7aa78b6b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="EntitySystem\ForceGenerator">
+    <Filter Include="EntitySystem\BodyGenerators">
+      <UniqueIdentifier>{3b24e300-d73c-4ecf-905b-6a828c746791}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EntitySystem\ForceGenerators">
       <UniqueIdentifier>{2f35cbc2-7c0e-4dd6-8ed7-6381bfb156c4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>

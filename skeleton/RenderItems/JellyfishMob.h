@@ -7,7 +7,9 @@
 class JellyfishMob : public RenderItem
 {
 public:
-	JellyfishMob(physx::PxPhysics* gPhysics, physx::PxScene* gScene, const Vector4& _color);
+	JellyfishMob(Vector3D position, physx::PxPhysics* gPhysics, physx::PxScene* gScene, const Vector4& _color);
+
+	~JellyfishMob();
 
 	void update(float t);
 

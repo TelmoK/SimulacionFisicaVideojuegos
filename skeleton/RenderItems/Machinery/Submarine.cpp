@@ -2,9 +2,9 @@
 
 #include "../Particle.h"
 #include "../Projectile.h"
-#include "../../ParticleSystem/EntitySystem.h"
-#include "../../ParticleSystem/ParticleGenerators/UniformParticleGenerator.h"
-#include "../../ParticleSystem/ForceGenerators/GravityForceGenerator.h"
+#include "../../EntitySystem/EntitySystem.h"
+#include "../../EntitySystem/ParticleGenerators/UniformParticleGenerator.h"
+#include "../../EntitySystem/ForceGenerators/GravityForceGenerator.h"
 #include "../../RenderUtils.hpp"
 
 Submarine::Submarine(physx::PxPhysics* gPhysics, physx::PxScene* gScene, Vector3D position, EntitySystem* world_particle_sys)

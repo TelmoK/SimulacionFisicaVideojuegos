@@ -19,13 +19,14 @@ void EntitySystem::registerNewParticle(Particle* particle, float life_time, bool
 	generation->inmortal = inmortal;
 }
 
-void EntitySystem::registerNewBody(physx::PxRigidDynamic* dynamicBody, float life_time, bool inmortal)
+void EntitySystem::registerNewBody(physx::PxRigidDynamic* dynamicBody, RenderItem* bodyRenderItem, float life_time, bool inmortal)
 {
 	EntityGeneration* generation = new EntityGeneration();
 
 	_entity_registers.push_back(generation);
 
 	generation->dynamicBody = dynamicBody;
+	generation->bodyRenderItem = bodyRenderItem;
 	generation->list_it = std::prev(_entity_registers.end());
 	generation->life_time = life_time;
 	generation->inmortal = inmortal;
@@ -39,8 +40,12 @@ EntitySystem::EntityGeneration_It EntitySystem::deleteEntityGeneration(EntityGen
 
 	delete generation->particle;
 
-	if(generation->dynamicBody)
+	if(generation->dynamicBody) // Si la generación pertenece a un sólido rígido
+	{
+		DeregisterRenderItem(generation->bodyRenderItem);
+		delete generation->bodyRenderItem;
 		generation->dynamicBody->release();
+	}
 
 	delete generation;
 
@@ -70,13 +75,23 @@ void EntitySystem::referenceForceGenerator(std::shared_ptr<ForceGenerator> force
 	_force_generators.push_back(std::move(force_generator));
 }
 
+void EntitySystem::referenceBodyGenerator(std::shared_ptr<BodyGenerator> body_generator)
+{
+	_body_generators.push_back(std::move(body_generator));
+}
+
 void EntitySystem::update(float t)
 {
 	cleanUpDeadEntities();
 
+	// Gestión de los generadores de entidades
 	for(std::shared_ptr<ParticleGenerator> particle_generator : _particle_generators)
 		particle_generator->handleGenerationPeriod(t);
 
+	for(std::shared_ptr<BodyGenerator> body_generator : _body_generators)
+		body_generator->handleGenerationPeriod(t);
+
+	// Gestión de los generadores de fuerza e integración de las entidades
 	for (EntityGeneration* ent_generation : _entity_registers)
 	{
 		if (ent_generation->particle)
