@@ -1,6 +1,7 @@
 #include "Submarine.h"
 
 #include "../Particle.h"
+#include "../Bubble.h"
 #include "../Projectile.h"
 #include "../../EntitySystem/EntitySystem.h"
 #include "../../EntitySystem/ParticleGenerators/UniformParticleGenerator.h"
@@ -59,8 +60,8 @@ Submarine::Submarine(physx::PxPhysics* gPhysics, physx::PxScene* gScene, Vector3
 	_subarine_eye = Vector3D(BODY_SIZE.x + 1, 0, 0);
 
 	// Generadores de burbujas
-	_motor_bubble_particle_model = new Particle(_motor_relative_pos, Vector3D(-2, 0, 0));
-
+	_motor_bubble_particle_model = new Bubble(_motor_relative_pos, 100.0f, Vector3D(-2, 0, 0));
+	
 	_motor_particle_generator = std::make_shared<UniformParticleGenerator>(
 		_world_particle_sys, _motor_bubble_particle_model, -1
 	);
@@ -108,7 +109,7 @@ void Submarine::update(float t)
 	// Fuerzas
 	// Se gestiona desde la partícula de centro de masas
 
-	_motor_bubble_particle_model->transform().p = _center_mass->transform().p + _motor_relative_pos.to_vec3();
+	_motor_bubble_particle_model->transform().p = _center_mass->transform().p + _motor_relative_pos.to_vec3() * 2;
 }
 
 void Submarine::keyPress(unsigned char key)
@@ -304,5 +305,5 @@ void Submarine::applyMotorForce(float t)
 
 	// Generando partículas de burbuja
 
-	//_motor_particle_generator->generateParticles(2);
+	_motor_particle_generator->generateParticles(5);
 }

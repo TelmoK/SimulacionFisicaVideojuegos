@@ -64,6 +64,9 @@
     <ClCompile Include="RenderItems\RenderBody.cpp">
       <Filter>RenderItems</Filter>
     </ClCompile>
+    <ClCompile Include="RenderItems\Bubble.cpp">
+      <Filter>RenderItems</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.hpp" />
@@ -154,6 +157,9 @@
       <Filter>RenderItems</Filter>
     </ClInclude>
     <ClInclude Include="RenderItems\RenderBody.h">
+      <Filter>RenderItems</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderItems\Bubble.h">
       <Filter>RenderItems</Filter>
     </ClInclude>
   </ItemGroup>

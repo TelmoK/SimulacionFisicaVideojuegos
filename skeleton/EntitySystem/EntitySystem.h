@@ -17,18 +17,6 @@ public:
 	~EntitySystem();
 
 	/*
-		Metodo usado por los ParticleGenerators para registrar en el sistema las partículas que generan
-		y gestionar su actualización y destrucción desde él.
-	*/
-	//void registerNewParticle(Particle* particle, float life_time = 2, bool inmortal = false);
-
-	/*
-		Metodo usado por los BodyGenerators para registrar en el sistema los cuerpos dinámicos que generan 
-		y gestionar su actualización y destrucción desde él.
-	*/
-	//void registerNewBody(RenderBody* dynamicBody, float life_time = 20, bool inmortal = true);
-
-	/*
 		Metodo usado por los BodyGenerators para registrar en el sistema los cuerpos dinámicos o partículas
 		que generan y gestionar su actualización y destrucción desde él.
 	*/
@@ -63,10 +51,6 @@ private:
 	*/
 	struct EntityGeneration
 	{
-		/*Particle* particle = nullptr;
-		// o
-		RenderBody* dynamicBody = nullptr;*/
-
 		DynamicEntity* entity = nullptr;
 
 		std::list<EntityGeneration*>::iterator list_it;

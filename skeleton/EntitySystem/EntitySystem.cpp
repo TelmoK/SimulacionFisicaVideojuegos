@@ -6,31 +6,6 @@ EntitySystem::~EntitySystem()
 	for (auto p_register_it = _entity_registers.begin(); p_register_it != _entity_registers.end(); )
 		p_register_it = deleteEntityGeneration((*p_register_it)->list_it);
 }
-/*
-void EntitySystem::registerNewParticle(Particle* particle, float life_time, bool inmortal)
-{
-	EntityGeneration* generation = new EntityGeneration();
-	
-	_entity_registers.push_back(generation);
-	
-	generation->particle = particle;
-	generation->list_it = std::prev(_entity_registers.end());
-	generation->life_time = life_time;
-	generation->inmortal = inmortal;
-}
-
-void EntitySystem::registerNewBody(RenderBody* dynamicBody, float life_time, bool inmortal)
-{
-	EntityGeneration* generation = new EntityGeneration();
-
-	_entity_registers.push_back(generation);
-
-	generation->dynamicBody = dynamicBody;
-	generation->list_it = std::prev(_entity_registers.end());
-	generation->life_time = life_time;
-	generation->inmortal = inmortal;
-}
-*/
 
 void EntitySystem::registerNewEntity(DynamicEntity* entity, float life_time, bool inmortal)
 {
@@ -47,13 +22,7 @@ void EntitySystem::registerNewEntity(DynamicEntity* entity, float life_time, boo
 EntitySystem::EntityGeneration_It EntitySystem::deleteEntityGeneration(EntityGeneration_It entity_generation)
 {
 	EntityGeneration* generation = (*entity_generation);
-/*
-	if (generation->particle)
-		delete generation->particle;
 
-	if(generation->dynamicBody) // Si la generación pertenece a un sólido rígido
-		delete generation->dynamicBody;
-	*/
 	delete generation->entity;
 
 	delete generation;
@@ -105,21 +74,6 @@ void EntitySystem::update(float t)
 	// Gestión de los generadores de fuerza e integración de las entidades
 	for (EntityGeneration* ent_generation : _entity_registers)
 	{
-		/*if (ent_generation->particle)
-		{
-			for(std::shared_ptr<ForceGenerator> force_generator : _force_generators)
-				force_generator->applyForce(ent_generation->particle, t);
-
-			ent_generation->particle->integrate(t);
-		}
-
-		if (ent_generation->dynamicBody)
-		{
-			for(std::shared_ptr<ForceGenerator> force_generator : _force_generators)
-				force_generator->applyForce(ent_generation->dynamicBody, t);
-			
-			// La integración de los cuerpos la gestiona Physx
-		}*/
 		for (std::shared_ptr<ForceGenerator> force_generator : _force_generators)
 			ent_generation->entity->receiveForceFrom(force_generator.get(), t);
 

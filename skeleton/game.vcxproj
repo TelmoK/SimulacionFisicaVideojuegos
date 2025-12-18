@@ -264,6 +264,7 @@
     <ClCompile Include="EntitySystem\ParticleGenerators\UniformParticleGenerator.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="RenderItems\Axis3D.cpp" />
+    <ClCompile Include="RenderItems\Bubble.cpp" />
     <ClCompile Include="RenderItems\JellyfishMob.cpp" />
     <ClCompile Include="RenderItems\Machinery\IndustrialPieces\IndustrialPiece.cpp" />
     <ClCompile Include="RenderItems\Machinery\IndustrialPieces\PropellerBladePiece.cpp" />
@@ -296,6 +297,7 @@
     <ClInclude Include="EntitySystem\ParticleGenerators\RoundAreaRangeGenerator.h" />
     <ClInclude Include="EntitySystem\ParticleGenerators\UniformParticleGenerator.h" />
     <ClInclude Include="RenderItems\Axis3D.h" />
+    <ClInclude Include="RenderItems\Bubble.h" />
     <ClInclude Include="RenderItems\DynamicEntity.h" />
     <ClInclude Include="RenderItems\JellyfishMob.h" />
     <ClInclude Include="RenderItems\Machinery\IndustrialPieces\IndustrialPiece.h" />

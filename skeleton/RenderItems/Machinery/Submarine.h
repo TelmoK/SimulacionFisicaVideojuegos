@@ -8,6 +8,7 @@
 #include "IndustrialPieces/PropellerBladePiece.h"
 
 class Particle;
+class Bubble;
 class Projectile;
 class EntitySystem;
 class UniformParticleGenerator;
