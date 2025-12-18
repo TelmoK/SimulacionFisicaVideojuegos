@@ -12,6 +12,8 @@ public:
 		_body->release(); // Borramos el cuerpo de la escena
 	}
 
+	void receiveForceFrom(ForceGenerator* force_generator, float t) override;
+
 	void setBody(physx::PxRigidDynamic* body) {
 		_body = body;
 	}

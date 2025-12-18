@@ -27,6 +27,6 @@ void NormalParticleGenerator::generateParticles(int particle_num)
 		spawned_particle->transform().p.x += n_distribution(mt);
 		spawned_particle->transform().p.y += n_distribution(mt);
 
-		_entity_system->registerNewParticle(spawned_particle); // Se registra la partícula en el Sistema de Partículas
+		_entity_system->registerNewEntity(spawned_particle); // Se registra la partícula en el Sistema de Partículas
 	}
 }

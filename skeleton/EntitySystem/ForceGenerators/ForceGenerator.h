@@ -1,6 +1,8 @@
 #pragma once
 #include <PxPhysXConfig.h>
 
+#include "../../RenderItems/DynamicEntity.h"
+
 class EntitySystem;
 class Particle;
 class RenderBody;

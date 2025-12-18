@@ -17,6 +17,8 @@ public:
 
 	void update(float t) override;
 
+	void receiveForceFrom(ForceGenerator* force_generator, float t) override;
+
 	void integrate(double t);
 
 	Particle* dynamic_copy();

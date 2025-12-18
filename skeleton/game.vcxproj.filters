@@ -61,6 +61,9 @@
     <ClCompile Include="EntitySystem\BodyGenerators\BodyGenerator.cpp">
       <Filter>EntitySystem\BodyGenerators</Filter>
     </ClCompile>
+    <ClCompile Include="RenderItems\RenderBody.cpp">
+      <Filter>RenderItems</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.hpp" />

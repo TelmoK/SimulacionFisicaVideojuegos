@@ -3,7 +3,7 @@
 #include <memory>
 
 #include "../RenderItems/Particle.h"
-#include "../RenderItems/RenderBody.h"
+#include "../RenderItems/DynamicEntity.h"
 #include "ForceGenerators/ForceGenerator.h"
 #include "ParticleGenerators/ParticleGenerator.h"
 #include "BodyGenerators/BodyGenerator.h"
@@ -20,13 +20,19 @@ public:
 		Metodo usado por los ParticleGenerators para registrar en el sistema las partículas que generan
 		y gestionar su actualización y destrucción desde él.
 	*/
-	void registerNewParticle(Particle* particle, float life_time = 2, bool inmortal = false);
+	//void registerNewParticle(Particle* particle, float life_time = 2, bool inmortal = false);
 
 	/*
 		Metodo usado por los BodyGenerators para registrar en el sistema los cuerpos dinámicos que generan 
 		y gestionar su actualización y destrucción desde él.
 	*/
-	void registerNewBody(RenderBody* dynamicBody, float life_time = 20, bool inmortal = true);
+	//void registerNewBody(RenderBody* dynamicBody, float life_time = 20, bool inmortal = true);
+
+	/*
+		Metodo usado por los BodyGenerators para registrar en el sistema los cuerpos dinámicos o partículas
+		que generan y gestionar su actualización y destrucción desde él.
+	*/
+	void registerNewEntity(DynamicEntity* entity, float life_time = 2, bool inmortal = false);
 
 	/*
 		Mete en un vector un puntero a un generador de fuezas que usará en cada update() para aplicárselo
@@ -57,9 +63,11 @@ private:
 	*/
 	struct EntityGeneration
 	{
-		Particle* particle = nullptr;
+		/*Particle* particle = nullptr;
 		// o
-		RenderBody* dynamicBody = nullptr;
+		RenderBody* dynamicBody = nullptr;*/
+
+		DynamicEntity* entity = nullptr;
 
 		std::list<EntityGeneration*>::iterator list_it;
 		float life_time = 5;

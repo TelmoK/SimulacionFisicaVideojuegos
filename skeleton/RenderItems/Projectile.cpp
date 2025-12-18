@@ -12,6 +12,9 @@ Projectile::Projectile(
 	_body->setLinearVelocity(velocity.to_vec3());
 	_body->setAngularVelocity({ 0, 0, 0 });
 
+	shape = CreateShape(physx::PxBoxGeometry(Vector3D(1, 1, 1).to_vec3() * radius)); // Definiendo la forma
+	actor->attachShape(*shape);
+
 	float volume = (4 / 3) * physx::PxPi * pow(radius, 3);
 
 	physx::PxRigidBodyExt::updateMassAndInertia(*_body, mass / volume);
@@ -20,5 +23,10 @@ Projectile::Projectile(
 	actor->attachShape(*shape);
 
 	_gScene->addActor(*_body); // Añadiendo el cuerpo a la escena para que actúe físicamente
+}
+
+Projectile::~Projectile()
+{
+	DeregisterRenderItem(this);
 }
 

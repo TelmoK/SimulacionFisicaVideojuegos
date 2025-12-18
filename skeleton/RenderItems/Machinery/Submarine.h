@@ -75,7 +75,7 @@ private:
 
 	// Proyectiles 
 	std::list<Projectile*> _projectiles;
-	float _projectileSpeed = 30;
+	float _projectileSpeed = 90;
 
 	// Efectos visuales
 	Particle* _motor_bubble_particle_model; // La partícula modelo donde se van a generar las bubujas por el motor

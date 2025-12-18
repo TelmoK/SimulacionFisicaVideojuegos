@@ -1,6 +1,7 @@
 #pragma once
 #include "ForceGenerator.h"
 #include "../../RenderItems/Particle.h"
+#include "../../RenderItems/RenderBody.h"
 
 class GravityForceGenerator : public ForceGenerator
 {

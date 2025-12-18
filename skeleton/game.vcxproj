@@ -271,6 +271,7 @@
     <ClCompile Include="RenderItems\Machinery\SubmarinePropeller.cpp" />
     <ClCompile Include="RenderItems\Particle.cpp" />
     <ClCompile Include="RenderItems\Projectile.cpp" />
+    <ClCompile Include="RenderItems\RenderBody.cpp" />
     <ClCompile Include="RenderUtils.cpp" />
     <ClCompile Include="Render\Camera.cpp" />
     <ClCompile Include="Render\Render.cpp" />

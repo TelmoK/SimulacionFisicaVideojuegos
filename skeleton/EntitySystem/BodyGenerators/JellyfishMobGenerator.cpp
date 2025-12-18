@@ -34,6 +34,6 @@ void JellyfishMobGenerator::generateBodies(int body_num)
 		JellyfishMob* jellyfish = new JellyfishMob(position, _gPhysics, _gScene, { 0.8, 0, 0.8, 1 });
 		
 		// Se registra el cuerpo en el Sistema de Entidades
-		_entity_system->registerNewBody(jellyfish, 10, false); 
+		_entity_system->registerNewEntity(jellyfish, 10, false); 
 	}
 }

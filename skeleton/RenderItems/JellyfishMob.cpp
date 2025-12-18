@@ -31,7 +31,6 @@ JellyfishMob::~JellyfishMob()
 void JellyfishMob::update(float t)
 {
 	addFriction();
-	std::cout << Vector3D(_body->getGlobalPose().p).to_str() << "\n";
 
 	// Hacemos la cuenta atras hasta el próximo impulso
 	if (_impulse_count_down > 0)
@@ -74,7 +73,7 @@ void JellyfishMob::update(float t)
 			if (intensity < 0.5) intensity += 0.5;
 
 			Vector3D foward_dir = _body->getGlobalPose().rotate(_base_orientation.to_vec3());
-
+			intensity = 1;
 			_body->addForce(foward_dir.normalized().to_vec3() * _impulse_force * intensity);
 
 			// Resetear los timers

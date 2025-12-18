@@ -22,7 +22,7 @@ Submarine::Submarine(physx::PxPhysics* gPhysics, physx::PxScene* gScene, Vector3
 
 	// Registramos la partícula del centro de masas para que sea afectada por las fuerzas
 	// del sistema de partículas global
-	_world_particle_sys->registerNewParticle(_center_mass, 0, true);
+	_world_particle_sys->registerNewEntity(_center_mass, 0, true);
 
 	// Renderización del cuerpo del submarino
 	cabin = new RenderItem(CreateShape(physx::PxBoxGeometry(BODY_SIZE.x, BODY_SIZE.y, BODY_SIZE.z)), &_center_mass->transform(), Vector4(1, 0, 1, 1));
@@ -111,20 +111,20 @@ void Submarine::keyPress(unsigned char key)
 	{
 	case 'P':
 		if(_camera_mode == CameraMode::FIRST_PERSON)
-			_projectiles.push_back(new Projectile(
+			_world_particle_sys->registerNewEntity(new Projectile(
 				_gPhysics, _gScene, GetCamera()->getEye(),
-				GetCamera()->getDir() * _projectileSpeed*3,
-				0.5, 0.5
+				GetCamera()->getDir() * _projectileSpeed * 2,
+				3000, 0.5
 			));
 
 		break;
 
 	case 'T':
-			_projectiles.push_back(new Projectile(
+		_world_particle_sys->registerNewEntity(new Projectile(
 				_gPhysics, _gScene,
 				_center_mass->position(),
-				Vector3D(0, 1, 0) * _projectileSpeed * 2,
-				1, 0.7
+				Vector3D(0, 1, 0) * _projectileSpeed,
+				4000, 0.7
 			));
 		break;
 
@@ -240,7 +240,7 @@ void Submarine::applyMotorForce(float t)
 
 	// Truncando el ángulo aplicado para evitar que se rompa el programa y aplicando el tiempoi delta
 	new_angular_velocity = new_angular_velocity.normalized() * fmod(new_angular_velocity.magnitude(), (2 * physx::PxPi)) * t;
-	std::cout << "Old Spin " << subamrine_angular_acceleration.to_str() << "\n";
+	
 	subamrine_angular_acceleration = subamrine_angular_acceleration.normalized() * fmod(subamrine_angular_acceleration.magnitude(), (2 * physx::PxPi)) * t;
 
 	// [3] APLICANDO MOVIMIENTO ANGULAR (Rotación del submarino por el timón)
@@ -283,8 +283,8 @@ void Submarine::applyMotorForce(float t)
 		Vector3D()// Rotación
 		});
 	
-	std::cout << "Pos " << Vector3D(_center_mass->position()).to_str() << "\n";
-	std::cout << "Spin " << subamrine_angular_acceleration.to_str() << "\n\n";
+	//std::cout << "Pos " << Vector3D(_center_mass->position()).to_str() << "\n";
+	//std::cout << "F " << total_linaer_force.to_str() << "\n\n";
 
 	// Generando partículas de burbuja
 

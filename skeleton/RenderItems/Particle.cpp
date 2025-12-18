@@ -1,11 +1,13 @@
 #include "Particle.h"
 
 #include "../EntitySystem/EntitySystem.h"
+#include "../EntitySystem/ForceGenerators/ForceGenerator.h"
 
 Particle::Particle(EntitySystem* p_sys, Vector3D position, Vector3D velocity, Vector3D acceleration, float mass, float volume)
 	: Particle(position, velocity, acceleration, mass, volume)
 {
-		p_sys->registerNewParticle(this, 5);
+		//p_sys->registerNewParticle(this, 5);
+		p_sys->registerNewEntity(this, 5);
 }
 
 Particle::Particle(Vector3D position, Vector3D velocity, Vector3D acceleration, float mass, float volume)
@@ -24,6 +26,11 @@ Particle::~Particle()
 Particle* Particle::dynamic_copy()
 {
 	return new Particle(_transform.p, _velocity, _acceleration, _real_mass);
+}
+
+void Particle::receiveForceFrom(ForceGenerator* force_generator, float t)
+{
+	force_generator->applyForce(this, t);
 }
 
 void Particle::update(float t)
