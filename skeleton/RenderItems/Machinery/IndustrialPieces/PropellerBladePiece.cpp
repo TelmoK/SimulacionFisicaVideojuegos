@@ -24,7 +24,7 @@ IndustrialPiece::ForceTransmisionPack PropellerBladePiece::applyPieceReactionFor
 
 IndustrialPiece::ForceTransmisionPack PropellerBladePiece::applyLinearReactionForce()
 {
-	Vector3D flow_velocity = _linear_velocity; // CAMBIÓ
+	Vector3D flow_velocity = _linear_velocity;
 
 	if (flow_velocity.magnitude() <= 0)
 		return { Vector3D(), Vector3D(), Vector3D(), Vector3D() };
@@ -52,15 +52,15 @@ IndustrialPiece::ForceTransmisionPack PropellerBladePiece::applyLinearReactionFo
 
 	// Sustentación
 	Vector3D wingspan_vector = _transform.q.rotate(_local_wingspan_vector.to_vec3()); // Vector envergadura de la pala
-	Vector3D lift_vec_dir = flow_velocity.cross(wingspan_vector).normalized(); // CAMBIÓ
+	Vector3D lift_vec_dir = flow_velocity.cross(wingspan_vector).normalized();
 
 	Vector3D lift_force = lift_vec_dir * 0.5 * WATER_DENSITY * pow(flow_velocity.magnitude(), 2)
 		* _surface_area * LIFT_COEF * 10; // TODO: Quitar el 10
 
 	// Fuerzas de reacción
-	Vector3D thrust_force = lift_force + drag_force; // CAMBIÓ
+	Vector3D thrust_force = lift_force + drag_force;
 
-	return { thrust_force, Vector3D(), Vector3D(_transform.p), Vector3D() }; // CAMBIÓ
+	return { thrust_force, Vector3D(), Vector3D(_transform.p), Vector3D() };
 }
 
 IndustrialPiece::ForceTransmisionPack PropellerBladePiece::applyAngularReactionForce()
@@ -84,7 +84,7 @@ IndustrialPiece::ForceTransmisionPack PropellerBladePiece::applyAngularReactionF
 	float cos_velocity_surface = SpaceGeometry::cosineBetween(flow_velocity, blade_normal_in_world);
 
 	float DRAG_COEF = _base_drag_coef + (_max_drag_coef - _base_drag_coef) * cos_velocity_surface;
-	float LIFT_COEF = 6 * attack_angle;
+	float LIFT_COEF = 2 * physx::PxPi * attack_angle;
 
 	// Fuerzas hidrodinámicas
 

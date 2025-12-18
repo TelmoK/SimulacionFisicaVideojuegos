@@ -62,8 +62,9 @@ Submarine::Submarine(physx::PxPhysics* gPhysics, physx::PxScene* gScene, Vector3
 	_motor_bubble_particle_model = new Particle(_motor_relative_pos, Vector3D(-2, 0, 0));
 
 	_motor_particle_generator = std::make_shared<UniformParticleGenerator>(
-		_world_particle_sys, _motor_bubble_particle_model, 0.15, 3
+		_world_particle_sys, _motor_bubble_particle_model, -1
 	);
+
 	_world_particle_sys->referenceParticleGenerator(_motor_particle_generator);
 }
 
@@ -99,7 +100,7 @@ void Submarine::setMassSpaceInvInertiaTensor()
 void Submarine::update(float t)
 {
 	// Control de cámara
-	//handleCameraFollow();
+	handleCameraFollow();
 	
 	// Fuerzas
 	applyMotorForce(t);
@@ -218,7 +219,7 @@ void Submarine::applyMotorForce(float t)
 
 	// Cálculo de las fuerzas totales
 
-	Vector3D total_torque = (motor_torque + motor_reaction_forces.torque);
+	Vector3D total_propeller_torque = (motor_torque + motor_reaction_forces.torque);
 	Vector3D total_linaer_force = motor_reaction_forces.force + rudder_reaction_forces.force;
 
 
@@ -238,9 +239,9 @@ void Submarine::applyMotorForce(float t)
 
 	// Aceleración angular de las hélices
 	Vector3D angular_acceleration = Vector3D(
-		_propellers_inv_inertia_diagonal.x * total_torque.x,
-		_propellers_inv_inertia_diagonal.y * total_torque.y,
-		_propellers_inv_inertia_diagonal.z * total_torque.z
+		_propellers_inv_inertia_diagonal.x * total_propeller_torque.x,
+		_propellers_inv_inertia_diagonal.y * total_propeller_torque.y,
+		_propellers_inv_inertia_diagonal.z * total_propeller_torque.z
 	);
 
 	Vector3D new_angular_velocity = _propellers->core_piece()->angular_velocity() + angular_acceleration;
@@ -290,13 +291,18 @@ void Submarine::applyMotorForce(float t)
 		Vector3D()// Rotación
 		});
 	
-	std::cout << "Pos " << Vector3D(_center_mass->position()).to_str() << "\n";
-	std::cout << "Spin " << subamrine_angular_acceleration.to_str() << "\n\n";
+
+	// DEBUG LOGS
+
+	/*std::cout << "Submarine Position:         " << Vector3D(_center_mass->position()).to_str() << "\n";
+	std::cout << "Submarine Velocity:         " << Vector3D(_center_mass->velocity()).to_str() << "\n";
+	std::cout << "Submarine Ang Acceleration: " << subamrine_angular_acceleration.to_str() << "\n";
+	std::cout << "Submarine Linear Foce:      " << total_linaer_force.to_str() << "\n";
+	std::cout << "Propellers Torque:          " << total_propeller_torque.to_str() << "\n";
+	std::cout << "Rudder Force:               " << rudder_reaction_forces.force.to_str() << "\n";
+	std::cout << "\n-----------------------------------------------------\n\n"*/
 
 	// Generando partículas de burbuja
 
-	if (_motor_force < 100)
-		_motor_particle_generator->setGenerationPeriod(-1);
-	else
-		_motor_particle_generator->setGenerationPeriod(0.15);
+	//_motor_particle_generator->generateParticles(2);
 }
